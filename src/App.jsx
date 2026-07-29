@@ -218,54 +218,56 @@ export default function App() {
     let seed = 12345; 
     const rand = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
 
-    const ITEM_W = 14; 
-    const ITEM_H = 10; 
-
-    for (let i = 0; i < 80; i++) {
-      let bestY = 999;
-      let bestX = 50;
-
-      for (let attempt = 0; attempt < 30; attempt++) {
-        let u = 0, v = 0;
-        while(u === 0) u = rand();
-        while(v === 0) v = rand();
-        let z = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
-        
-        let testX = 50 + z * 12;
-        testX = Math.max(15, Math.min(85, testX)); 
-
-        let hitY = 2; // Flat floor instead of parabola
-
-        for (let j = 0; j < layouts.length; j++) {
-          const other = layouts[j];
-          const dx = Math.abs(testX - other.x);
-          
-          if (dx < ITEM_W) {
-            const dy = ITEM_H * Math.sqrt(1 - Math.pow(dx / ITEM_W, 2));
-            const localHitY = other.y + dy * 0.85; 
-            if (localHitY > hitY) {
-              hitY = localHitY;
-            }
-          }
-        }
-
-        if (hitY < bestY) {
-          bestY = hitY;
-          bestX = testX;
-        }
+    let N = Math.min(80, Math.max(1, items.length));
+    
+    let sigma = Math.max(1.2, N / 14); 
+    let maxCols = Math.min(8, Math.ceil(N / 3)); 
+    
+    let P = [];
+    let sumP = 0;
+    for (let c = -maxCols; c <= maxCols; c++) {
+      let val = Math.exp(-(c * c) / (2 * sigma * sigma));
+      P.push(val);
+      sumP += val;
+    }
+    
+    let counts = P.map(p => Math.floor((p / sumP) * N));
+    let currentTotal = counts.reduce((a, b) => a + b, 0);
+    
+    let remainder = N - currentTotal;
+    let offset = 0;
+    while (remainder > 0) {
+      if (maxCols + offset < counts.length) {
+        counts[maxCols + offset]++;
+        remainder--;
       }
+      if (remainder > 0 && offset > 0 && maxCols - offset >= 0) {
+        counts[maxCols - offset]++;
+        remainder--;
+      }
+      offset++;
+      if (offset > maxCols) offset = 0;
+    }
 
-      const rot = (rand() - 0.5) * 160;
-
-      layouts.push({
-        x: bestX,
-        y: bestY,
-        left: `${bestX}%`,
-        bottom: `${bestY}%`,
-        transform: `rotate(${rot}deg) scale(0.65)`,
-        zIndex: Math.floor(40 - bestY / 2.5), 
-        delay: `${(i % 5) * 0.05}s`
-      });
+    for (let c = -maxCols; c <= maxCols; c++) {
+       let count = counts[c + maxCols];
+       for (let r = 0; r < count; r++) {
+          let xOffset = (r % 2 === 1) ? 2.5 : 0; 
+          let bestX = 50 + c * 5.2 + xOffset;
+          bestX = Math.max(15, Math.min(85, bestX));
+          let bestY = 2 + r * 9.5;
+          
+          const rot = (rand() - 0.5) * 160;
+          layouts.push({
+            x: bestX,
+            y: bestY,
+            left: `${bestX}%`,
+            bottom: `${bestY}%`,
+            transform: `rotate(${rot}deg) scale(0.65)`,
+            zIndex: Math.floor(40 - bestY / 2.5), 
+            delay: `${(r * 0.05 + Math.abs(c) * 0.02)}s`
+          });
+       }
     }
 
     const shuffled = [...layouts];
@@ -273,8 +275,13 @@ export default function App() {
       const k = Math.floor(rand() * (j + 1));
       [shuffled[j], shuffled[k]] = [shuffled[k], shuffled[j]];
     }
+    
+    while(shuffled.length < 80) {
+      shuffled.push({ left: '50%', bottom: '2%', zIndex: 0, transform: '', delay: '0s' });
+    }
+
     return shuffled;
-  }, []);
+  }, [items.length]);
 
   const drawLot = () => {
     if (drawState !== 'idle' || items.length === 0) return;
@@ -977,7 +984,7 @@ export default function App() {
           80% { transform: translate(-160px, -120px) scale(1.8) rotate(-340deg); }
           100% { transform: translate(-160px, -100px) scale(2.5) rotate(-360deg); opacity: 1; }
         }
-        .animate-item-fall-out { animation: item-fall-out 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+        .animate-item-fall-out { animation: item-fall-out 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s both; }
 
         @keyframes drop-in {
           0% { transform: translateY(-500px) scale(0.5); opacity: 0; }
