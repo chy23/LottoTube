@@ -646,7 +646,7 @@ export default function App() {
             
             {appMode === 'box' ? (
               <div className="relative w-[90vw] md:w-[70vw] lg:w-[40vw] max-w-[500px] aspect-[4/5] md:aspect-[3/4] mt-10 flex flex-col items-center justify-end">
-                <div className={`w-full h-full relative origin-bottom-right transition-transform duration-1000 ${drawState === 'reaching' ? 'rotate-[110deg]' : ''} ${drawState === 'shaking' ? 'animate-bucket-shake-hard' : ''}`}>
+                <div className={`w-full h-full relative origin-center transition-transform duration-1000 ${drawState === 'reaching' ? 'rotate-180' : ''} ${drawState === 'shaking' ? 'animate-bucket-shake-hard' : ''}`}>
                   <div className="absolute left-[40px] right-[40px] inset-y-0 bg-slate-400/20 rounded-b-[4rem] rounded-t-2xl border border-white/40 transform scale-x-95 translate-y-4 z-0"></div>
                   
                   <div className="absolute left-[45px] right-[45px] bottom-6 top-6 overflow-visible rounded-b-[3.5rem] rounded-t-xl z-10">
@@ -663,7 +663,7 @@ export default function App() {
                              bottom: layout.bottom, 
                              zIndex: layout.zIndex,
                              transitionDuration: drawState === 'reaching' ? '1.5s' : '0.3s',
-                             transform: drawState === 'reaching' ? `translate(-50%, -600px) rotate(${layout.x * 2}deg)` : 'translate(0, 0)' 
+                             transform: drawState === 'reaching' ? `translate(-50%, -800px) rotate(${layout.x * 2}deg)` : 'translate(0, 0)' 
                            }}
                          >
                            <div style={{ transform: `translate(-50%, 50%) ${layout.transform}` }}>
@@ -676,14 +676,6 @@ export default function App() {
                      })}
                   </div>
 
-                  {drawState === 'reaching' && tempWinner && (
-                    <div className="absolute top-[10%] left-1/2 z-[120] animate-item-fall-out">
-                      <div className="transform -translate-x-1/2 -translate-y-1/2 scale-150 md:scale-200 drop-shadow-2xl">
-                         {renderItemStyle(tempWinner)}
-                      </div>
-                    </div>
-                  )}
-
                   <div className={`absolute left-[40px] right-[40px] inset-y-0 bg-gradient-to-b from-white/30 to-white/5 backdrop-blur-[2px] border-4 border-t-0 border-white/60 rounded-b-[4rem] rounded-t-none shadow-[inset_0_-20px_40px_rgba(255,255,255,0.4),0_20px_40px_rgba(0,0,0,0.05)] z-[100] pointer-events-none`}>
                     <div className="w-1/3 h-full bg-gradient-to-r from-white/60 to-transparent skew-x-12 transform -translate-x-4 opacity-50"></div>
                   </div>
@@ -692,6 +684,14 @@ export default function App() {
                     <div className="w-[90%] h-4 bg-black/10 rounded-full blur-[2px]"></div>
                   </div>
                 </div>
+
+                {drawState === 'reaching' && tempWinner && (
+                  <div className="absolute bottom-0 left-1/2 z-[120] animate-item-fall-out">
+                    <div className="transform -translate-x-1/2 scale-150 md:scale-200 drop-shadow-2xl">
+                       {renderItemStyle(tempWinner)}
+                    </div>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="relative w-full aspect-square mt-4 flex flex-col items-center justify-center overflow-visible">
@@ -955,12 +955,12 @@ export default function App() {
         .animate-stir { animation: stir 0.4s ease-in-out infinite alternate; }
 
         @keyframes item-fall-out {
-          0% { transform: translateY(100px) scale(0.5); opacity: 0; }
-          20% { transform: translateY(0px) scale(1); opacity: 1; }
-          40% { transform: translate(50px, -150px) scale(1.2) rotate(45deg); }
-          60% { transform: translate(120px, -250px) scale(1.1) rotate(90deg); }
-          80% { transform: translate(150px, -350px) scale(1) rotate(120deg); }
-          100% { transform: translate(150px, -500px) scale(1) rotate(150deg); opacity: 0; }
+          0% { transform: translateY(0px) scale(0.1); opacity: 0; }
+          20% { transform: translateY(120px) scale(0.8); opacity: 1; }
+          40% { transform: translateY(-250px) scale(1.6); }
+          60% { transform: translateY(-180px) scale(1.4); }
+          80% { transform: translateY(-220px) scale(1.8); }
+          100% { transform: translateY(-220px) scale(2); opacity: 1; }
         }
         .animate-item-fall-out { animation: item-fall-out 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
 
