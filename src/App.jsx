@@ -143,6 +143,7 @@ export default function App() {
   const [tempWinner, setTempWinner] = useState(null); 
   const [targetIndex, setTargetIndex] = useState(null); 
   const [isGrabbed, setIsGrabbed] = useState(false);    
+  const [isRollingOut, setIsRollingOut] = useState(false);
 
   const [showWinnerModal, setShowWinnerModal] = useState(false);
   const [drawStyle, setDrawStyle] = useState(() => localStorage.getItem('drawLots_drawStyle') || 'glass'); 
@@ -299,8 +300,7 @@ export default function App() {
     setTempWinner(null);
     setTargetIndex(null);
     setIsGrabbed(false);
-
-    
+    setIsRollingOut(false);
 
     let validIndices = items.map((item, i) => !isItemGrayedOut(item) ? i : -1).filter(i => i !== -1);
     if (validIndices.length === 0) { 
@@ -356,8 +356,8 @@ export default function App() {
       playHandStirSound();
 
       setTimeout(() => {
-        setIsGrabbed(true);
-      }, 900);
+        setIsRollingOut(true);
+      }, 1000);
 
       setTimeout(() => {
         if (gameMode === 'vip' && selected === 'VIP號') {
@@ -372,6 +372,7 @@ export default function App() {
         setTempWinner(null);
         setTargetIndex(null);
         setIsGrabbed(false);
+        setIsRollingOut(false);
       }, 2200); 
     }, 1200); 
   };
@@ -664,20 +665,20 @@ export default function App() {
                 <div className={`w-full h-full relative origin-center transition-transform duration-1000 ${drawState === 'reaching' ? 'rotate-[120deg]' : ''} ${drawState === 'shaking' ? 'animate-bucket-shake-hard' : ''}`}>
                   <div className="absolute left-[40px] right-[40px] inset-y-0 bg-slate-400/20 rounded-b-[4rem] rounded-t-2xl border border-white/40 transform scale-x-95 translate-y-4 z-0"></div>
                   
-                  <div className="absolute left-[45px] right-[45px] bottom-6 top-6 overflow-hidden rounded-b-[3.5rem] rounded-t-xl z-10">
+                  <div className={`absolute left-[45px] right-[45px] bottom-6 top-6 rounded-b-[3.5rem] rounded-t-xl z-10 ${drawState === 'shaking' ? 'overflow-hidden' : 'overflow-visible'}`}>
                      {items.slice(0, 80).map((item, idx) => {
                        const layout = bucketLayouts[idx] || bucketLayouts[0];
                        const isTarget = idx === targetIndex;
                        
                        return (
                          <div 
-                           key={idx} 
-                           className={`absolute transition-all ${isTarget && drawState === 'reaching' ? 'opacity-0 scale-50' : 'opacity-100 scale-100'}`}
+                           key={`bucket-item-${idx}`} 
+                           className={`absolute transition-all ease-[cubic-bezier(0.25,1,0.5,1)] ${isTarget && isRollingOut ? 'animate-roll-out-winner z-[200]' : ''}`}
                            style={{ 
                              left: layout.left, 
                              bottom: layout.bottom, 
-                             zIndex: layout.zIndex,
-                             transitionDuration: drawState === 'reaching' ? '1.5s' : '0.3s',
+                             zIndex: isTarget && isRollingOut ? 200 : layout.zIndex,
+                             transitionDuration: drawState === 'reaching' && !(isTarget && isRollingOut) ? '1.5s' : '0s',
                              transform: drawState === 'reaching' ? `translate(-30px, -200px) rotate(${layout.x * 2}deg)` : 'translate(0, 0)' 
                            }}
                          >
@@ -707,14 +708,6 @@ export default function App() {
                     <div className="w-[90%] h-4 bg-black/10 rounded-full blur-[2px]"></div>
                   </div>
                 </div>
-
-                {drawState === 'reaching' && tempWinner && (
-                  <div className="absolute top-[75%] right-[5%] z-[120] animate-item-fall-out">
-                    <div className="transform -translate-x-1/2 scale-150 md:scale-200 drop-shadow-2xl">
-                       {renderItemStyle(tempWinner)}
-                    </div>
-                  </div>
-                )}
               </div>
             ) : (
               <div className="relative w-full aspect-square mt-4 flex flex-col items-center justify-center overflow-visible">
@@ -1023,14 +1016,14 @@ export default function App() {
         }
         .animate-bounce-wild-5 { animation: bounce-wild-5 0.65s infinite alternate; }
 
-        @keyframes item-fall-out {
-          0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
-          20% { transform: translate(40px, 60px) scale(0.8) rotate(90deg); opacity: 1; }
-          50% { transform: translate(-80px, -80px) scale(1.5) rotate(180deg); }
-          80% { transform: translate(-120px, -40px) scale(2.0) rotate(270deg); }
-          100% { transform: translate(-140px, -50px) scale(2.5) rotate(360deg); opacity: 1; }
+        @keyframes roll-out-winner {
+          0% { transform: translate(-30px, -200px) scale(1) rotate(0deg); }
+          20% { transform: translate(-20px, -350px) scale(1) rotate(90deg); }
+          50% { transform: translate(-100px, -150px) scale(1.5) rotate(180deg); }
+          80% { transform: translate(-150px, -20px) scale(2.0) rotate(270deg); }
+          100% { transform: translate(-220px, 100px) scale(2.5) rotate(360deg); }
         }
-        .animate-item-fall-out { animation: item-fall-out 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s both; }
+        .animate-roll-out-winner { animation: roll-out-winner 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
 
         @keyframes drop-in {
           0% { transform: translateY(-500px) scale(0.5); opacity: 0; }
