@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
-  Sparkles, Box, Volume2, VolumeX, Layout, Brain, UserCheck, RefreshCcw, Star
+  Sparkles, Box, Volume2, VolumeX, Layout, Brain, UserCheck, RefreshCcw, Star, Music
 } from 'lucide-react';
 
 import { useAudio } from './hooks/useAudio';
@@ -12,8 +12,8 @@ import Roulette from './components/Roulette';
 import WinnerModal, { ConfirmModal, VipPromptModal } from './components/WinnerModal';
 
 export default function App() {
-  const {
-    isMuted, setIsMuted, initAudio,
+  const { 
+    isMuted, setIsMuted, soundMode, setSoundMode, initAudio,
     playHardShakeSound, playHandStirSound, playPopSound, playVipFanfare,
     playActionO, playActionX, playActionSkip
   } = useAudio();
@@ -366,10 +366,25 @@ export default function App() {
                 ))}
               </div>
             )}
-
-            <button onClick={() => setIsMuted(!isMuted)} className="p-4 bg-white/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 text-slate-700 hover:bg-white/80 transition-colors">
-              {isMuted ? <VolumeX size={24} className="text-red-500" /> : <Volume2 size={24} className="text-[#007AFF]" />}
-            </button>
+            <div className="flex gap-2">
+              <button 
+                onClick={() => {
+                  const modes = ['classic', 'retro', 'arcade'];
+                  setSoundMode(modes[(modes.indexOf(soundMode) + 1) % modes.length]);
+                }} 
+                className="p-4 bg-white/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 text-[#007AFF] hover:bg-white/80 transition-colors flex items-center gap-2"
+                title="切換音效模式"
+              >
+                <Music size={24} />
+                <span className="font-bold text-sm hidden md:inline-block">
+                  {soundMode === 'classic' ? '經典' : soundMode === 'retro' ? '復古' : '遊樂場'}
+                </span>
+              </button>
+              
+              <button onClick={() => setIsMuted(!isMuted)} className="p-4 bg-white/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 text-slate-700 hover:bg-white/80 transition-colors">
+                {isMuted ? <VolumeX size={24} className="text-red-500" /> : <Volume2 size={24} className="text-[#007AFF]" />}
+              </button>
+            </div>
           </div>
         </header>
 

@@ -3,6 +3,7 @@ import { useRef, useState, useCallback, useEffect } from 'react';
 export function useAudio() {
   const audioCtxRef = useRef(null);
   const [isMuted, setIsMuted] = useState(false);
+  const [soundMode, setSoundMode] = useState('classic');
 
   useEffect(() => {
     return () => {
@@ -27,14 +28,15 @@ export function useAudio() {
     for (let i = 0; i < 12; i++) {
       const osc = audioCtxRef.current.createOscillator();
       const gain = audioCtxRef.current.createGain();
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(150 + Math.random() * 200, now + i * 0.1);
+      osc.type = soundMode === 'retro' ? 'square' : soundMode === 'arcade' ? 'sawtooth' : 'triangle';
+      const baseFreq = soundMode === 'arcade' ? 250 : 150;
+      osc.frequency.setValueAtTime(baseFreq + Math.random() * 200, now + i * 0.1);
       gain.gain.setValueAtTime(0.08, now + i * 0.1);
       gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.1 + 0.1);
       osc.connect(gain); gain.connect(audioCtxRef.current.destination);
       osc.start(now + i * 0.1); osc.stop(now + i * 0.1 + 0.1);
     }
-  }, [isMuted]);
+  }, [isMuted, soundMode]);
 
   const playHandStirSound = useCallback(() => {
     if (isMuted || !audioCtxRef.current) return;
@@ -42,28 +44,30 @@ export function useAudio() {
     for (let i = 0; i < 8; i++) {
       const osc = audioCtxRef.current.createOscillator();
       const gain = audioCtxRef.current.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(100 + Math.random() * 80, now + i * 0.2);
+      osc.type = soundMode === 'retro' ? 'square' : 'sine';
+      const baseFreq = soundMode === 'arcade' ? 200 : 100;
+      osc.frequency.setValueAtTime(baseFreq + Math.random() * 80, now + i * 0.2);
       gain.gain.setValueAtTime(0.05, now + i * 0.2);
       gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.2 + 0.2);
       osc.connect(gain); gain.connect(audioCtxRef.current.destination);
       osc.start(now + i * 0.2); osc.stop(now + i * 0.2 + 0.2);
     }
-  }, [isMuted]);
+  }, [isMuted, soundMode]);
 
   const playPopSound = useCallback(() => {
     if (isMuted || !audioCtxRef.current) return;
     const now = audioCtxRef.current.currentTime;
     const osc = audioCtxRef.current.createOscillator();
     const gain = audioCtxRef.current.createGain();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(600, now);
-    osc.frequency.exponentialRampToValueAtTime(1200, now + 0.1);
+    osc.type = soundMode === 'retro' ? 'square' : soundMode === 'arcade' ? 'triangle' : 'sine';
+    const baseFreq = soundMode === 'arcade' ? 800 : soundMode === 'retro' ? 400 : 600;
+    osc.frequency.setValueAtTime(baseFreq, now);
+    osc.frequency.exponentialRampToValueAtTime(baseFreq * 2, now + 0.1);
     gain.gain.setValueAtTime(0.3, now);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
     osc.connect(gain); gain.connect(audioCtxRef.current.destination);
     osc.start(); osc.stop(now + 0.4);
-  }, [isMuted]);
+  }, [isMuted, soundMode]);
 
   const playVipFanfare = useCallback(() => {
     if (isMuted || !audioCtxRef.current) return;
@@ -129,6 +133,8 @@ export function useAudio() {
   return {
     isMuted,
     setIsMuted,
+    soundMode,
+    setSoundMode,
     initAudio,
     playHardShakeSound,
     playHandStirSound,
