@@ -183,7 +183,6 @@ export default function App() {
           
           if (gameMode === 'vip' && selected === 'VIP號') {
             playVipFanfare();
-            setShowVipPrompt(true);
           } else {
             playPopSound();
           }
@@ -194,20 +193,35 @@ export default function App() {
 
   const handleO = () => {
     playActionO();
-    setCooldownList(prev => {
-      const next = [...prev];
-      const target = tempWinner === 'VIP號' ? vipNumber.trim() : tempWinner;
-      if (target && !next.includes(target)) next.push(target);
-      return next;
-    });
+    const target = tempWinner === 'VIP號' ? vipNumber.trim() : tempWinner;
+    
+    // 銷號: Remove from textList
+    let currentItems = textList.split('\n').map(s => s.trim()).filter(s => s);
+    const idx = currentItems.indexOf(target);
+    if (idx !== -1) {
+      currentItems.splice(idx, 1);
+      setTextList(currentItems.join('\n'));
+    }
+
     setShowWinnerModal(false);
+
+    if (gameMode === 'vip' && tempWinner === 'VIP號') {
+      setShowVipPrompt(true);
+    }
   };
 
   const handleX = () => {
     playActionX();
+    const target = tempWinner === 'VIP號' ? vipNumber.trim() : tempWinner;
+    if (gameMode === 'vip' && tempWinner === 'VIP號' && !vipNumber.trim()) {
+      setConfirmModal({ message: '請輸入 VIP 號碼', type: 'alert', onConfirm: () => setConfirmModal(null) });
+      return;
+    }
     setCooldownList(prev => {
-      const target = tempWinner === 'VIP號' ? vipNumber.trim() : tempWinner;
-      return prev.filter(i => i !== target && i !== tempWinner);
+      const next = [...prev];
+      if (!next.includes(winner)) next.push(winner);
+      if (!next.includes(target)) next.push(target);
+      return next;
     });
     setShowWinnerModal(false);
   };
