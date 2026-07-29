@@ -35,12 +35,13 @@ export function generateBucketLayouts(itemsLength) {
     offset++;
   }
 
-  for (let i = 0; i < counts.length; i++) {
-     let c = i - maxCols;
-     let colCount = counts[i];
-     for (let r = 0; r < colCount; r++) {
-        let bestX = 50 + c * 5.2 + (rand() - 0.5) * 2;
-        let bestY = 2 + r * 7.5 + (Math.abs(c) * 1.5) + (rand() - 0.5) * 2;
+  for (let c = -maxCols; c <= maxCols; c++) {
+     let count = counts[c + maxCols];
+     for (let r = 0; r < count; r++) {
+        let xOffset = (r % 2 === 1) ? 2.5 : 0; 
+        let bestX = 50 + c * 5.2 + xOffset;
+        bestX = Math.max(15, Math.min(85, bestX));
+        let bestY = 2 + r * 9.5;
         const rot = (rand() - 0.5) * 160;
 
         layouts.push({
