@@ -67,6 +67,7 @@ export default function App() {
     if (cooldownList.includes(item)) return true;
     if (gameMode === 'vip' && item === 'VIP號') {
       const currentVip = vipNumber.trim();
+      if (!currentVip) return true; // 沒輸入VIP號碼前不可抽
       if (currentVip && cooldownList.includes(currentVip)) return true;
     }
     return false;
@@ -228,7 +229,8 @@ export default function App() {
 
     setShowWinnerModal(false);
 
-    if (gameMode === 'vip' && tempWinner === 'VIP號') {
+    if (gameMode === 'vip') {
+      setVipNumber('');
       setShowVipPrompt(true);
     }
   };
