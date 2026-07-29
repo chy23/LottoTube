@@ -5,7 +5,8 @@ import { getHash } from '../utils/styles';
 export default function Roulette({
   items,
   wheelRotation,
-  drawState
+  drawState,
+  isItemGrayedOut
 }) {
   return (
     <div className="relative w-full aspect-square mt-4 flex flex-col items-center justify-center overflow-visible">
@@ -23,8 +24,10 @@ export default function Roulette({
               style={{ 
                 background: `conic-gradient(${items.map((item, i) => {
                   const sliceAngle = 360 / items.length;
+                  const grayed = isItemGrayedOut && isItemGrayedOut(item);
                   const hue = Math.imul(31, getHash(item)) % 360;
-                  return `hsl(${hue}, 75%, 85%) ${i * sliceAngle}deg ${(i + 1) * sliceAngle}deg`;
+                  const color = grayed ? `hsl(0, 0%, 88%)` : `hsl(${hue}, 75%, 85%)`;
+                  return `${color} ${i * sliceAngle}deg ${(i + 1) * sliceAngle}deg`;
                 }).join(', ')})` 
               }}
             >
@@ -48,13 +51,13 @@ export default function Roulette({
                      style={{ transform: `rotate(${rotation}deg)` }}
                    >
                      <div 
-                       className="absolute right-0 top-0"
-                       style={{ transform: 'translateY(-50%) rotate(90deg)' }}
-                     >
-                       <span className="text-slate-800 font-black text-base md:text-xl whitespace-nowrap">
-                         {item}
-                       </span>
-                     </div>
+                      className="absolute right-0 top-0"
+                      style={{ transform: 'translateY(-50%) rotate(90deg)' }}
+                    >
+                      <span className={`font-black text-base md:text-xl whitespace-nowrap ${isItemGrayedOut && isItemGrayedOut(item) ? 'text-slate-400 line-through' : 'text-slate-800'}`}>
+                        {item}
+                      </span>
+                    </div>
                    </div>
                  );
               })}

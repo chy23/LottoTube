@@ -111,12 +111,11 @@ export default function App() {
     if (gameMode !== 'vip') {
       currentItems = currentItems.filter(item => item !== "VIP號");
     }
-    // Auto-sort
-    currentItems = sortTextListArray([...currentItems]);
-    const sorted = currentItems.join('\n');
+    // Auto-sort textList only
+    const sortedItems = sortTextListArray([...currentItems]);
+    const sorted = sortedItems.join('\n');
     const raw = textList.split('\n').map(s => s.trim()).filter(s => s);
     if (gameMode !== 'vip') {
-      // compare without VIP號
       if (sorted !== raw.filter(i => i !== 'VIP號').join('\n')) {
         setTextList(sorted);
       }
@@ -125,12 +124,23 @@ export default function App() {
         setTextList(sorted);
       }
     }
-    setItems(currentItems);
+    // Shuffle for visual display
+    const shuffled = [...sortedItems];
+    let s = 54321;
+    const srand = () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+    for (let j = shuffled.length - 1; j > 0; j--) {
+      const k = Math.floor(srand() * (j + 1));
+      [shuffled[j], shuffled[k]] = [shuffled[k], shuffled[j]];
+    }
+    setItems(shuffled);
   }, [textList, gameMode]);
 
+  // Items for bucket: exclude grayed-out ones (they go to exemption area)
+  const bucketItems = useMemo(() => items.filter(item => !isItemGrayedOut(item)), [items, cooldownList, vipNumber, gameMode]);
+
   const bucketLayouts = useMemo(() => {
-    return generateBucketLayouts(items.length);
-  }, [items.length]);
+    return generateBucketLayouts(bucketItems.length);
+  }, [bucketItems.length]);
 
   const drawLot = () => {
     if (drawState !== 'idle' || items.length === 0) return;
@@ -182,7 +192,9 @@ export default function App() {
       setTimeout(() => {
         setDrawState('reaching');
         playHardShakeSound();
-        setTargetIndex(selectedIndex);
+        // Map to bucketItems index for visual animation
+        const bucketIdx = bucketItems.indexOf(selected);
+        setTargetIndex(bucketIdx !== -1 ? bucketIdx : 0);
         setTempWinner(selected);
         
         setTimeout(() => setIsGrabbed(true), 500);
@@ -369,7 +381,7 @@ export default function App() {
             
             {appMode === 'box' ? (
               <Bucket 
-                items={items}
+                items={bucketItems}
                 bucketLayouts={bucketLayouts}
                 drawState={drawState}
                 isGrabbed={isGrabbed}
@@ -383,6 +395,7 @@ export default function App() {
                 items={items}
                 wheelRotation={wheelRotation}
                 drawState={drawState}
+                isItemGrayedOut={isItemGrayedOut}
               />
             )}
 
