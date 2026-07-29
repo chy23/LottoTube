@@ -322,9 +322,8 @@ export default function App() {
           <div>
             <h1 className="text-5xl font-black flex items-center justify-center md:justify-start gap-3 drop-shadow-sm">
               <Box className="text-[#007AFF]" size={48} />
-              LottoTube
+              特製抽籤系統
             </h1>
-            <p className="text-slate-500 mt-2 text-lg font-medium opacity-80">充滿驚喜的真實物理堆疊與多種魔幻手勢</p>
           </div>
           
           <div className="flex flex-wrap justify-center gap-4 items-center">
