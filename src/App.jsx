@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
-  Sparkles, Box, Volume2, VolumeX, Layout, Brain, UserCheck, RefreshCcw
+  Sparkles, Box, Volume2, VolumeX, Layout, Brain, UserCheck, RefreshCcw, Star
 } from 'lucide-react';
 
 import { useAudio } from './hooks/useAudio';
@@ -366,6 +366,16 @@ export default function App() {
                 </button>
               ))}
             </div>
+
+            {gameMode === 'vip' && (
+              <div className="flex items-center justify-between mb-10 bg-gradient-to-br from-amber-400/20 to-orange-400/20 p-6 rounded-[2.5rem] border border-amber-200/50 shadow-inner animate-in slide-in-from-top-6">
+                <div className="flex flex-col">
+                  <span className="text-xs font-black text-amber-600 uppercase tracking-widest mb-1">Current VIP</span>
+                  <span className="font-black text-amber-900 text-2xl flex items-center gap-2"><Star size={28} fill="#D97706" className="text-amber-600" />VIP號碼</span>
+                </div>
+                <input type="text" value={vipNumber} onChange={(e) => setVipNumber(e.target.value)} placeholder="座號" disabled={drawState !== 'idle'} className="w-32 p-4 text-center rounded-[1.5rem] border-2 border-white/80 font-black text-3xl outline-none focus:ring-4 focus:ring-amber-200 bg-white/90 shadow-xl transition-all" />
+              </div>
+            )}
 
             <ControlPanel 
               textList={textList}
