@@ -220,8 +220,10 @@ export default function App() {
 
     let N = Math.min(80, Math.max(1, items.length));
     
-    let sigma = Math.max(1.2, N / 14); 
-    let maxCols = Math.min(8, Math.ceil(N / 3)); 
+    // Flatten the curve by increasing sigma
+    let sigma = Math.max(2.5, N / 6); 
+    // Span across the entire bottom (max 7 columns on each side for 15 columns total)
+    let maxCols = Math.min(7, Math.ceil(N / 2)); 
     
     let P = [];
     let sumP = 0;
@@ -265,7 +267,10 @@ export default function App() {
             bottom: `${bestY}%`,
             transform: `rotate(${rot}deg) scale(0.65)`,
             zIndex: Math.floor(40 - bestY / 2.5), 
-            delay: `${(r * 0.05 + Math.abs(c) * 0.02)}s`
+            delay: `${(r * 0.05 + Math.abs(c) * 0.02)}s`,
+            shakeClass: `animate-bounce-wild-${Math.floor(rand() * 3) + 1}`,
+            shakeDuration: `${0.4 + rand() * 0.4}s`,
+            shakeDelay: `-${rand() * 2}s`
           });
        }
     }
@@ -277,7 +282,10 @@ export default function App() {
     }
     
     while(shuffled.length < 80) {
-      shuffled.push({ left: '50%', bottom: '2%', zIndex: 0, transform: '', delay: '0s' });
+      shuffled.push({ 
+        left: '50%', bottom: '2%', zIndex: 0, transform: '', delay: '0s', 
+        shakeClass: 'animate-bounce-wild-1', shakeDuration: '0.5s', shakeDelay: '0s' 
+      });
     }
 
     return shuffled;
@@ -674,8 +682,16 @@ export default function App() {
                            }}
                          >
                            <div style={{ transform: `translate(-50%, 50%) ${layout.transform}` }}>
-                             <div className={`animate-drop-in ${drawState === 'shaking' && !isGrabbed ? 'animate-bounce-wild' : drawState !== 'idle' && !isGrabbed ? 'animate-stir' : ''}`} style={{ animationDelay: layout.delay }}>
-                               {renderItemStyle(item)}
+                             <div className="animate-drop-in" style={{ animationDelay: layout.delay, animationFillMode: 'both' }}>
+                               <div 
+                                 className={`${drawState === 'shaking' && !isGrabbed ? layout.shakeClass : ''}`} 
+                                 style={{ 
+                                   animationDuration: layout.shakeDuration, 
+                                   animationDelay: layout.shakeDelay 
+                                 }}
+                               >
+                                 {renderItemStyle(item)}
+                               </div>
                              </div>
                            </div>
                          </div>
@@ -961,20 +977,32 @@ export default function App() {
         }
         .animate-stir { animation: stir 0.4s ease-in-out infinite alternate; }
 
-        @keyframes bounce-wild {
+        @keyframes bounce-wild-1 {
           0% { transform: translate(0, 0) rotate(0deg); }
-          10% { transform: translate(-10px, -30px) rotate(-15deg); }
-          20% { transform: translate(15px, 20px) rotate(20deg); }
-          30% { transform: translate(-20px, -10px) rotate(-35deg); }
-          40% { transform: translate(20px, 40px) rotate(45deg); }
-          50% { transform: translate(-30px, -20px) rotate(-60deg); }
-          60% { transform: translate(30px, -40px) rotate(70deg); }
-          70% { transform: translate(-15px, 30px) rotate(-30deg); }
-          80% { transform: translate(10px, -20px) rotate(15deg); }
-          90% { transform: translate(-5px, 10px) rotate(-10deg); }
+          25% { transform: translate(-15px, -35px) rotate(-25deg); }
+          50% { transform: translate(20px, -15px) rotate(35deg); }
+          75% { transform: translate(-10px, 15px) rotate(-15deg); }
           100% { transform: translate(0, 0) rotate(0deg); }
         }
-        .animate-bounce-wild { animation: bounce-wild 0.7s infinite; }
+        .animate-bounce-wild-1 { animation: bounce-wild-1 0.5s infinite; }
+
+        @keyframes bounce-wild-2 {
+          0% { transform: translate(0, 0) rotate(0deg); }
+          33% { transform: translate(25px, -20px) rotate(45deg); }
+          66% { transform: translate(-25px, -40px) rotate(-55deg); }
+          100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        .animate-bounce-wild-2 { animation: bounce-wild-2 0.6s infinite; }
+
+        @keyframes bounce-wild-3 {
+          0% { transform: translate(0, 0) rotate(0deg); }
+          20% { transform: translate(-20px, 10px) rotate(-10deg); }
+          40% { transform: translate(15px, -45px) rotate(30deg); }
+          60% { transform: translate(-15px, -25px) rotate(-40deg); }
+          80% { transform: translate(20px, 5px) rotate(20deg); }
+          100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        .animate-bounce-wild-3 { animation: bounce-wild-3 0.7s infinite; }
 
         @keyframes item-fall-out {
           0% { transform: translate(0, 0) scale(0.1); opacity: 0; }
