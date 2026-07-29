@@ -234,7 +234,7 @@ export default function App() {
         let testX = 50 + z * 12;
         testX = Math.max(15, Math.min(85, testX)); 
 
-        let hitY = 1 + Math.pow(testX - 50, 2) / 45; 
+        let hitY = 2; // Flat floor instead of parabola
 
         for (let j = 0; j < layouts.length; j++) {
           const other = layouts[j];
