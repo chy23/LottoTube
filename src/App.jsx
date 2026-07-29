@@ -110,6 +110,20 @@ export default function App() {
     if (gameMode !== 'vip') {
       currentItems = currentItems.filter(item => item !== "VIP號");
     }
+    // Auto-sort
+    currentItems = sortTextListArray([...currentItems]);
+    const sorted = currentItems.join('\n');
+    const raw = textList.split('\n').map(s => s.trim()).filter(s => s);
+    if (gameMode !== 'vip') {
+      // compare without VIP號
+      if (sorted !== raw.filter(i => i !== 'VIP號').join('\n')) {
+        setTextList(sorted);
+      }
+    } else {
+      if (sorted !== raw.join('\n')) {
+        setTextList(sorted);
+      }
+    }
     setItems(currentItems);
   }, [textList, gameMode]);
 
@@ -195,15 +209,22 @@ export default function App() {
     playActionO();
     const target = tempWinner === 'VIP號' ? vipNumber.trim() : tempWinner;
     
-    // 銷號: Remove from textList
+    // 銷號: Remove one copy, but keep at least one of each unique number
     let currentItems = textList.split('\n').map(s => s.trim()).filter(s => s);
-    const idx = currentItems.indexOf(target);
-    if (idx !== -1) {
-      currentItems.splice(idx, 1);
-      setTextList(currentItems.join('\n'));
+    const count = currentItems.filter(i => i === target).length;
+    if (count > 1) {
+      const idx = currentItems.indexOf(target);
+      if (idx !== -1) {
+        currentItems.splice(idx, 1);
+        setTextList(currentItems.join('\n'));
+      }
     }
+    // else: only 1 left, don't remove
     
     setCooldownList([]); // 重置豁免區
+    setTargetIndex(null);
+    setIsGrabbed(false);
+    setIsRollingOut(false);
 
     setShowWinnerModal(false);
 
@@ -230,6 +251,9 @@ export default function App() {
       if (!next.includes(target)) next.push(target);
       return next;
     });
+    setTargetIndex(null);
+    setIsGrabbed(false);
+    setIsRollingOut(false);
     setShowWinnerModal(false);
   };
 
@@ -246,6 +270,9 @@ export default function App() {
       if (!next.includes(target)) next.push(target);
       return next;
     });
+    setTargetIndex(null);
+    setIsGrabbed(false);
+    setIsRollingOut(false);
     setShowWinnerModal(false);
   };
 
