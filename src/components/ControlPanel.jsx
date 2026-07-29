@@ -76,31 +76,6 @@ export default function ControlPanel({
         </div>
       </div>
 
-      <div className="mt-8 pt-8 border-t border-slate-200/60 relative z-10">
-        <h3 className="text-sm font-black text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
-          <Sparkles size={16} className="text-amber-500" />
-          遊戲模式
-        </h3>
-        <div className="grid grid-cols-2 gap-3">
-          {[
-            { id: 'quiz', label: '隨機抽籤', desc: '公平公正公開' },
-            { id: 'vip', label: 'VIP 暗箱', desc: '神不知鬼不覺' }
-          ].map(m => (
-            <button
-              key={m.id}
-              onClick={() => {
-                setGameMode(m.id);
-                setTextList(generateDefaultItems(m.id));
-                setCooldownList([]);
-              }}
-              className={`p-4 rounded-[1.5rem] text-left transition-all ${gameMode === m.id ? 'bg-[#007AFF] text-white shadow-lg shadow-blue-500/30 scale-105' : 'bg-slate-50 text-slate-600 hover:bg-slate-100 hover:scale-105 border border-slate-200'}`}
-            >
-              <div className="font-black text-lg mb-1">{m.label}</div>
-              <div className={`text-xs font-bold ${gameMode === m.id ? 'text-blue-100' : 'text-slate-400'}`}>{m.desc}</div>
-            </button>
-          ))}
-        </div>
-      </div>
     </div>
   );
 }
