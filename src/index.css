@@ -1,1 +1,98 @@
 @import "tailwindcss";
+
+@keyframes bucket-shake-hard {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  15% { transform: translateX(-15px) rotate(-8deg); }
+  30% { transform: translateX(15px) rotate(8deg); }
+  45% { transform: translateX(-15px) rotate(-8deg); }
+  60% { transform: translateX(15px) rotate(8deg); }
+  75% { transform: translateX(-10px) rotate(-5deg); }
+  90% { transform: translateX(10px) rotate(5deg); }
+}
+.animate-bucket-shake-hard { animation: bucket-shake-hard 0.3s ease-in-out infinite; }
+
+@keyframes bucket-shake-light {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(-3px) rotate(-1deg); }
+  50% { transform: translateX(3px) rotate(1deg); }
+  75% { transform: translateX(-3px) rotate(-1deg); }
+}
+.animate-bucket-shake-light { animation: bucket-shake-light 0.4s ease-in-out infinite; }
+
+@keyframes stir {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(6px, -12px) rotate(10deg); }
+  50% { transform: translate(-6px, 8px) rotate(-10deg); }
+  75% { transform: translate(8px, -8px) rotate(5deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+.animate-stir { animation: stir 0.4s ease-in-out infinite alternate; }
+
+@keyframes bounce-wild-1 {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-80px, -250px) rotate(-140deg); }
+  40% { transform: translate(60px, -150px) rotate(90deg); }
+  60% { transform: translate(20px, -300px) rotate(320deg); }
+  80% { transform: translate(-70px, -80px) rotate(-50deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+.animate-bounce-wild-1 { animation: bounce-wild-1 0.5s infinite alternate; }
+
+@keyframes bounce-wild-2 {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(90px, -180px) rotate(200deg); }
+  50% { transform: translate(-80px, -280px) rotate(-100deg); }
+  75% { transform: translate(-30px, -100px) rotate(150deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+.animate-bounce-wild-2 { animation: bounce-wild-2 0.6s infinite alternate; }
+
+@keyframes bounce-wild-3 {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  30% { transform: translate(-20px, -320px) rotate(-300deg); }
+  60% { transform: translate(80px, -120px) rotate(45deg); }
+  85% { transform: translate(-90px, -200px) rotate(-120deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+.animate-bounce-wild-3 { animation: bounce-wild-3 0.7s infinite alternate; }
+
+@keyframes bounce-wild-4 {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(70px, -80px) rotate(80deg); }
+  50% { transform: translate(-90px, -250px) rotate(-200deg); }
+  80% { transform: translate(40px, -220px) rotate(150deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+.animate-bounce-wild-4 { animation: bounce-wild-4 0.55s infinite alternate; }
+
+@keyframes bounce-wild-5 {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(80px, -150px) rotate(120deg); }
+  50% { transform: translate(0px, -280px) rotate(240deg); }
+  75% { transform: translate(-80px, -150px) rotate(360deg); }
+  100% { transform: translate(0, 0) rotate(480deg); }
+}
+.animate-bounce-wild-5 { animation: bounce-wild-5 0.65s infinite alternate; }
+
+@keyframes roll-out-winner {
+  0% { transform: translate(-30px, -200px) scale(1) rotate(0deg); }
+  40% { transform: translate(-20px, -300px) scale(1.1) rotate(45deg); }
+  100% { transform: translate(150px, -500px) scale(1.2) rotate(120deg); }
+}
+.animate-roll-out-winner { animation: roll-out-winner 1.2s cubic-bezier(0.3, 0, 0.8, 0.15) forwards; }
+
+@keyframes drop-in {
+  0% { transform: translateY(-500px) scale(0.5); opacity: 0; }
+  60% { transform: translateY(20px) scale(1); opacity: 1; }
+  80% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+.animate-drop-in { animation: drop-in 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) backwards; }
+
+@keyframes bounce-custom {
+  0% { transform: translateY(80px) scale(0.5); opacity: 0; }
+  60% { transform: translateY(-30px) scale(1.1); opacity: 1; }
+  80% { transform: translateY(15px) scale(0.95); }
+  100% { transform: translateY(0) scale(1); }
+}
+.animate-bounce-custom { animation: bounce-custom 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
