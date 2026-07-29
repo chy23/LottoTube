@@ -285,9 +285,8 @@ export default function App() {
     setTargetIndex(null);
     setIsGrabbed(false);
 
-    const hands = ['human', 'cat', 'robot', 'dragon', 'monkey', 'chameleon', 'elephant', 'bird'];
-    setHandType(hands[Math.floor(Math.random() * hands.length)]);
     
+
     let validIndices = items.map((item, i) => !isItemGrayedOut(item) ? i : -1).filter(i => i !== -1);
     if (validIndices.length === 0) { 
       validIndices = items.map((_, i) => i);
