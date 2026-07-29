@@ -372,7 +372,7 @@ export default function App() {
         setTempWinner(null);
         setTargetIndex(null);
         setIsGrabbed(false);
-      }, 1800); 
+      }, 2200); 
     }, 1200); 
   };
 
@@ -1024,12 +1024,11 @@ export default function App() {
         .animate-bounce-wild-5 { animation: bounce-wild-5 0.65s infinite alternate; }
 
         @keyframes item-fall-out {
-          0% { transform: translate(0, 0) scale(0.1); opacity: 0; }
-          20% { transform: translate(40px, 60px) scale(0.8) rotate(45deg); opacity: 1; }
-          40% { transform: translate(-100px, -150px) scale(1.6) rotate(-180deg); }
-          60% { transform: translate(-140px, -80px) scale(1.4) rotate(-300deg); }
-          80% { transform: translate(-160px, -120px) scale(1.8) rotate(-340deg); }
-          100% { transform: translate(-160px, -100px) scale(2.5) rotate(-360deg); opacity: 1; }
+          0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+          20% { transform: translate(40px, 60px) scale(0.8) rotate(90deg); opacity: 1; }
+          50% { transform: translate(-80px, -80px) scale(1.5) rotate(180deg); }
+          80% { transform: translate(-120px, -40px) scale(2.0) rotate(270deg); }
+          100% { transform: translate(-140px, -50px) scale(2.5) rotate(360deg); opacity: 1; }
         }
         .animate-item-fall-out { animation: item-fall-out 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s both; }
 
