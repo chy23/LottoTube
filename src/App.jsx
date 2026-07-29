@@ -642,14 +642,14 @@ export default function App() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
           
-          <div className="lg:col-span-7 bg-white/40 backdrop-blur-[40px] rounded-[4rem] p-8 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.08)] border border-white/70 flex flex-col items-center justify-center min-h-[600px] relative overflow-hidden">
+          <div className="lg:col-span-7 bg-white/40 backdrop-blur-[40px] rounded-[4rem] p-4 md:p-8 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.08)] border border-white/70 flex flex-col items-center justify-center min-h-[60vh] relative overflow-hidden">
             
             {appMode === 'box' ? (
-              <div className="relative w-[90vw] max-w-[400px] aspect-[4/5] md:aspect-[3/4] mt-10 flex flex-col items-center justify-end">
+              <div className="relative w-[90vw] md:w-[70vw] lg:w-[40vw] max-w-[500px] aspect-[4/5] md:aspect-[3/4] mt-10 flex flex-col items-center justify-end">
                 <div className={`w-full h-full relative origin-bottom-right transition-transform duration-1000 ${drawState === 'reaching' ? 'rotate-[110deg]' : ''} ${drawState === 'shaking' ? 'animate-bucket-shake-hard' : ''}`}>
                   <div className="absolute left-[40px] right-[40px] inset-y-0 bg-slate-400/20 rounded-b-[4rem] rounded-t-2xl border border-white/40 transform scale-x-95 translate-y-4 z-0"></div>
                   
-                  <div className="absolute left-[45px] right-[45px] bottom-6 top-6 overflow-hidden rounded-b-[3.5rem] rounded-t-xl z-10">
+                  <div className="absolute left-[45px] right-[45px] bottom-6 top-6 overflow-visible rounded-b-[3.5rem] rounded-t-xl z-10">
                      {items.slice(0, 80).map((item, idx) => {
                        const layout = bucketLayouts[idx] || bucketLayouts[0];
                        const isTarget = idx === targetIndex;
@@ -657,15 +657,17 @@ export default function App() {
                        return (
                          <div 
                            key={idx} 
-                           className={`absolute transition-all duration-300 ${isTarget && drawState === 'reaching' ? 'opacity-0 scale-50' : 'opacity-100 scale-100'}`}
+                           className={`absolute transition-all ${isTarget && drawState === 'reaching' ? 'opacity-0 scale-50' : 'opacity-100 scale-100'}`}
                            style={{ 
                              left: layout.left, 
                              bottom: layout.bottom, 
-                             zIndex: layout.zIndex 
+                             zIndex: layout.zIndex,
+                             transitionDuration: drawState === 'reaching' ? '1.5s' : '0.3s',
+                             transform: drawState === 'reaching' ? `translate(-50%, -600px) rotate(${layout.x * 2}deg)` : 'translate(0, 0)' 
                            }}
                          >
                            <div style={{ transform: `translate(-50%, 50%) ${layout.transform}` }}>
-                             <div className={`${drawState !== 'idle' && !isGrabbed ? 'animate-stir' : ''}`} style={{ animationDelay: layout.delay }}>
+                             <div className={`animate-drop-in ${drawState !== 'idle' && !isGrabbed ? 'animate-stir' : ''}`} style={{ animationDelay: layout.delay }}>
                                {renderItemStyle(item)}
                              </div>
                            </div>
@@ -673,6 +675,14 @@ export default function App() {
                        );
                      })}
                   </div>
+
+                  {drawState === 'reaching' && tempWinner && (
+                    <div className="absolute top-[10%] left-1/2 z-[120] animate-item-fall-out">
+                      <div className="transform -translate-x-1/2 -translate-y-1/2 scale-150 md:scale-200 drop-shadow-2xl">
+                         {renderItemStyle(tempWinner)}
+                      </div>
+                    </div>
+                  )}
 
                   <div className={`absolute left-[40px] right-[40px] inset-y-0 bg-gradient-to-b from-white/30 to-white/5 backdrop-blur-[2px] border-4 border-t-0 border-white/60 rounded-b-[4rem] rounded-t-none shadow-[inset_0_-20px_40px_rgba(255,255,255,0.4),0_20px_40px_rgba(0,0,0,0.05)] z-[100] pointer-events-none`}>
                     <div className="w-1/3 h-full bg-gradient-to-r from-white/60 to-transparent skew-x-12 transform -translate-x-4 opacity-50"></div>
@@ -682,20 +692,11 @@ export default function App() {
                     <div className="w-[90%] h-4 bg-black/10 rounded-full blur-[2px]"></div>
                   </div>
                 </div>
-
-                {drawState === 'reaching' && tempWinner && (
-                  <div className="absolute top-[80%] right-[-100px] z-[120] animate-item-fall-out">
-                    <div className="transform -translate-x-1/2 -translate-y-1/2 scale-125 md:scale-150 drop-shadow-2xl">
-                       {renderItemStyle(tempWinner)}
-                    </div>
-                  </div>
-                )}
               </div>
             ) : (
-              <div className="relative w-full aspect-square max-w-[45rem] mt-4 flex flex-col items-center justify-center overflow-visible">
+              <div className="relative w-full aspect-square mt-4 flex flex-col items-center justify-center overflow-visible">
 
-
-                <div className="relative w-[90vw] max-w-[44rem] aspect-square z-10 drop-shadow-2xl flex items-center justify-center">
+                <div className="relative w-[90vw] md:w-[70vw] lg:w-[45vw] aspect-square z-10 drop-shadow-2xl flex items-center justify-center">
                   <div 
                     className="w-full h-full rounded-full border-[10px] md:border-[16px] border-white shadow-[0_20px_40px_rgba(0,0,0,0.15)] overflow-hidden transition-transform ease-[cubic-bezier(0.2,0.8,0.2,1)]"
                     style={{ 
@@ -765,7 +766,7 @@ export default function App() {
             <button 
               onClick={drawLot} 
               disabled={drawState !== 'idle' || items.length === 0}
-              className={`mt-12 w-full max-w-sm py-7 rounded-[2.5rem] text-3xl font-black shadow-2xl transition-all flex items-center justify-center gap-4 z-50
+              className={`mt-12 w-full py-6 md:py-8 rounded-[2.5rem] text-2xl md:text-3xl font-black shadow-2xl transition-all flex items-center justify-center gap-4 z-50
                 ${drawState !== 'idle' || items.length === 0 
                   ? 'bg-slate-200 text-slate-400 cursor-not-allowed' 
                   : 'bg-[#007AFF] hover:bg-[#0062CC] hover:scale-105 active:scale-95 text-white shadow-blue-500/40'}`}
@@ -775,7 +776,7 @@ export default function App() {
             </button>
             
             {cooldownList.length > 0 && gameMode !== 'classic' && (
-              <div className="mt-8 w-full max-w-sm bg-white/30 backdrop-blur-md border border-white/60 rounded-[2.5rem] p-5 flex flex-col items-center justify-center animate-in zoom-in-95">
+              <div className="mt-8 w-full bg-white/30 backdrop-blur-md border border-white/60 rounded-[2.5rem] p-5 flex flex-col items-center justify-center animate-in zoom-in-95">
                 <span className="flex items-center gap-2 text-emerald-700 font-bold text-sm mb-2"><Shield size={18} className="text-emerald-500" />已回答空間 (豁免中)</span>
                 <div className="flex flex-wrap justify-center gap-2">
                   {cooldownList.map((item, idx) => ( <span key={idx} className="px-4 py-1.5 bg-white shadow-sm rounded-full text-emerald-800 font-black text-lg">{item}</span> ))}
@@ -784,7 +785,7 @@ export default function App() {
             )}
           </div>
 
-          <div className="lg:col-span-5 bg-white/40 backdrop-blur-[40px] rounded-[4rem] p-10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.08)] border border-white/70 flex flex-col h-full">
+          <div className="lg:col-span-5 bg-white/40 backdrop-blur-[40px] rounded-[4rem] p-6 md:p-10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.08)] border border-white/70 flex flex-col h-full">
             
             <div className="flex bg-slate-500/10 backdrop-blur-2xl p-1.5 rounded-[2rem] mb-8 border border-white/20">
               {[ {id:'classic', label:'經典', icon:<Layout size={18}/>}, {id:'quiz', label:'答題', icon:<Brain size={18}/>}, {id:'vip', label:'VIP', icon:<UserCheck size={18}/>} ].map(m => (
@@ -954,15 +955,22 @@ export default function App() {
         .animate-stir { animation: stir 0.4s ease-in-out infinite alternate; }
 
         @keyframes item-fall-out {
-          0% { transform: translate(-200px, -150px) scale(0.2) rotate(-90deg); opacity: 0; }
-          30% { transform: translate(-50px, 50px) scale(1) rotate(20deg); opacity: 1; }
-          50% { transform: translate(0px, 150px) scale(1) rotate(60deg); }
-          70% { transform: translate(40px, 100px) scale(1) rotate(90deg); }
-          85% { transform: translate(80px, 150px) scale(1) rotate(110deg); }
-          95% { transform: translate(100px, 130px) scale(1) rotate(120deg); }
-          100% { transform: translate(110px, 150px) scale(1) rotate(125deg); opacity: 1; }
+          0% { transform: translateY(100px) scale(0.5); opacity: 0; }
+          20% { transform: translateY(0px) scale(1); opacity: 1; }
+          40% { transform: translate(50px, -150px) scale(1.2) rotate(45deg); }
+          60% { transform: translate(120px, -250px) scale(1.1) rotate(90deg); }
+          80% { transform: translate(150px, -350px) scale(1) rotate(120deg); }
+          100% { transform: translate(150px, -500px) scale(1) rotate(150deg); opacity: 0; }
         }
-        .animate-item-fall-out { animation: item-fall-out 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+        .animate-item-fall-out { animation: item-fall-out 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+
+        @keyframes drop-in {
+          0% { transform: translateY(-500px) scale(0.5); opacity: 0; }
+          60% { transform: translateY(20px) scale(1); opacity: 1; }
+          80% { transform: translateY(-10px); }
+          100% { transform: translateY(0); }
+        }
+        .animate-drop-in { animation: drop-in 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) backwards; }
 
         @keyframes bounce-custom {
           0% { transform: translateY(80px) scale(0.5); opacity: 0; }
