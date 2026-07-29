@@ -1018,12 +1018,10 @@ export default function App() {
 
         @keyframes roll-out-winner {
           0% { transform: translate(-30px, -200px) scale(1) rotate(0deg); }
-          20% { transform: translate(-20px, -350px) scale(1) rotate(90deg); }
-          50% { transform: translate(-100px, -150px) scale(1.5) rotate(180deg); }
-          80% { transform: translate(-150px, -20px) scale(2.0) rotate(270deg); }
-          100% { transform: translate(-220px, 100px) scale(2.5) rotate(360deg); }
+          40% { transform: translate(-20px, -300px) scale(1.1) rotate(45deg); }
+          100% { transform: translate(150px, -500px) scale(1.2) rotate(120deg); }
         }
-        .animate-roll-out-winner { animation: roll-out-winner 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+        .animate-roll-out-winner { animation: roll-out-winner 1.2s cubic-bezier(0.3, 0, 0.8, 0.15) forwards; }
 
         @keyframes drop-in {
           0% { transform: translateY(-500px) scale(0.5); opacity: 0; }
