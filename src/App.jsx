@@ -202,6 +202,8 @@ export default function App() {
       currentItems.splice(idx, 1);
       setTextList(currentItems.join('\n'));
     }
+    
+    setCooldownList([]); // 重置豁免區
 
     setShowWinnerModal(false);
 
@@ -217,6 +219,11 @@ export default function App() {
       setConfirmModal({ message: '請輸入 VIP 號碼', type: 'alert', onConfirm: () => setConfirmModal(null) });
       return;
     }
+    
+    if (target) {
+      setTextList(prev => prev + (prev.trim() ? '\n' : '') + target);
+    }
+
     setCooldownList(prev => {
       const next = [...prev];
       if (!next.includes(winner)) next.push(winner);
