@@ -646,10 +646,10 @@ export default function App() {
             
             {appMode === 'box' ? (
               <div className="relative w-[90vw] md:w-[70vw] lg:w-[40vw] max-w-[500px] aspect-[4/5] md:aspect-[3/4] mt-10 flex flex-col items-center justify-end">
-                <div className={`w-full h-full relative origin-center transition-transform duration-1000 ${drawState === 'reaching' ? 'rotate-180' : ''} ${drawState === 'shaking' ? 'animate-bucket-shake-hard' : ''}`}>
+                <div className={`w-full h-full relative origin-center transition-transform duration-1000 ${drawState === 'reaching' ? 'rotate-[120deg]' : ''} ${drawState === 'shaking' ? 'animate-bucket-shake-hard' : ''}`}>
                   <div className="absolute left-[40px] right-[40px] inset-y-0 bg-slate-400/20 rounded-b-[4rem] rounded-t-2xl border border-white/40 transform scale-x-95 translate-y-4 z-0"></div>
                   
-                  <div className="absolute left-[45px] right-[45px] bottom-6 top-6 overflow-visible rounded-b-[3.5rem] rounded-t-xl z-10">
+                  <div className="absolute left-[45px] right-[45px] bottom-6 top-6 overflow-hidden rounded-b-[3.5rem] rounded-t-xl z-10">
                      {items.slice(0, 80).map((item, idx) => {
                        const layout = bucketLayouts[idx] || bucketLayouts[0];
                        const isTarget = idx === targetIndex;
@@ -663,11 +663,11 @@ export default function App() {
                              bottom: layout.bottom, 
                              zIndex: layout.zIndex,
                              transitionDuration: drawState === 'reaching' ? '1.5s' : '0.3s',
-                             transform: drawState === 'reaching' ? `translate(-50%, -800px) rotate(${layout.x * 2}deg)` : 'translate(0, 0)' 
+                             transform: drawState === 'reaching' ? `translate(-30px, -200px) rotate(${layout.x * 2}deg)` : 'translate(0, 0)' 
                            }}
                          >
                            <div style={{ transform: `translate(-50%, 50%) ${layout.transform}` }}>
-                             <div className={`animate-drop-in ${drawState !== 'idle' && !isGrabbed ? 'animate-stir' : ''}`} style={{ animationDelay: layout.delay }}>
+                             <div className={`animate-drop-in ${drawState === 'shaking' && !isGrabbed ? 'animate-bounce-wild' : drawState !== 'idle' && !isGrabbed ? 'animate-stir' : ''}`} style={{ animationDelay: layout.delay }}>
                                {renderItemStyle(item)}
                              </div>
                            </div>
@@ -686,7 +686,7 @@ export default function App() {
                 </div>
 
                 {drawState === 'reaching' && tempWinner && (
-                  <div className="absolute bottom-0 left-1/2 z-[120] animate-item-fall-out">
+                  <div className="absolute top-[75%] right-[5%] z-[120] animate-item-fall-out">
                     <div className="transform -translate-x-1/2 scale-150 md:scale-200 drop-shadow-2xl">
                        {renderItemStyle(tempWinner)}
                     </div>
@@ -954,13 +954,28 @@ export default function App() {
         }
         .animate-stir { animation: stir 0.4s ease-in-out infinite alternate; }
 
+        @keyframes bounce-wild {
+          0% { transform: translate(0, 0) rotate(0deg); }
+          10% { transform: translate(-10px, -30px) rotate(-15deg); }
+          20% { transform: translate(15px, 20px) rotate(20deg); }
+          30% { transform: translate(-20px, -10px) rotate(-35deg); }
+          40% { transform: translate(20px, 40px) rotate(45deg); }
+          50% { transform: translate(-30px, -20px) rotate(-60deg); }
+          60% { transform: translate(30px, -40px) rotate(70deg); }
+          70% { transform: translate(-15px, 30px) rotate(-30deg); }
+          80% { transform: translate(10px, -20px) rotate(15deg); }
+          90% { transform: translate(-5px, 10px) rotate(-10deg); }
+          100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        .animate-bounce-wild { animation: bounce-wild 0.7s infinite; }
+
         @keyframes item-fall-out {
-          0% { transform: translateY(0px) scale(0.1); opacity: 0; }
-          20% { transform: translateY(120px) scale(0.8); opacity: 1; }
-          40% { transform: translateY(-250px) scale(1.6); }
-          60% { transform: translateY(-180px) scale(1.4); }
-          80% { transform: translateY(-220px) scale(1.8); }
-          100% { transform: translateY(-220px) scale(2); opacity: 1; }
+          0% { transform: translate(0, 0) scale(0.1); opacity: 0; }
+          20% { transform: translate(40px, 60px) scale(0.8) rotate(45deg); opacity: 1; }
+          40% { transform: translate(-100px, -150px) scale(1.6) rotate(-180deg); }
+          60% { transform: translate(-140px, -80px) scale(1.4) rotate(-300deg); }
+          80% { transform: translate(-160px, -120px) scale(1.8) rotate(-340deg); }
+          100% { transform: translate(-160px, -100px) scale(2.5) rotate(-360deg); opacity: 1; }
         }
         .animate-item-fall-out { animation: item-fall-out 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
 
