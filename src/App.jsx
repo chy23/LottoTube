@@ -268,8 +268,8 @@ export default function App() {
             transform: `rotate(${rot}deg) scale(0.65)`,
             zIndex: Math.floor(40 - bestY / 2.5), 
             delay: `${(r * 0.05 + Math.abs(c) * 0.02)}s`,
-            shakeClass: `animate-bounce-wild-${Math.floor(rand() * 3) + 1}`,
-            shakeDuration: `${0.4 + rand() * 0.4}s`,
+            shakeClass: `animate-bounce-wild-${Math.floor(rand() * 5) + 1}`,
+            shakeDuration: `${0.45 + rand() * 0.35}s`,
             shakeDelay: `-${rand() * 2}s`
           });
        }
@@ -979,30 +979,49 @@ export default function App() {
 
         @keyframes bounce-wild-1 {
           0% { transform: translate(0, 0) rotate(0deg); }
-          25% { transform: translate(-15px, -35px) rotate(-25deg); }
-          50% { transform: translate(20px, -15px) rotate(35deg); }
-          75% { transform: translate(-10px, 15px) rotate(-15deg); }
+          20% { transform: translate(-80px, -250px) rotate(-140deg); }
+          40% { transform: translate(60px, -150px) rotate(90deg); }
+          60% { transform: translate(20px, -300px) rotate(320deg); }
+          80% { transform: translate(-70px, -80px) rotate(-50deg); }
           100% { transform: translate(0, 0) rotate(0deg); }
         }
-        .animate-bounce-wild-1 { animation: bounce-wild-1 0.5s infinite; }
+        .animate-bounce-wild-1 { animation: bounce-wild-1 0.5s infinite alternate; }
 
         @keyframes bounce-wild-2 {
           0% { transform: translate(0, 0) rotate(0deg); }
-          33% { transform: translate(25px, -20px) rotate(45deg); }
-          66% { transform: translate(-25px, -40px) rotate(-55deg); }
+          25% { transform: translate(90px, -180px) rotate(200deg); }
+          50% { transform: translate(-80px, -280px) rotate(-100deg); }
+          75% { transform: translate(-30px, -100px) rotate(150deg); }
           100% { transform: translate(0, 0) rotate(0deg); }
         }
-        .animate-bounce-wild-2 { animation: bounce-wild-2 0.6s infinite; }
+        .animate-bounce-wild-2 { animation: bounce-wild-2 0.6s infinite alternate; }
 
         @keyframes bounce-wild-3 {
           0% { transform: translate(0, 0) rotate(0deg); }
-          20% { transform: translate(-20px, 10px) rotate(-10deg); }
-          40% { transform: translate(15px, -45px) rotate(30deg); }
-          60% { transform: translate(-15px, -25px) rotate(-40deg); }
-          80% { transform: translate(20px, 5px) rotate(20deg); }
+          30% { transform: translate(-20px, -320px) rotate(-300deg); }
+          60% { transform: translate(80px, -120px) rotate(45deg); }
+          85% { transform: translate(-90px, -200px) rotate(-120deg); }
           100% { transform: translate(0, 0) rotate(0deg); }
         }
-        .animate-bounce-wild-3 { animation: bounce-wild-3 0.7s infinite; }
+        .animate-bounce-wild-3 { animation: bounce-wild-3 0.7s infinite alternate; }
+
+        @keyframes bounce-wild-4 {
+          0% { transform: translate(0, 0) rotate(0deg); }
+          20% { transform: translate(70px, -80px) rotate(80deg); }
+          50% { transform: translate(-90px, -250px) rotate(-200deg); }
+          80% { transform: translate(40px, -220px) rotate(150deg); }
+          100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        .animate-bounce-wild-4 { animation: bounce-wild-4 0.55s infinite alternate; }
+
+        @keyframes bounce-wild-5 {
+          0% { transform: translate(0, 0) rotate(0deg); }
+          25% { transform: translate(80px, -150px) rotate(120deg); }
+          50% { transform: translate(0px, -280px) rotate(240deg); }
+          75% { transform: translate(-80px, -150px) rotate(360deg); }
+          100% { transform: translate(0, 0) rotate(480deg); }
+        }
+        .animate-bounce-wild-5 { animation: bounce-wild-5 0.65s infinite alternate; }
 
         @keyframes item-fall-out {
           0% { transform: translate(0, 0) scale(0.1); opacity: 0; }
