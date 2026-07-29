@@ -124,12 +124,10 @@ export default function App() {
         setTextList(sorted);
       }
     }
-    // Shuffle for visual display
+    // Shuffle for visual display (truly random)
     const shuffled = [...sortedItems];
-    let s = 54321;
-    const srand = () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
     for (let j = shuffled.length - 1; j > 0; j--) {
-      const k = Math.floor(srand() * (j + 1));
+      const k = Math.floor(Math.random() * (j + 1));
       [shuffled[j], shuffled[k]] = [shuffled[k], shuffled[j]];
     }
     setItems(shuffled);
