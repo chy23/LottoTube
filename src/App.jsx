@@ -316,7 +316,16 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#E3F2FD] via-[#F3E5F5] to-[#E8F5E9] text-slate-900 p-4 md:p-8 font-sans overflow-x-hidden selection:bg-blue-200">
-      <div className="max-w-[1500px] mx-auto">
+      
+      {/* Watermarks */}
+      <div className="fixed top-40 md:top-24 right-4 md:right-8 text-[18pt] text-slate-500 opacity-25 font-bold pointer-events-none z-0 select-none whitespace-nowrap">
+        網站建立自楊家驊老師
+      </div>
+      <div className="fixed bottom-4 right-4 md:right-8 text-[18pt] text-slate-500 opacity-25 font-bold pointer-events-none z-0 select-none whitespace-nowrap">
+        網站建立自楊家驊老師
+      </div>
+
+      <div className="max-w-[1500px] mx-auto relative z-10">
         
         <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 animate-in fade-in slide-in-from-top duration-700">
           <div>
