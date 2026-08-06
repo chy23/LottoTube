@@ -432,6 +432,7 @@ export default function App() {
                 drawState={drawState}
                 isGrabbed={isGrabbed}
                 targetIndex={targetIndex}
+                targetBucketIndex={bucketItems.findIndex((_, i) => items.map((item, idx) => !isItemGrayedOut(item) ? idx : -1).filter(idx => idx !== -1)[i] === targetIndex)}
                 isRollingOut={isRollingOut}
                 drawStyle={drawStyle}
                 isItemGrayedOut={isItemGrayedOut}

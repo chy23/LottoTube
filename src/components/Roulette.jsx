@@ -54,7 +54,10 @@ export default function Roulette({
                       className="absolute right-0 top-0"
                       style={{ transform: 'translateY(-50%) rotate(90deg)' }}
                     >
-                      <span className={`font-black text-base md:text-xl whitespace-nowrap ${isItemGrayedOut && isItemGrayedOut(item) ? 'text-slate-400 line-through' : 'text-slate-800'}`}>
+                      <span 
+                        className={`block max-w-[100px] sm:max-w-[130px] md:max-w-[160px] truncate font-black text-base md:text-xl ${isItemGrayedOut && isItemGrayedOut(item) ? 'text-slate-400 line-through' : 'text-slate-800'}`}
+                        title={item}
+                      >
                         {item}
                       </span>
                     </div>

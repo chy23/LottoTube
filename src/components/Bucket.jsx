@@ -7,6 +7,7 @@ export default function Bucket({
   drawState,
   isGrabbed,
   targetIndex,
+  targetBucketIndex,
   isRollingOut,
   drawStyle,
   isItemGrayedOut
@@ -82,9 +83,11 @@ export default function Bucket({
             const topPct = (position.y / height) * 100;
             
             // Note: If an item is the target and rolling out, we apply different animation via classes, but physics still runs.
-            // We can stop syncing if it's rolling out
-            const isTarget = i === targetIndex;
-            if (isTarget && isRollingOut) return; // Let CSS handle the roll out
+            const isTarget = i === targetBucketIndex;
+            if (isTarget && isRollingOut) {
+              domElement.style.display = 'none';
+              return;
+            }
             
             domElement.style.left = `${leftPct}%`;
             domElement.style.top = `${topPct}%`;
@@ -119,15 +122,19 @@ export default function Bucket({
         });
       });
     } else if (drawState === 'reaching') {
-      // Simulate pouring/reaching by reversing gravity and adding chaos
-      engine.world.gravity.y = -0.5;
-      itemsRef.current.forEach(({ body }) => {
-        const forceMagnitude = 0.02 * body.mass;
+      // Pop out ONLY the target item!
+      // Keep gravity normal so other items stay in bucket
+      engine.world.gravity.y = 1.2;
+      
+      const targetObj = itemsRef.current[targetBucketIndex];
+      if (targetObj) {
+        const { body } = targetObj;
+        // Apply a strong upward force to the target item so it flies out
         M.Body.applyForce(body, body.position, {
-          x: (Math.random() - 0.5) * forceMagnitude * 2,
-          y: 0
+          x: (Math.random() - 0.5) * 0.05,
+          y: -0.15 * body.mass
         });
-      });
+      }
     } else {
       // Normal gravity
       engine.world.gravity.y = 1.2;
@@ -146,8 +153,9 @@ export default function Bucket({
         
         <div className="absolute left-[45px] right-[45px] bottom-6 top-6 rounded-b-[3.5rem] rounded-t-xl z-10 overflow-hidden">
            {items.slice(0, 80).map((item, idx) => {
-             const isTarget = idx === targetIndex;
-             
+             const isTarget = idx === targetBucketIndex;
+             if (isTarget && isRollingOut) return null; // Let CSS handle the roll out
+
              return (
                <div 
                  key={`bucket-item-${idx}`} 
