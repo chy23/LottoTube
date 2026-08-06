@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
-  Sparkles, Box, Volume2, VolumeX, Layout, Brain, UserCheck, RefreshCcw, Star, Music
+  Sparkles, Box, Volume2, VolumeX, Layout, Brain, UserCheck, RefreshCcw, Star, Music, Maximize, Minimize
 } from 'lucide-react';
-
+import confetti from 'canvas-confetti';
 import { useAudio } from './hooks/useAudio';
-import { generateBucketLayouts } from './utils/physics';
 
 import ControlPanel from './components/ControlPanel';
 import Bucket from './components/Bucket';
@@ -50,18 +49,40 @@ export default function App() {
   const [tempWinner, setTempWinner] = useState(null);
   const [vipNumber, setVipNumber] = useState(() => localStorage.getItem('drawLots_vipNumber') || '');
   const [showVipPrompt, setShowVipPrompt] = useState(false);
+  const [historyLog, setHistoryLog] = useState(() => JSON.parse(localStorage.getItem('drawLots_historyLog')) || []);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   
   const [isGrabbed, setIsGrabbed] = useState(false);
   const [isRollingOut, setIsRollingOut] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem('drawLots_gameMode', gameMode);
     localStorage.setItem('drawLots_appMode', appMode);
+    localStorage.setItem('drawLots_gameMode', gameMode);
     localStorage.setItem('drawLots_textList', textList);
     localStorage.setItem('drawLots_drawStyle', drawStyle);
     localStorage.setItem('drawLots_vipNumber', vipNumber);
     localStorage.setItem('drawLots_cooldownList', JSON.stringify(cooldownList));
   }, [appMode, gameMode, textList, drawStyle, vipNumber, cooldownList]);
+  
+  useEffect(() => {
+    localStorage.setItem('drawLots_historyLog', JSON.stringify(historyLog));
+  }, [historyLog]);
+
+  useEffect(() => {
+    const onFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', onFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
+  }, []);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  };
 
   const isItemGrayedOut = (item) => {
     if (cooldownList.includes(item)) return true;
@@ -136,10 +157,6 @@ export default function App() {
   // Items for bucket: exclude grayed-out ones (they go to exemption area)
   const bucketItems = useMemo(() => items.filter(item => !isItemGrayedOut(item)), [items, cooldownList, vipNumber, gameMode]);
 
-  const bucketLayouts = useMemo(() => {
-    return generateBucketLayouts(bucketItems.length);
-  }, [bucketItems.length]);
-
   const drawLot = () => {
     if (drawState !== 'idle' || items.length === 0) return;
     initAudio();
@@ -181,6 +198,7 @@ export default function App() {
         setShowWinnerModal(true);
         if (gameMode === 'vip' && selected === 'VIP號') playVipFanfare();
         else playPopSound();
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
       }, 4000);
 
     } else {
@@ -203,8 +221,10 @@ export default function App() {
 
         setTimeout(() => {
           setWinner(selected);
-          setDrawState('idle');
           setShowWinnerModal(true);
+          setDrawState('idle'); 
+          setTempWinner(null);
+          confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
           
           if (gameMode === 'vip' && selected === 'VIP號') {
             playVipFanfare();
@@ -219,6 +239,7 @@ export default function App() {
   const handleO = () => {
     playActionO();
     const target = tempWinner === 'VIP號' ? vipNumber.trim() : tempWinner;
+    setHistoryLog(prev => [{ time: new Date().toISOString(), item: winner, action: 'Bingo', mode: gameMode }, ...prev]);
     
     // 銷號: Remove one copy, but keep at least one of each unique number
     let currentItems = textList.split('\n').map(s => s.trim()).filter(s => s);
@@ -315,13 +336,13 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#E3F2FD] via-[#F3E5F5] to-[#E8F5E9] text-slate-900 p-4 md:p-8 font-sans overflow-x-hidden selection:bg-blue-200">
+    <div className="min-h-screen bg-gradient-to-br from-[#E3F2FD] via-[#F3E5F5] to-[#E8F5E9] dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 text-slate-900 dark:text-slate-100 p-4 md:p-8 font-sans overflow-x-hidden selection:bg-blue-200 transition-colors duration-500">
       
       {/* Watermarks */}
-      <div className="fixed top-40 md:top-24 right-4 md:right-8 text-[18pt] text-slate-500 opacity-25 font-bold pointer-events-none z-0 select-none whitespace-nowrap">
+      <div className="fixed top-40 md:top-24 right-4 md:right-8 text-[18pt] text-slate-500 opacity-25 dark:opacity-10 font-bold pointer-events-none z-0 select-none whitespace-nowrap">
         網站建立自楊家驊老師
       </div>
-      <div className="fixed bottom-4 right-4 md:right-8 text-[18pt] text-slate-500 opacity-25 font-bold pointer-events-none z-0 select-none whitespace-nowrap">
+      <div className="fixed bottom-4 right-4 md:right-8 text-[18pt] text-slate-500 opacity-25 dark:opacity-10 font-bold pointer-events-none z-0 select-none whitespace-nowrap">
         網站建立自楊家驊老師
       </div>
 
@@ -329,37 +350,38 @@ export default function App() {
         
         <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 animate-in fade-in slide-in-from-top duration-700">
           <div>
-            <h1 className="text-5xl font-black flex items-center justify-center md:justify-start gap-3 drop-shadow-sm">
-              <Box className="text-[#007AFF]" size={48} />
+            <h1 className="text-5xl font-black flex items-center justify-center md:justify-start gap-3 drop-shadow-sm text-slate-800 dark:text-slate-100">
+              <Box className="text-[#007AFF] dark:text-[#4DA8DA]" size={48} />
               特製抽籤系統
             </h1>
           </div>
           
-          <div className="flex flex-wrap justify-center gap-4 items-center">
+          <div className="flex flex-wrap justify-center gap-4 items-center relative z-20">
             
-            <div className="bg-white/50 backdrop-blur-xl p-1.5 rounded-[1.5rem] shadow-lg border border-white/60 flex gap-1 items-center">
+            <div className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl p-1.5 rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 flex gap-1 items-center">
               <button 
                 onClick={() => setAppMode('box')} 
-                className={`px-4 py-2 rounded-xl text-sm font-black transition-all ${appMode === 'box' ? 'bg-[#007AFF] text-white shadow-md' : 'text-slate-500 hover:bg-white/60'}`}
+                className={`px-4 py-2 rounded-xl text-sm font-black transition-all ${appMode === 'box' ? 'bg-[#007AFF] text-white shadow-md' : 'text-slate-500 dark:text-slate-400 hover:bg-white/60 dark:hover:bg-slate-700/60'}`}
               >
                 籤筒模式
               </button>
               <button 
                 onClick={() => setAppMode('roulette')} 
-                className={`px-4 py-2 rounded-xl text-sm font-black transition-all ${appMode === 'roulette' ? 'bg-[#007AFF] text-white shadow-md' : 'text-slate-500 hover:bg-white/60'}`}
+                className={`px-4 py-2 rounded-xl text-sm font-black transition-all ${appMode === 'roulette' ? 'bg-[#007AFF] text-white shadow-md' : 'text-slate-500 dark:text-slate-400 hover:bg-white/60 dark:hover:bg-slate-700/60'}`}
               >
                 轉盤模式
               </button>
             </div>
 
             {appMode === 'box' && (
-              <div className="bg-white/50 backdrop-blur-xl p-1.5 rounded-[1.5rem] shadow-lg border border-white/60 flex flex-wrap gap-1 items-center">
+              <div className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl p-1.5 rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 flex gap-1 items-center">
                 <span className="flex items-center px-4 text-sm font-bold text-slate-500 border-r border-slate-300/30 mr-1">
                   樣式
                 </span>
                 {[
-                  { id: 'pingpong', label: '乒乓球' },
-                  { id: 'glass', label: '玻璃球' },
+                  { id: 'classic', label: '經典木籤' },
+                  { id: 'star', label: '幸運星' },
+                  { id: 'ball', label: '扭蛋球' },
                   { id: 'poem', label: '寺廟詩籤' },
                   { id: 'paper', label: '摺紙籤' },
                   { id: 'stone', label: '繽紛石頭' }
@@ -367,7 +389,7 @@ export default function App() {
                   <button
                     key={style.id}
                     onClick={() => setDrawStyle(style.id)}
-                    className={`px-4 py-2 rounded-xl text-sm font-black transition-all ${drawStyle === style.id ? 'bg-white shadow-sm text-[#007AFF]' : 'text-slate-500 hover:bg-white/40'}`}
+                    className={`px-4 py-2 rounded-xl text-sm font-black transition-all ${drawStyle === style.id ? 'bg-white dark:bg-slate-700 shadow-sm text-[#007AFF] dark:text-[#4DA8DA]' : 'text-slate-500 dark:text-slate-400 hover:bg-white/40 dark:hover:bg-slate-700/40'}`}
                   >
                     {style.label}
                   </button>
@@ -389,8 +411,12 @@ export default function App() {
                 </span>
               </button>
               
-              <button onClick={() => setIsMuted(!isMuted)} className="p-4 bg-white/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 text-slate-700 hover:bg-white/80 transition-colors">
-                {isMuted ? <VolumeX size={24} className="text-red-500" /> : <Volume2 size={24} className="text-[#007AFF]" />}
+              <button onClick={toggleFullscreen} className="p-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 hover:bg-white/80 dark:hover:bg-slate-700/80 transition-colors" title="全螢幕">
+                {isFullscreen ? <Minimize size={24} /> : <Maximize size={24} />}
+              </button>
+              
+              <button onClick={() => setIsMuted(!isMuted)} className="p-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 hover:bg-white/80 dark:hover:bg-slate-700/80 transition-colors">
+                {isMuted ? <VolumeX size={24} className="text-red-500" /> : <Volume2 size={24} className="text-[#007AFF] dark:text-[#4DA8DA]" />}
               </button>
             </div>
           </div>
@@ -398,12 +424,11 @@ export default function App() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
           
-          <div className="lg:col-span-7 bg-white/40 backdrop-blur-[40px] rounded-[4rem] p-4 md:p-8 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.08)] border border-white/70 flex flex-col items-center justify-center min-h-[60vh] relative overflow-hidden">
+          <div className="lg:col-span-7 bg-white/40 dark:bg-slate-900/40 backdrop-blur-[40px] rounded-[4rem] p-4 md:p-8 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.08)] dark:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] border border-white/70 dark:border-slate-700/50 flex flex-col items-center justify-center min-h-[60vh] relative overflow-hidden">
             
             {appMode === 'box' ? (
               <Bucket 
                 items={bucketItems}
-                bucketLayouts={bucketLayouts}
                 drawState={drawState}
                 isGrabbed={isGrabbed}
                 targetIndex={targetIndex}
@@ -433,16 +458,16 @@ export default function App() {
             </button>
             
             {cooldownList.length > 0 && gameMode !== 'classic' && (
-              <div className="mt-8 w-full bg-white/30 backdrop-blur-md border border-white/60 rounded-[2.5rem] p-5 flex flex-col items-center justify-center animate-in zoom-in-95">
-                <span className="flex items-center gap-2 text-emerald-700 font-bold text-sm mb-2">已回答空間 (豁免中)</span>
+              <div className="mt-8 w-full bg-white/30 dark:bg-slate-800/30 backdrop-blur-md border border-white/60 dark:border-slate-700/60 rounded-[2.5rem] p-5 flex flex-col items-center justify-center animate-in zoom-in-95">
+                <span className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400 font-bold text-sm mb-2">已回答空間 (豁免中)</span>
                 <div className="flex flex-wrap justify-center gap-2">
-                  {cooldownList.map((item, idx) => ( <span key={idx} className="px-4 py-1.5 bg-white shadow-sm rounded-full text-emerald-800 font-black text-lg">{item}</span> ))}
+                  {cooldownList.map((item, idx) => ( <span key={idx} className="px-4 py-1.5 bg-white dark:bg-slate-700 shadow-sm rounded-full text-emerald-800 dark:text-emerald-300 font-black text-lg">{item}</span> ))}
                 </div>
               </div>
             )}
           </div>
 
-          <div className="lg:col-span-5 bg-white/40 backdrop-blur-[40px] rounded-[4rem] p-6 md:p-10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.08)] border border-white/70 flex flex-col h-full">
+          <div className="lg:col-span-5 h-full relative z-20">
             <div className="flex bg-slate-500/10 backdrop-blur-2xl p-1.5 rounded-[2rem] mb-8 border border-white/20">
               {[ {id:'classic', label:'經典', icon:<Layout size={18}/>}, {id:'quiz', label:'答題', icon:<Brain size={18}/>}, {id:'vip', label:'VIP', icon:<UserCheck size={18}/>} ].map(m => (
                 <button key={m.id} onClick={() => handleModeChange(m.id)} className={`flex-1 py-3.5 rounded-[1.6rem] font-black text-base transition-all flex items-center justify-center gap-2 ${gameMode === m.id ? 'bg-white shadow-xl text-[#007AFF] scale-105' : 'text-slate-500 hover:text-slate-800'}`}>
@@ -475,6 +500,7 @@ export default function App() {
               generateDefaultItems={generateDefaultItems}
               exportData={exportData}
               importData={importData}
+              historyLog={historyLog}
             />
           </div>
         </div>
