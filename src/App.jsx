@@ -223,22 +223,17 @@ export default function App() {
       setTimeout(() => {
         setDrawState('reaching');
         playHardShakeSound();
-        // Map to bucketItems index for visual animation
         const bucketIdx = bucketItems.indexOf(selected);
         setTargetIndex(bucketIdx !== -1 ? bucketIdx : 0);
         setTempWinner(selected);
-        
-        setTimeout(() => setIsGrabbed(true), 500);
-
-        setTimeout(() => {
-           setIsRollingOut(true);
-        }, 800);
+        setIsRollingOut(true);
 
         setTimeout(() => {
           setWinner(selected);
           setShowWinnerModal(true);
           setDrawState('idle'); 
           setTempWinner(null);
+          setIsRollingOut(false);
           confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
           
           if (gameMode === 'vip' && selected === 'VIP號') {
@@ -246,8 +241,8 @@ export default function App() {
           } else {
             playPopSound();
           }
-        }, 1800);
-      }, 1500);
+        }, 1400);
+      }, 1100);
     }
   };
 

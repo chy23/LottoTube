@@ -141,16 +141,28 @@ export default function Bucket({
   }, [drawState]);
 
   return (
-    <div className="relative w-[90vw] md:w-[70vw] lg:w-[40vw] max-w-[500px] aspect-[4/5] md:aspect-[3/4] mt-10 flex flex-col items-center justify-end">
+    <div className="relative w-[90vw] md:w-[70vw] lg:w-[40vw] max-w-[480px] aspect-[4/5] md:aspect-[3/4] mt-6 flex flex-col items-center justify-end">
       
       {/* Container visual layer */}
       <div 
         ref={sceneRef}
-        className={`w-full h-full relative origin-bottom transition-transform duration-700 ${drawState === 'reaching' ? 'rotate-[30deg]' : ''} ${drawState === 'shaking' ? 'animate-bucket-shake-hard' : ''}`}
+        className={`w-full h-full relative origin-bottom transition-transform duration-700 ${
+          drawState === 'shaking' ? 'animate-bucket-shake-hard' : ''
+        }`}
       >
-        <div className="absolute left-[40px] right-[40px] inset-y-0 bg-slate-400/20 rounded-b-[4rem] rounded-t-2xl border border-white/40 transform scale-x-95 translate-y-4 z-0"></div>
+        {/* Soft Ambient Floor Shadow */}
+        <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-[75%] h-8 bg-black/20 dark:bg-black/60 blur-xl rounded-full pointer-events-none z-0"></div>
+
+        {/* Outer Cylinder Glass Tube - Back & Body (Strictly clipped reflections) */}
+        <div className="absolute left-[30px] right-[30px] top-4 bottom-0 rounded-b-[4.5rem] rounded-t-[2rem] bg-gradient-to-b from-white/30 via-white/10 to-white/5 dark:from-slate-700/40 dark:via-slate-800/30 dark:to-slate-900/40 border-2 border-white/60 dark:border-slate-500/40 shadow-[0_20px_50px_rgba(0,0,0,0.12),inset_0_0_30px_rgba(255,255,255,0.25)] backdrop-blur-md overflow-hidden z-0">
+          {/* Internal vertical reflection highlights - safely clipped inside container */}
+          <div className="absolute left-0 top-0 w-8 h-full bg-gradient-to-r from-white/40 to-transparent opacity-70"></div>
+          <div className="absolute right-0 top-0 w-8 h-full bg-gradient-to-l from-white/30 to-transparent opacity-60"></div>
+          <div className="absolute left-6 top-0 w-10 h-full bg-white/10 skew-x-[-10deg] transform -translate-x-1"></div>
+        </div>
         
-        <div className="absolute left-[45px] right-[45px] bottom-6 top-6 rounded-b-[3.5rem] rounded-t-xl z-10 overflow-hidden">
+        {/* Physics Items Container (Inside the tube) */}
+        <div className="absolute left-[35px] right-[35px] top-7 bottom-4 rounded-b-[4rem] rounded-t-lg z-10 overflow-hidden">
            {items.slice(0, 80).map((item, idx) => {
              const isTarget = idx === targetBucketIndex;
              if (isTarget && isRollingOut) return null;
@@ -170,22 +182,23 @@ export default function Bucket({
            })}
         </div>
 
-        {/* Front Glass layer */}
-        <div className={`absolute left-[40px] right-[40px] inset-y-0 bg-gradient-to-b from-white/30 to-white/5 backdrop-blur-[2px] border-4 border-t-0 border-white/60 rounded-b-[4rem] rounded-t-none shadow-[inset_0_-20px_40px_rgba(255,255,255,0.4),0_20px_40px_rgba(0,0,0,0.05)] z-[100] pointer-events-none`}>
-          <div className="w-1/3 h-full bg-gradient-to-r from-white/60 to-transparent skew-x-12 transform -translate-x-4 opacity-50"></div>
+        {/* Front Glass Cylinder Gloss & Curvature Layer */}
+        <div className="absolute left-[30px] right-[30px] top-4 bottom-0 rounded-b-[4.5rem] rounded-t-[2rem] bg-gradient-to-tr from-transparent via-white/10 to-white/25 border border-white/40 dark:border-slate-600/30 shadow-[inset_0_-15px_30px_rgba(0,0,0,0.15)] pointer-events-none z-[100] overflow-hidden">
+          <div className="absolute -top-12 -left-12 w-48 h-48 bg-white/15 rounded-full blur-2xl"></div>
         </div>
 
-        {/* Top Rim of Bucket */}
-        <div className={`absolute left-[40px] right-[40px] top-0 h-12 bg-[#d7ccc8]/90 backdrop-blur-md rounded-[1.1rem] border-b-4 border-[#8d6e63] shadow-md flex items-center justify-center z-[110]`}>
-          <div className="w-[90%] h-4 bg-black/10 rounded-full blur-[2px]"></div>
+        {/* Top 3D Elliptical Rim / Mouth of the Bucket */}
+        <div className="absolute left-[26px] right-[26px] top-1.5 h-10 rounded-[50%] bg-gradient-to-b from-[#dfd7d0] to-[#bcaaa4] dark:from-slate-600 dark:to-slate-800 border-2 border-[#d7ccc8] dark:border-slate-500 shadow-md flex items-center justify-center z-[110] pointer-events-none">
+          {/* Inner Mouth Opening */}
+          <div className="w-[88%] h-5 rounded-[50%] bg-gradient-to-b from-black/40 via-black/20 to-transparent border border-black/20 shadow-inner"></div>
         </div>
 
         {/* Dedicated Unclipped Winning Item Roll Out Layer */}
         {isRollingOut && (tempWinner || items[targetBucketIndex]) && (
           <div 
-            className="absolute top-[8%] left-1/2 z-[250] pointer-events-none animate-roll-out-winner"
+            className="absolute top-4 left-1/2 z-[250] pointer-events-none animate-roll-out-winner"
           >
-            <div className="drop-shadow-[0_20px_30px_rgba(0,0,0,0.45)]">
+            <div className="drop-shadow-[0_25px_35px_rgba(0,0,0,0.5)]">
               {renderItemStyle(tempWinner || items[targetBucketIndex], drawStyle, isItemGrayedOut, false)}
             </div>
           </div>
