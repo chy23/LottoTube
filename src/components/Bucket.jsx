@@ -22,8 +22,11 @@ export default function Bucket({
   const wallThickness = 60;
   
   useEffect(() => {
+    // Handle potential Vite CJS/ESM interop issues
+    const M = Matter.default || Matter;
+    
     // Initialize Matter.js Engine
-    const engine = Matter.Engine.create({
+    const engine = M.Engine.create({
       positionIterations: 6,
       velocityIterations: 4,
     });
@@ -31,11 +34,11 @@ export default function Bucket({
     engineRef.current = engine;
 
     // Create boundaries
-    const floor = Matter.Bodies.rectangle(width / 2, height + wallThickness / 2 - 20, width, wallThickness, { isStatic: true, friction: 0.5, restitution: 0.2 });
-    const leftWall = Matter.Bodies.rectangle(-wallThickness / 2 + 30, height / 2, wallThickness, height * 2, { isStatic: true, friction: 0.1 });
-    const rightWall = Matter.Bodies.rectangle(width + wallThickness / 2 - 30, height / 2, wallThickness, height * 2, { isStatic: true, friction: 0.1 });
+    const floor = M.Bodies.rectangle(width / 2, height + wallThickness / 2 - 20, width, wallThickness, { isStatic: true, friction: 0.5, restitution: 0.2 });
+    const leftWall = M.Bodies.rectangle(-wallThickness / 2 + 30, height / 2, wallThickness, height * 2, { isStatic: true, friction: 0.1 });
+    const rightWall = M.Bodies.rectangle(width + wallThickness / 2 - 30, height / 2, wallThickness, height * 2, { isStatic: true, friction: 0.1 });
     
-    Matter.World.add(engine.world, [floor, leftWall, rightWall]);
+    M.World.add(engine.world, [floor, leftWall, rightWall]);
 
     // Create bodies for items
     const bodies = [];
@@ -46,7 +49,7 @@ export default function Bucket({
       const x = width / 2 + (Math.random() - 0.5) * 100;
       const y = -100 - i * 20; // drop from top
       
-      const body = Matter.Bodies.circle(x, y, radius, {
+      const body = M.Bodies.circle(x, y, radius, {
         restitution: 0.6,
         friction: 0.1,
         frictionAir: 0.01,
@@ -55,15 +58,15 @@ export default function Bucket({
       });
       
       bodies.push({ id: i, body });
-      Matter.World.add(engine.world, body);
+      M.World.add(engine.world, body);
     }
     
     // Save bodies to refs for syncing with DOM
     itemsRef.current = bodies;
 
     // Run Engine
-    const runner = Matter.Runner.create();
-    Matter.Runner.run(runner, engine);
+    const runner = M.Runner.create();
+    M.Runner.run(runner, engine);
     runnerRef.current = runner;
 
     // Sync bodies to DOM
@@ -95,22 +98,22 @@ export default function Bucket({
 
     return () => {
       cancelAnimationFrame(animationFrame);
-      Matter.Runner.stop(runner);
-      Matter.Engine.clear(engine);
+      M.Runner.stop(runner);
+      M.Engine.clear(engine);
     };
   }, [items.length]); // Re-init if total items change (simplification)
 
   // Apply forces based on drawState
   useEffect(() => {
     if (!engineRef.current || !itemsRef.current) return;
-    
+    const M = Matter.default || Matter;
     const engine = engineRef.current;
     
     if (drawState === 'shaking') {
       // Apply random forces to all bodies
       itemsRef.current.forEach(({ body }) => {
         const forceMagnitude = 0.04 * body.mass;
-        Matter.Body.applyForce(body, body.position, {
+        M.Body.applyForce(body, body.position, {
           x: (Math.random() - 0.5) * forceMagnitude,
           y: -Math.random() * forceMagnitude * 1.5
         });
@@ -120,7 +123,7 @@ export default function Bucket({
       engine.world.gravity.y = -0.5;
       itemsRef.current.forEach(({ body }) => {
         const forceMagnitude = 0.02 * body.mass;
-        Matter.Body.applyForce(body, body.position, {
+        M.Body.applyForce(body, body.position, {
           x: (Math.random() - 0.5) * forceMagnitude * 2,
           y: 0
         });
