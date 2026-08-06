@@ -85,8 +85,7 @@ export default function Bucket({
             // Note: If an item is the target and rolling out, we apply different animation via classes, but physics still runs.
             const isTarget = i === targetBucketIndex;
             if (isTarget && isRollingOut) {
-              domElement.style.display = 'none';
-              return;
+              return; // Let CSS handle the roll out, stop syncing with physics
             }
             
             domElement.style.left = `${leftPct}%`;
@@ -154,7 +153,6 @@ export default function Bucket({
         <div className="absolute left-[45px] right-[45px] bottom-6 top-6 rounded-b-[3.5rem] rounded-t-xl z-10 overflow-hidden">
            {items.slice(0, 80).map((item, idx) => {
              const isTarget = idx === targetBucketIndex;
-             if (isTarget && isRollingOut) return null; // Let CSS handle the roll out
 
              return (
                <div 
