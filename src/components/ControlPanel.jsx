@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { 
   Edit3, ListOrdered, RotateCcw, Trash2, Download, Upload, 
   Sparkles, Settings2, RefreshCcw
