@@ -43,19 +43,37 @@ export default function Roulette({
               {items.map((item, idx) => {
                  const sliceAngle = 360 / items.length;
                  const rotation = idx * sliceAngle + sliceAngle / 2 - 90;
+                 const isVip = item === 'VIP號' || item.startsWith('VIP');
+                 const isLong = item.length >= 3;
+                 const grayed = isItemGrayedOut && isItemGrayedOut(item);
                  
+                 // Approximate chord length at radius
+                 const chordWidth = items.length > 26 ? 32 : items.length > 18 ? 44 : items.length > 12 ? 58 : 80;
+
                  return (
                    <div 
                      key={idx} 
-                     className="absolute top-1/2 left-1/2 w-[47%] h-0 origin-top-left"
+                     className="absolute top-1/2 left-1/2 w-[46%] h-0 origin-top-left pointer-events-none"
                      style={{ transform: `rotate(${rotation}deg)` }}
                    >
                       <div 
-                       className="absolute right-0 top-0 flex items-center justify-end w-full pr-2 sm:pr-4"
-                       style={{ transform: 'translateY(-50%)' }}
+                        className="absolute right-1 sm:right-2 top-0 flex items-center justify-center"
+                        style={{ 
+                          transform: 'translateY(-50%) rotate(90deg)',
+                          width: `${chordWidth}px`,
+                        }}
                       >
                         <span 
-                          className={`block w-[80%] truncate text-right font-black text-xs sm:text-sm md:text-base ${isItemGrayedOut && isItemGrayedOut(item) ? 'text-slate-400 line-through' : 'text-slate-800'}`}
+                          className={`block text-center font-black truncate leading-none select-none ${
+                            grayed ? 'text-slate-400 line-through opacity-50' : isVip ? 'text-amber-800 dark:text-amber-300' : 'text-slate-800 dark:text-slate-900'
+                          } ${
+                            items.length > 24 
+                              ? (isLong ? 'text-[8.5px] tracking-tighter' : 'text-xs md:text-sm')
+                              : items.length > 16
+                              ? (isLong ? 'text-[10px] tracking-tight' : 'text-sm md:text-base')
+                              : (isLong ? 'text-xs md:text-sm' : 'text-base md:text-lg')
+                          }`}
+                          style={{ maxWidth: `${chordWidth - 2}px` }}
                           title={item}
                         >
                           {item}

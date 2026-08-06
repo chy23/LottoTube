@@ -156,6 +156,24 @@ export const renderItemStyle = (text, drawStyle, isItemGrayedOut, isModal = fals
         </div>
       );
 
-    default: return null;
+    default:
+      const fallbackSize = isModal ? "w-24 h-80 text-5xl" : "w-6 h-28 text-sm";
+      return (
+        <div 
+          className={`${baseClass} ${fallbackSize} ${grayClass} relative overflow-hidden`}
+          style={{ 
+            color: '#451a03', 
+            background: 'linear-gradient(to right, #d4a373 0%, #faedcd 20%, #e9edc9 50%, #faedcd 80%, #d4a373 100%)',
+            boxShadow: 'inset 2px 0 5px rgba(255,255,255,0.5), inset -2px 0 5px rgba(0,0,0,0.4), 0 5px 10px rgba(0,0,0,0.3)',
+            borderRadius: isModal ? '20px 20px 5px 5px' : '5px 5px 2px 2px'
+          }}
+        >
+          <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.05 0.5\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")' }}></div>
+          <span className="relative z-10 font-bold font-serif drop-shadow-[0_1px_1px_rgba(255,255,255,0.4)]" style={{ writingMode: 'vertical-rl', textOrientation: 'upright', letterSpacing: isModal ? '8px' : '2px' }}>
+            {text}
+          </span>
+          <div className={`absolute top-0 w-full ${isModal ? 'h-10' : 'h-3'} bg-red-700/80 shadow-sm`}></div>
+        </div>
+      );
   }
 };

@@ -68,6 +68,21 @@ export default function App() {
     localStorage.setItem('drawLots_historyLog', JSON.stringify(historyLog));
   }, [historyLog]);
 
+  // Auto detect and sync system dark mode
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const updateTheme = (e) => {
+      if (e.matches) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    };
+    updateTheme(mediaQuery);
+    mediaQuery.addEventListener('change', updateTheme);
+    return () => mediaQuery.removeEventListener('change', updateTheme);
+  }, []);
+
   useEffect(() => {
     const onFullscreenChange = () => {
       setIsFullscreen(!!document.fullscreenElement);
@@ -432,8 +447,9 @@ export default function App() {
                 drawState={drawState}
                 isGrabbed={isGrabbed}
                 targetIndex={targetIndex}
-                targetBucketIndex={bucketItems.findIndex((_, i) => items.map((item, idx) => !isItemGrayedOut(item) ? idx : -1).filter(idx => idx !== -1)[i] === targetIndex)}
+                targetBucketIndex={targetIndex}
                 isRollingOut={isRollingOut}
+                tempWinner={tempWinner}
                 drawStyle={drawStyle}
                 isItemGrayedOut={isItemGrayedOut}
               />
