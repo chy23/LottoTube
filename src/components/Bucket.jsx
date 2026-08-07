@@ -37,10 +37,11 @@ export default function Bucket({
 
     // Create boundaries
     const floor = M.Bodies.rectangle(width / 2, height + wallThickness / 2 - 20, width, wallThickness, { isStatic: true, friction: 0.5, restitution: 0.2 });
-    const leftWall = M.Bodies.rectangle(-wallThickness / 2 + 30, height / 2, wallThickness, height * 2, { isStatic: true, friction: 0.1 });
-    const rightWall = M.Bodies.rectangle(width + wallThickness / 2 - 30, height / 2, wallThickness, height * 2, { isStatic: true, friction: 0.1 });
+    const leftWall = M.Bodies.rectangle(-wallThickness / 2 + 30, 0, wallThickness, height * 4, { isStatic: true, friction: 0.1 });
+    const rightWall = M.Bodies.rectangle(width + wallThickness / 2 - 30, 0, wallThickness, height * 4, { isStatic: true, friction: 0.1 });
+    const ceiling = M.Bodies.rectangle(width / 2, -height, width * 2, wallThickness, { isStatic: true });
     
-    M.World.add(engine.world, [floor, leftWall, rightWall]);
+    M.World.add(engine.world, [floor, leftWall, rightWall, ceiling]);
 
     // Create bodies for items
     const bodies = [];
@@ -119,7 +120,7 @@ export default function Bucket({
         const forceMagnitude = 0.12 * body.mass; // 3x stronger force
         M.Body.applyForce(body, body.position, {
           x: (Math.random() - 0.5) * forceMagnitude * 2, // Shake side to side
-          y: -Math.random() * forceMagnitude * 3 // Toss them UP heavily to mix layers
+          y: -Math.random() * forceMagnitude * 1.8 // Toss them UP heavily to mix layers
         });
       });
     } else if (drawState === 'reaching') {
