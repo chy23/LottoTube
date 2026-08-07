@@ -7,7 +7,7 @@ export const getHash = (str) => {
   return Math.abs(hash);
 };
 
-export const renderItemStyle = (text, drawStyle, isItemGrayedOut, isModal = false) => {
+export const renderItemStyle = (text, drawStyle, isItemGrayedOut, isModal = false, inBucket = false) => {
   const baseClass = "flex items-center justify-center font-black ease-out";
   const sizeClass = isModal ? "w-64 h-64 text-7xl" : "w-16 h-16 text-lg"; 
   
@@ -17,6 +17,7 @@ export const renderItemStyle = (text, drawStyle, isItemGrayedOut, isModal = fals
   const darkColor = `hsl(${hue}, 90%, 40%)`;
 
   const grayClass = isItemGrayedOut(text) ? "grayscale opacity-40 mix-blend-luminosity" : "";
+  const displayText = inBucket ? "" : text;
 
   switch (drawStyle) {
     case 'ball':
@@ -31,7 +32,8 @@ export const renderItemStyle = (text, drawStyle, isItemGrayedOut, isModal = fals
           }}
         >
           <div className="absolute top-[8%] left-[15%] w-[50%] h-[35%] bg-gradient-to-b from-white/70 to-transparent rounded-[100%] rotate-[-20deg] blur-[1px]"></div>
-          <span className="relative z-10 drop-shadow-[0_2px_3px_rgba(0,0,0,0.6)] font-black">{text}</span>
+          {displayText && <span className="relative z-10 drop-shadow-[0_2px_3px_rgba(0,0,0,0.6)] font-black">{displayText}</span>}
+          {inBucket && <div className="w-3 h-3 rounded-full bg-white/40 shadow-inner"></div>}
         </div>
       );
 
@@ -47,7 +49,8 @@ export const renderItemStyle = (text, drawStyle, isItemGrayedOut, isModal = fals
         >
           <div className="absolute top-[5%] left-[10%] w-[70%] h-[40%] bg-gradient-to-b from-white/90 to-white/10 rounded-[100%] rotate-[-15deg]"></div>
           <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${isModal ? 'w-40 h-40 border-4' : 'w-10 h-10 border-[1.5px]'} bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center border-white shadow-[inset_0_2px_10px_rgba(0,0,0,0.1),0_5px_15px_rgba(0,0,0,0.2)]`}>
-            <span className="relative z-10 text-slate-800 drop-shadow-sm font-black">{text}</span>
+            {displayText && <span className="relative z-10 text-slate-800 drop-shadow-sm font-black">{displayText}</span>}
+            {inBucket && <div className="w-2.5 h-2.5 rounded-full bg-slate-300"></div>}
           </div>
         </div>
       );
@@ -65,9 +68,11 @@ export const renderItemStyle = (text, drawStyle, isItemGrayedOut, isModal = fals
           }}
         >
           <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.05 0.5\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")' }}></div>
-          <span className="relative z-10 font-bold font-serif drop-shadow-[0_1px_1px_rgba(255,255,255,0.4)]" style={{ writingMode: 'vertical-rl', textOrientation: 'upright', letterSpacing: isModal ? '8px' : '2px' }}>
-            {text}
-          </span>
+          {displayText && (
+            <span className="relative z-10 font-bold font-serif drop-shadow-[0_1px_1px_rgba(255,255,255,0.4)]" style={{ writingMode: 'vertical-rl', textOrientation: 'upright', letterSpacing: isModal ? '8px' : '2px' }}>
+              {displayText}
+            </span>
+          )}
           <div className={`absolute top-0 w-full ${isModal ? 'h-10' : 'h-3'} bg-red-700/80 shadow-sm`}></div>
         </div>
       );
@@ -85,7 +90,11 @@ export const renderItemStyle = (text, drawStyle, isItemGrayedOut, isModal = fals
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-white/50 mix-blend-overlay"></div>
-          <span className="relative z-10 font-black drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] mt-2">{text}</span>
+          {displayText ? (
+            <span className="relative z-10 font-black drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] mt-2">{displayText}</span>
+          ) : inBucket ? (
+            <div className="w-2.5 h-2.5 rounded-full bg-white/50 mt-1"></div>
+          ) : null}
         </div>
       );
 
@@ -107,9 +116,11 @@ export const renderItemStyle = (text, drawStyle, isItemGrayedOut, isModal = fals
           <div className={`absolute border-[#991b1b] ${isModal ? 'inset-4 border-y-8 border-x-4' : 'inset-1.5 border-y-2 border-x-[1px]'}`}></div>
           <div className={`absolute border-[#991b1b] ${isModal ? 'inset-6 border-y-4 border-x-2' : 'inset-2.5 border-y-[1px] border-x-[0.5px]'}`}></div>
           
-          <span className="relative z-10 font-serif drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]" style={{ writingMode: 'vertical-rl', textOrientation: 'upright', letterSpacing: isModal ? '10px' : '2px', ...(isNumeric ? { textCombineUpright: 'all', WebkitTextCombine: 'horizontal' } : {}) }}>
-            {text}
-          </span>
+          {displayText && (
+            <span className="relative z-10 font-serif drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]" style={{ writingMode: 'vertical-rl', textOrientation: 'upright', letterSpacing: isModal ? '10px' : '2px', ...(isNumeric ? { textCombineUpright: 'all', WebkitTextCombine: 'horizontal' } : {}) }}>
+              {displayText}
+            </span>
+          )}
           
           <div className={`absolute top-0 w-full ${isModal ? 'h-6' : 'h-2'} bg-gradient-to-b from-red-800 to-red-600 shadow-sm`}></div>
         </div>
@@ -127,7 +138,9 @@ export const renderItemStyle = (text, drawStyle, isItemGrayedOut, isModal = fals
           }}
         >
           <div className="absolute inset-0 opacity-10" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
-          <span className="relative z-10 font-bold font-serif drop-shadow-[0_1px_1px_rgba(255,255,255,1)] transform -rotate-1 skew-x-2 text-slate-800">{text}</span>
+          {displayText && (
+            <span className="relative z-10 font-bold font-serif drop-shadow-[0_1px_1px_rgba(255,255,255,1)] transform -rotate-1 skew-x-2 text-slate-800">{displayText}</span>
+          )}
         </div>
       );
 
@@ -152,7 +165,9 @@ export const renderItemStyle = (text, drawStyle, isItemGrayedOut, isModal = fals
           <div className="absolute w-[60%] h-[40%] bg-gradient-to-b from-white/70 to-transparent rounded-full rotate-[-30deg]" style={{ top: '10%', left: '15%', borderRadius: blobShape }}></div>
           <div className="absolute w-[30%] h-[20%] bg-white/40 blur-[2px] rounded-full" style={{ bottom: '15%', right: '15%', borderRadius: blobShape }}></div>
           
-          <span className="relative z-10 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-black tracking-wider">{text}</span>
+          {displayText && (
+            <span className="relative z-10 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-black tracking-wider">{displayText}</span>
+          )}
         </div>
       );
 
@@ -169,9 +184,11 @@ export const renderItemStyle = (text, drawStyle, isItemGrayedOut, isModal = fals
           }}
         >
           <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.05 0.5\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")' }}></div>
-          <span className="relative z-10 font-bold font-serif drop-shadow-[0_1px_1px_rgba(255,255,255,0.4)]" style={{ writingMode: 'vertical-rl', textOrientation: 'upright', letterSpacing: isModal ? '8px' : '2px' }}>
-            {text}
-          </span>
+          {displayText && (
+            <span className="relative z-10 font-bold font-serif drop-shadow-[0_1px_1px_rgba(255,255,255,0.4)]" style={{ writingMode: 'vertical-rl', textOrientation: 'upright', letterSpacing: isModal ? '8px' : '2px' }}>
+              {displayText}
+            </span>
+          )}
           <div className={`absolute top-0 w-full ${isModal ? 'h-10' : 'h-3'} bg-red-700/80 shadow-sm`}></div>
         </div>
       );

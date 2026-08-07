@@ -299,14 +299,15 @@ export default function App() {
       setConfirmModal({ message: '請輸入 VIP 號碼', type: 'alert', onConfirm: () => setConfirmModal(null) });
       return;
     }
-    if (tempWinner) {
-      setTextList(prev => prev + (prev.trim() ? '\n' : '') + tempWinner);
+    if (target) {
+      setTextList(prev => prev + (prev.trim() ? '\n' : '') + target);
     }
 
     setCooldownList(prev => {
       const next = [...prev];
-      if (!next.includes(winner)) next.push(winner);
-      if (!next.includes(target)) next.push(target);
+      if (tempWinner === 'VIP號') {
+        if (!next.includes('VIP號')) next.push('VIP號');
+      }
       return next;
     });
     setTargetIndex(null);

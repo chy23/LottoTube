@@ -21,7 +21,7 @@ export default function Bucket({
   // Fixed logical size for physics simulation
   const width = 300;
   const height = 500;
-  const wallThickness = 60;
+  const wallThickness = 100;
   
   useEffect(() => {
     // Handle potential Vite CJS/ESM interop issues
@@ -29,17 +29,17 @@ export default function Bucket({
     
     // Initialize Matter.js Engine
     const engine = M.Engine.create({
-      positionIterations: 6,
-      velocityIterations: 4,
+      positionIterations: 8,
+      velocityIterations: 6,
     });
     engine.world.gravity.y = 1.2;
     engineRef.current = engine;
 
-    // Create boundaries
-    const floor = M.Bodies.rectangle(width / 2, height + wallThickness / 2 - 20, width, wallThickness, { isStatic: true, friction: 0.5, restitution: 0.2 });
-    const leftWall = M.Bodies.rectangle(-wallThickness / 2 + 30, 0, wallThickness, height * 4, { isStatic: true, friction: 0.1 });
-    const rightWall = M.Bodies.rectangle(width + wallThickness / 2 - 30, 0, wallThickness, height * 4, { isStatic: true, friction: 0.1 });
-    const ceiling = M.Bodies.rectangle(width / 2, -height, width * 2, wallThickness, { isStatic: true });
+    // Create secure boundaries strictly inside the visible cylinder
+    const floor = M.Bodies.rectangle(width / 2, height + wallThickness / 2 - 20, width * 2, wallThickness, { isStatic: true, friction: 0.6, restitution: 0.2 });
+    const leftWall = M.Bodies.rectangle(-wallThickness / 2 + 35, height / 2, wallThickness, height * 2, { isStatic: true, friction: 0.2 });
+    const rightWall = M.Bodies.rectangle(width + wallThickness / 2 - 35, height / 2, wallThickness, height * 2, { isStatic: true, friction: 0.2 });
+    const ceiling = M.Bodies.rectangle(width / 2, -wallThickness / 2 + 75, width * 2, wallThickness, { isStatic: true, friction: 0.2, restitution: 0.2 });
     
     M.World.add(engine.world, [floor, leftWall, rightWall, ceiling]);
 
@@ -48,16 +48,16 @@ export default function Bucket({
     const maxItems = Math.min(items.length, 80);
     
     for (let i = 0; i < maxItems; i++) {
-      const radius = 30; // approximate radius of item
-      const x = width / 2 + (Math.random() - 0.5) * 100;
-      const y = -100 - i * 20; // drop from top
+      const radius = 26; // approximate radius of item
+      const x = width / 2 + (Math.random() - 0.5) * 80;
+      const y = 90 + (i % 8) * 40; // drop smoothly inside the tube
       
       const body = M.Bodies.circle(x, y, radius, {
-        restitution: 0.6,
-        friction: 0.1,
-        frictionAir: 0.01,
+        restitution: 0.5,
+        friction: 0.15,
+        frictionAir: 0.015,
         density: 0.005,
-        render: { visible: false } // We render via React DOM
+        render: { visible: false } // Render via React DOM
       });
       
       bodies.push({ id: i, body });
@@ -72,7 +72,7 @@ export default function Bucket({
     M.Runner.run(runner, engine);
     runnerRef.current = runner;
 
-    // Sync bodies to DOM
+    // Sync bodies to DOM with boundary clamping
     let animationFrame;
     const updateDOM = () => {
       if (itemsRef.current && sceneRef.current) {
@@ -80,9 +80,12 @@ export default function Bucket({
           const domElement = document.getElementById(`physics-item-${i}`);
           if (domElement) {
             const { position, angle } = itemObj.body;
-            // Map coordinates from generic 400x500 to percentages
-            const leftPct = (position.x / width) * 100;
-            const topPct = (position.y / height) * 100;
+            // Clamp position strictly within cylinder bounds
+            const clampedX = Math.max(35, Math.min(width - 35, position.x));
+            const clampedY = Math.max(75, Math.min(height - 25, position.y));
+            
+            const leftPct = (clampedX / width) * 100;
+            const topPct = (clampedY / height) * 100;
             
             const isTarget = i === targetBucketIndex;
             if (isTarget && isRollingOut) {
@@ -106,37 +109,22 @@ export default function Bucket({
       M.Runner.stop(runner);
       M.Engine.clear(engine);
     };
-  }, [items.length]); // Re-init if total items change (simplification)
+  }, [items.length]); // Re-init if total items change
 
-  // Apply forces based on drawState
+  // Apply shaking & stirring forces strictly within bounds
   useEffect(() => {
     if (!engineRef.current || !itemsRef.current) return;
     const M = Matter.default || Matter;
     const engine = engineRef.current;
     
     if (drawState === 'shaking') {
-      // Apply violent random forces to thoroughly mix the items!
+      // Natural, contained agitation that keeps all items inside
       itemsRef.current.forEach(({ body }) => {
-        const forceMagnitude = 0.12 * body.mass; // 3x stronger force
-        M.Body.applyForce(body, body.position, {
-          x: (Math.random() - 0.5) * forceMagnitude * 2, // Shake side to side
-          y: -Math.random() * forceMagnitude * 1.8 // Toss them UP heavily to mix layers
-        });
+        const forceX = (Math.random() - 0.5) * 0.04 * body.mass;
+        const forceY = -(0.015 + Math.random() * 0.035) * body.mass;
+        M.Body.applyForce(body, body.position, { x: forceX, y: forceY });
       });
-    } else if (drawState === 'reaching') {
-      // Pop out ONLY the target item!
-      engine.world.gravity.y = 1.2;
-      
-      const targetObj = itemsRef.current[targetBucketIndex];
-      if (targetObj) {
-        const { body } = targetObj;
-        M.Body.applyForce(body, body.position, {
-          x: (Math.random() - 0.5) * 0.1,
-          y: -0.6 * body.mass // Blast through the pile heavily!
-        });
-      }
     } else {
-      // Normal gravity
       engine.world.gravity.y = 1.2;
     }
   }, [drawState]);
@@ -154,16 +142,16 @@ export default function Bucket({
         {/* Soft Ambient Floor Shadow */}
         <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[80%] h-10 bg-black/30 dark:bg-black/70 blur-xl rounded-full pointer-events-none z-0"></div>
 
-        {/* Outer Cylinder Glass Tube - Back & Body (Strictly clipped reflections) */}
-        <div className="absolute left-[20px] right-[20px] top-4 bottom-0 rounded-b-[1.5rem] rounded-t-2xl bg-gradient-to-b from-white/30 via-white/10 to-white/5 dark:from-slate-700/40 dark:via-slate-800/30 dark:to-slate-900/40 border-2 border-white/60 dark:border-slate-500/40 shadow-[0_20px_50px_rgba(0,0,0,0.12),inset_0_0_30px_rgba(255,255,255,0.25)] backdrop-blur-md overflow-hidden z-0">
-          {/* Internal vertical reflection highlights - safely clipped inside container */}
-          <div className="absolute left-0 top-0 w-8 h-full bg-gradient-to-r from-white/40 to-transparent opacity-70"></div>
-          <div className="absolute right-0 top-0 w-8 h-full bg-gradient-to-l from-white/30 to-transparent opacity-60"></div>
-          <div className="absolute left-6 top-0 w-12 h-full bg-white/10 skew-x-[-10deg] transform -translate-x-1"></div>
+        {/* Outer Cylinder Tube - Frosted & Concealed Body */}
+        <div className="absolute left-[20px] right-[20px] top-4 bottom-0 rounded-b-[1.5rem] rounded-t-2xl bg-gradient-to-b from-white/80 via-white/50 to-white/70 dark:from-slate-700/85 dark:via-slate-800/80 dark:to-slate-900/90 border-2 border-white/80 dark:border-slate-500/50 shadow-[0_20px_50px_rgba(0,0,0,0.15),inset_0_0_30px_rgba(255,255,255,0.4)] backdrop-blur-2xl overflow-hidden z-0">
+          {/* Internal vertical highlights */}
+          <div className="absolute left-0 top-0 w-8 h-full bg-gradient-to-r from-white/50 to-transparent opacity-80"></div>
+          <div className="absolute right-0 top-0 w-8 h-full bg-gradient-to-l from-white/40 to-transparent opacity-70"></div>
+          <div className="absolute left-6 top-0 w-12 h-full bg-white/20 skew-x-[-10deg] transform -translate-x-1"></div>
         </div>
         
-        {/* Physics Items Container (Inside the tube) */}
-        <div className="absolute left-[25px] right-[25px] top-8 bottom-3 rounded-b-3xl rounded-t-lg z-10 overflow-hidden">
+        {/* Physics Items Container (Inside the tube, strictly contained) */}
+        <div className="absolute left-[22px] right-[22px] top-6 bottom-2 rounded-b-[1.5rem] rounded-t-lg z-10 overflow-hidden pointer-events-none">
            {items.slice(0, 80).map((item, idx) => {
              const isTarget = idx === targetBucketIndex;
              if (isTarget && isRollingOut) return null;
@@ -174,18 +162,20 @@ export default function Bucket({
                  id={`physics-item-${idx}`}
                  className="absolute transition-none z-10"
                  style={{ 
-                   left: '50%', top: '-20%', // Initial off-screen position
+                   left: '50%', top: '50%', // Initial center position
                  }}
                >
-                 {renderItemStyle(item, drawStyle, isItemGrayedOut, false)}
+                 {renderItemStyle(item, drawStyle, isItemGrayedOut, false, true)}
                </div>
              );
            })}
         </div>
 
-        {/* Front Glass Cylinder Gloss & Curvature Layer */}
-        <div className="absolute left-[20px] right-[20px] top-4 bottom-0 rounded-b-[1.5rem] rounded-t-2xl bg-gradient-to-tr from-transparent via-white/5 to-white/10 border border-white/30 dark:border-slate-600/30 shadow-[inset_0_-15px_30px_rgba(0,0,0,0.15)] pointer-events-none z-[100] overflow-hidden">
-          <div className="absolute -top-12 -left-12 w-48 h-48 bg-white/15 rounded-full blur-2xl"></div>
+        {/* Front Frosted Glass Cylinder Layer - Masks & blurs numbers */}
+        <div className="absolute left-[20px] right-[20px] top-4 bottom-0 rounded-b-[1.5rem] rounded-t-2xl bg-gradient-to-tr from-white/40 via-white/20 to-white/35 dark:from-white/10 dark:via-transparent dark:to-white/15 border border-white/50 dark:border-slate-600/40 backdrop-blur-xl shadow-[inset_0_-15px_30px_rgba(0,0,0,0.12),inset_0_0_20px_rgba(255,255,255,0.5)] pointer-events-none z-[100] overflow-hidden">
+          <div className="absolute -top-12 -left-12 w-48 h-48 bg-white/25 rounded-full blur-2xl"></div>
+          {/* Subtle center metallic badge / logo watermark line */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-1 bg-white/30 rounded-full blur-[0.5px]"></div>
         </div>
 
         {/* Base Ring / Bottom Rim */}
@@ -197,13 +187,13 @@ export default function Bucket({
           <div className="w-[88%] h-5 rounded-[50%] bg-gradient-to-b from-black/40 via-black/20 to-transparent border border-black/20 shadow-inner"></div>
         </div>
 
-        {/* Dedicated Unclipped Winning Item Roll Out Layer */}
+        {/* Dedicated Unclipped Winning Item Roll Out Layer (Reveals Number) */}
         {isRollingOut && (tempWinner || items[targetBucketIndex]) && (
           <div 
-            className="absolute top-4 left-1/2 z-[90] pointer-events-none animate-roll-out-winner"
+            className="absolute top-4 left-1/2 z-[120] pointer-events-none animate-roll-out-winner"
           >
             <div className="drop-shadow-[0_25px_35px_rgba(0,0,0,0.5)]">
-              {renderItemStyle(tempWinner || items[targetBucketIndex], drawStyle, isItemGrayedOut, false)}
+              {renderItemStyle(tempWinner || items[targetBucketIndex], drawStyle, isItemGrayedOut, false, false)}
             </div>
           </div>
         )}

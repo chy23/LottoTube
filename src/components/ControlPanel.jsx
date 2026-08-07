@@ -25,7 +25,7 @@ export default function ControlPanel({
     const header = "時間,名單\n";
     const csvContent = historyLog.map(log => {
       const timeStr = new Date(log.time).toLocaleTimeString('zh-TW', { hour12: false });
-      return `${timeStr},${log.item}`;
+      return `${timeStr},${log.name || log.item || ''}`;
     }).join('\n');
     
     const blob = new Blob(["\uFEFF" + header + csvContent], { type: 'text/csv;charset=utf-8;' });
