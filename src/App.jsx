@@ -172,6 +172,8 @@ export default function App() {
   // Items for bucket: exclude grayed-out ones (they go to exemption area)
   const bucketItems = useMemo(() => items.filter(item => !isItemGrayedOut(item)), [items, cooldownList, vipNumber, gameMode]);
 
+  const drawLotRef = useRef(null);
+  
   useEffect(() => {
     const handleGlobalKeyDown = (e) => {
       if (e.code === 'Space' || e.key === ' ') {
@@ -179,12 +181,12 @@ export default function App() {
         if (tagName === 'INPUT' || tagName === 'TEXTAREA' || tagName === 'BUTTON') return;
         if (showSettings || showVipPrompt || confirmModal || showWinnerModal) return;
         e.preventDefault();
-        drawLot();
+        if (drawLotRef.current) drawLotRef.current();
       }
     };
     window.addEventListener('keydown', handleGlobalKeyDown);
     return () => window.removeEventListener('keydown', handleGlobalKeyDown);
-  });
+  }, [showSettings, showVipPrompt, confirmModal, showWinnerModal]);
 
   const drawLot = () => {
     if (drawState !== 'idle' || items.length === 0) return;
@@ -359,8 +361,10 @@ export default function App() {
     reader.readAsText(file); e.target.value = null;
   };
 
+  drawLotRef.current = drawLot;
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#E3F2FD] via-[#F3E5F5] to-[#E8F5E9] dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 text-slate-900 dark:text-slate-100 p-4 md:p-8 font-sans overflow-x-hidden selection:bg-blue-200 transition-colors duration-500">
+    <div className={`min-h-[100dvh] transition-colors duration-500 overflow-x-hidden flex flex-col font-sans relative bg-gradient-to-br from-[#E3F2FD] via-[#F3E5F5] to-[#E8F5E9] dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 text-slate-900 dark:text-slate-100 p-4 md:p-8 selection:bg-blue-200`}>
       
       {/* Watermarks */}
       <div className="fixed top-40 md:top-24 right-4 md:right-8 text-[18pt] text-slate-500 opacity-25 dark:opacity-10 font-bold pointer-events-none z-0 select-none whitespace-nowrap">

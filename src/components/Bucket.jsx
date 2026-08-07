@@ -114,12 +114,12 @@ export default function Bucket({
     const engine = engineRef.current;
     
     if (drawState === 'shaking') {
-      // Apply random forces to all bodies
+      // Apply violent random forces to thoroughly mix the items!
       itemsRef.current.forEach(({ body }) => {
-        const forceMagnitude = 0.04 * body.mass;
+        const forceMagnitude = 0.12 * body.mass; // 3x stronger force
         M.Body.applyForce(body, body.position, {
-          x: (Math.random() - 0.5) * forceMagnitude,
-          y: -Math.random() * forceMagnitude * 1.5
+          x: (Math.random() - 0.5) * forceMagnitude * 2, // Shake side to side
+          y: -Math.random() * forceMagnitude * 3 // Toss them UP heavily to mix layers
         });
       });
     } else if (drawState === 'reaching') {
@@ -130,8 +130,8 @@ export default function Bucket({
       if (targetObj) {
         const { body } = targetObj;
         M.Body.applyForce(body, body.position, {
-          x: (Math.random() - 0.5) * 0.03,
-          y: -0.16 * body.mass
+          x: (Math.random() - 0.5) * 0.1,
+          y: -0.6 * body.mass // Blast through the pile heavily!
         });
       }
     } else {
@@ -183,7 +183,7 @@ export default function Bucket({
         </div>
 
         {/* Front Glass Cylinder Gloss & Curvature Layer */}
-        <div className="absolute left-[20px] right-[20px] top-4 bottom-0 rounded-b-[1.5rem] rounded-t-2xl bg-gradient-to-tr from-transparent via-white/10 to-white/25 border border-white/40 dark:border-slate-600/30 shadow-[inset_0_-15px_30px_rgba(0,0,0,0.15)] pointer-events-none z-[100] overflow-hidden">
+        <div className="absolute left-[20px] right-[20px] top-4 bottom-0 rounded-b-[1.5rem] rounded-t-2xl bg-gradient-to-tr from-transparent via-white/5 to-white/10 border border-white/30 dark:border-slate-600/30 shadow-[inset_0_-15px_30px_rgba(0,0,0,0.15)] pointer-events-none z-[100] overflow-hidden">
           <div className="absolute -top-12 -left-12 w-48 h-48 bg-white/15 rounded-full blur-2xl"></div>
         </div>
 
