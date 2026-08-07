@@ -99,13 +99,40 @@ export default function App() {
     }
   };
 
-  const isItemGrayedOut = (item) => {
-    if (cooldownList.includes(item)) return true;
-    if (gameMode === 'vip' && item === 'VIP號') {
-      const currentVip = vipNumber.trim();
-      if (!currentVip) return true; // 沒輸入VIP號碼前不可抽
-      if (currentVip && cooldownList.includes(currentVip)) return true;
+  const grayedOutIndices = useMemo(() => {
+    const indices = new Set();
+    const cooldownCounts = {};
+    cooldownList.forEach(item => {
+      cooldownCounts[item] = (cooldownCounts[item] || 0) + 1;
+    });
+
+    items.forEach((item, index) => {
+      let isGrayed = false;
+      if (gameMode === 'vip' && item === 'VIP號') {
+        const currentVip = vipNumber.trim();
+        if (!currentVip) isGrayed = true;
+        else if (cooldownCounts[currentVip] > 0) {
+          cooldownCounts[currentVip]--;
+          isGrayed = true;
+        }
+      } else {
+        if (cooldownCounts[item] > 0) {
+          cooldownCounts[item]--;
+          isGrayed = true;
+        }
+      }
+      
+      if (isGrayed) indices.add(index);
+    });
+    
+    return indices;
+  }, [items, cooldownList, vipNumber, gameMode]);
+
+  const isItemGrayedOut = (item, index) => {
+    if (index !== undefined) {
+      return grayedOutIndices.has(index);
     }
+    // Fallback for WinnerModal where index isn't available
     return false;
   };
 
@@ -170,7 +197,7 @@ export default function App() {
   }, [textList, gameMode]);
 
   // Items for bucket: exclude grayed-out ones (they go to exemption area)
-  const bucketItems = useMemo(() => items.filter(item => !isItemGrayedOut(item)), [items, cooldownList, vipNumber, gameMode]);
+  const bucketItems = useMemo(() => items.filter((_, index) => !grayedOutIndices.has(index)), [items, grayedOutIndices]);
 
   const drawLotRef = useRef(null);
   
@@ -362,6 +389,16 @@ export default function App() {
 
   drawLotRef.current = drawLot;
 
+  const targetBucketIndex = useMemo(() => {
+    if (targetIndex === null) return null;
+    let count = 0;
+    for (let i = 0; i < items.length; i++) {
+      if (i === targetIndex) return count;
+      if (!grayedOutIndices.has(i)) count++;
+    }
+    return null;
+  }, [targetIndex, items.length, grayedOutIndices]);
+
   return (
     <div className={`min-h-[100dvh] transition-colors duration-500 overflow-x-hidden flex flex-col font-sans relative bg-gradient-to-br from-[#E3F2FD] via-[#F3E5F5] to-[#E8F5E9] dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 text-slate-900 dark:text-slate-100 p-4 md:p-8 selection:bg-blue-200`}>
       
@@ -459,7 +496,7 @@ export default function App() {
                 drawState={drawState}
                 isGrabbed={isGrabbed}
                 targetIndex={targetIndex}
-                targetBucketIndex={targetIndex}
+                targetBucketIndex={targetBucketIndex}
                 isRollingOut={isRollingOut}
                 tempWinner={tempWinner}
                 drawStyle={drawStyle}
