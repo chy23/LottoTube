@@ -299,9 +299,8 @@ export default function App() {
       setConfirmModal({ message: '請輸入 VIP 號碼', type: 'alert', onConfirm: () => setConfirmModal(null) });
       return;
     }
-    
-    if (target) {
-      setTextList(prev => prev + (prev.trim() ? '\n' : '') + target);
+    if (tempWinner) {
+      setTextList(prev => prev + (prev.trim() ? '\n' : '') + tempWinner);
     }
 
     setCooldownList(prev => {
