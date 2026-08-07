@@ -305,9 +305,8 @@ export default function App() {
 
     setCooldownList(prev => {
       const next = [...prev];
-      if (tempWinner === 'VIP號') {
-        if (!next.includes('VIP號')) next.push('VIP號');
-      }
+      if (winner && !next.includes(winner)) next.push(winner);
+      if (target && !next.includes(target)) next.push(target);
       return next;
     });
     setTargetIndex(null);

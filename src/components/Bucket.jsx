@@ -137,7 +137,7 @@ export default function Bucket({
         ref={sceneRef}
         className={`w-full h-full relative origin-center transition-transform duration-700 ease-in-out ${
           drawState === 'shaking' ? 'animate-bucket-shake-hard' : ''
-        } ${drawState === 'reaching' ? 'rotate-[100deg] scale-90' : ''}`}
+        } ${drawState === 'reaching' ? 'rotate-[80deg] translate-x-[-15px] scale-90' : ''}`}
       >
         {/* Soft Ambient Floor Shadow */}
         <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[80%] h-10 bg-black/30 dark:bg-black/70 blur-xl rounded-full pointer-events-none z-0"></div>
@@ -186,18 +186,18 @@ export default function Bucket({
           {/* Inner Mouth Opening */}
           <div className="w-[88%] h-5 rounded-[50%] bg-gradient-to-b from-black/40 via-black/20 to-transparent border border-black/20 shadow-inner"></div>
         </div>
-
-        {/* Dedicated Unclipped Winning Item Roll Out Layer (Reveals Number) */}
-        {isRollingOut && (tempWinner || items[targetBucketIndex]) && (
-          <div 
-            className="absolute top-4 left-1/2 z-[120] pointer-events-none animate-roll-out-winner"
-          >
-            <div className="drop-shadow-[0_25px_35px_rgba(0,0,0,0.5)]">
-              {renderItemStyle(tempWinner || items[targetBucketIndex], drawStyle, isItemGrayedOut, false, false)}
-            </div>
-          </div>
-        )}
       </div>
+
+      {/* Dedicated Unclipped Winning Item Roll Out Layer (Rolls to bottom right and reveals number) */}
+      {isRollingOut && (tempWinner || items[targetBucketIndex]) && (
+        <div 
+          className="absolute z-[120] pointer-events-none animate-roll-out-to-corner"
+        >
+          <div className="drop-shadow-[0_25px_35px_rgba(0,0,0,0.45)]">
+            {renderItemStyle(tempWinner || items[targetBucketIndex], drawStyle, isItemGrayedOut, false, false, true)}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
