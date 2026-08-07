@@ -174,10 +174,10 @@ export default function App() {
 
   useEffect(() => {
     const handleGlobalKeyDown = (e) => {
-      if (e.code === 'Space') {
-        const tagName = e.target.tagName.toUpperCase();
-        if (tagName === 'INPUT' || tagName === 'TEXTAREA') return;
-        if (showSettings || showVipPrompt || confirmModal) return;
+      if (e.code === 'Space' || e.key === ' ') {
+        const tagName = e.target.tagName?.toUpperCase() || '';
+        if (tagName === 'INPUT' || tagName === 'TEXTAREA' || tagName === 'BUTTON') return;
+        if (showSettings || showVipPrompt || confirmModal || showWinnerModal) return;
         e.preventDefault();
         drawLot();
       }
