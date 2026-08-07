@@ -172,6 +172,20 @@ export default function App() {
   // Items for bucket: exclude grayed-out ones (they go to exemption area)
   const bucketItems = useMemo(() => items.filter(item => !isItemGrayedOut(item)), [items, cooldownList, vipNumber, gameMode]);
 
+  useEffect(() => {
+    const handleGlobalKeyDown = (e) => {
+      if (e.code === 'Space') {
+        const tagName = e.target.tagName.toUpperCase();
+        if (tagName === 'INPUT' || tagName === 'TEXTAREA') return;
+        if (showSettings || showVipPrompt || confirmModal) return;
+        e.preventDefault();
+        drawLot();
+      }
+    };
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  });
+
   const drawLot = () => {
     if (drawState !== 'idle' || items.length === 0) return;
     initAudio();

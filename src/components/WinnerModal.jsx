@@ -33,7 +33,7 @@ export function VipPromptModal({ showVipPrompt, setShowVipPrompt, vipNumber, set
         </div>
         <h2 className="text-4xl font-black text-amber-600 mb-4 tracking-tighter">卓越表現！</h2>
         <p className="text-slate-500 font-bold mb-10 text-lg leading-relaxed">挑戰已圓滿達成，<br/>請指定下一位 VIP 號碼：</p>
-        <input type="text" autoFocus value={vipNumber} onChange={(e) => setVipNumber(e.target.value)} placeholder="座號" className="w-full p-6 mb-10 rounded-[2rem] border-4 border-slate-50 bg-slate-50/50 text-center font-black text-slate-900 text-5xl shadow-inner outline-none focus:bg-white focus:ring-8 focus:ring-amber-100 transition-all" />
+        <input type="text" autoFocus value={vipNumber} onChange={(e) => setVipNumber(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') setShowVipPrompt(false); }} placeholder="座號" className="w-full p-6 mb-10 rounded-[2rem] border-4 border-slate-50 bg-slate-50/50 text-center font-black text-slate-900 text-5xl shadow-inner outline-none focus:bg-white focus:ring-8 focus:ring-amber-100 transition-all" />
         <button onClick={() => setShowVipPrompt(false)} className="w-full py-7 bg-amber-500 hover:bg-amber-600 text-white rounded-[2.5rem] font-black text-2xl active:scale-95 transition-transform shadow-2xl shadow-amber-500/40"> 設定完成 </button>
       </div>
     </div>
@@ -65,7 +65,7 @@ export default function WinnerModal({
         {gameMode === 'vip' && winner === 'VIP號' && (
           <div className="mb-10 p-8 bg-gradient-to-br from-amber-50 to-orange-50 rounded-[3rem] border border-amber-200 shadow-inner relative overflow-hidden z-10">
             <p className="text-lg text-amber-800 font-black mb-5">👑 VIP 號碼設定</p>
-            <input type="text" value={vipNumber} autoFocus onChange={(e) => setVipNumber(e.target.value)} placeholder="座號" className="w-full p-6 rounded-[2rem] border-4 border-white font-black text-slate-900 text-5xl shadow-2xl outline-none text-center bg-white/80 focus:ring-8 focus:ring-amber-200 transition-all" />
+            <input type="text" value={vipNumber} autoFocus onChange={(e) => setVipNumber(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') handleO(); }} placeholder="座號" className="w-full p-6 rounded-[2rem] border-4 border-white font-black text-slate-900 text-5xl shadow-2xl outline-none text-center bg-white/80 focus:ring-8 focus:ring-amber-200 transition-all" />
           </div>
         )}
         
