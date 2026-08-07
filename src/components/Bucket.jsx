@@ -200,7 +200,7 @@ export default function Bucket({
         {/* Dedicated Unclipped Winning Item Roll Out Layer */}
         {isRollingOut && (tempWinner || items[targetBucketIndex]) && (
           <div 
-            className="absolute top-4 left-1/2 z-[250] pointer-events-none animate-roll-out-winner"
+            className="absolute top-4 left-1/2 z-[90] pointer-events-none animate-roll-out-winner"
           >
             <div className="drop-shadow-[0_25px_35px_rgba(0,0,0,0.5)]">
               {renderItemStyle(tempWinner || items[targetBucketIndex], drawStyle, isItemGrayedOut, false)}
