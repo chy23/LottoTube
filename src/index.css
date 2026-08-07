@@ -76,27 +76,27 @@
 
 @keyframes roll-out-winner {
   0% { 
-    transform: translate(-50%, -20px) scale(0.65) rotate(0deg); 
+    transform: translate(-50%, 150px) scale(0.65) rotate(0deg); 
     opacity: 0;
   }
   20% {
-    /* Sliding towards the mouth */
-    transform: translate(-50%, -100px) scale(0.85) rotate(-30deg);
+    /* Slide to the mouth */
+    transform: translate(-50%, 30px) scale(0.85) rotate(-30deg);
     opacity: 1;
   }
-  45% { 
-    /* Popping out of the mouth (Local -Y is Right/Down) */
-    transform: translate(-40%, -240px) scale(1.1) rotate(-120deg); 
+  50% { 
+    /* Pop out of the mouth slightly */
+    transform: translate(-45%, -30px) scale(1.1) rotate(-120deg); 
     opacity: 1;
   }
-  75% { 
-    /* Falling down (Local +X is Down/Left, Local -Y is Right/Down) */
-    transform: translate(80px, -300px) scale(1.35) rotate(-240deg); 
+  80% { 
+    /* Fall down */
+    transform: translate(30px, -50px) scale(1.35) rotate(-240deg); 
     opacity: 1;
   }
   100% { 
-    /* Hitting the floor */
-    transform: translate(250px, -340px) scale(1.5) rotate(-360deg); 
+    /* End fall */
+    transform: translate(80px, -60px) scale(1.6) rotate(-360deg); 
     opacity: 0;
   }
 }
