@@ -146,9 +146,9 @@ export default function Bucket({
       {/* Container visual layer */}
       <div 
         ref={sceneRef}
-        className={`w-full h-full relative origin-bottom transition-transform duration-700 ${
+        className={`w-full h-full relative origin-bottom transition-transform duration-700 ease-in-out ${
           drawState === 'shaking' ? 'animate-bucket-shake-hard' : ''
-        } ${drawState === 'reaching' ? 'rotate-[30deg]' : ''}`}
+        } ${drawState === 'reaching' ? 'rotate-[105deg]' : ''}`}
       >
         {/* Soft Ambient Floor Shadow */}
         <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[80%] h-10 bg-black/30 dark:bg-black/70 blur-xl rounded-full pointer-events-none z-0"></div>
