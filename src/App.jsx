@@ -179,14 +179,14 @@ export default function App() {
       if (e.code === 'Space' || e.key === ' ') {
         const tagName = e.target.tagName?.toUpperCase() || '';
         if (tagName === 'INPUT' || tagName === 'TEXTAREA' || tagName === 'BUTTON') return;
-        if (showSettings || showVipPrompt || confirmModal || showWinnerModal) return;
+        if (showVipPrompt || confirmModal || showWinnerModal) return;
         e.preventDefault();
         if (drawLotRef.current) drawLotRef.current();
       }
     };
     window.addEventListener('keydown', handleGlobalKeyDown);
     return () => window.removeEventListener('keydown', handleGlobalKeyDown);
-  }, [showSettings, showVipPrompt, confirmModal, showWinnerModal]);
+  }, [showVipPrompt, confirmModal, showWinnerModal]);
 
   const drawLot = () => {
     if (drawState !== 'idle' || items.length === 0) return;
