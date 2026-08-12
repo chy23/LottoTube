@@ -233,35 +233,30 @@ export default function App() {
 
     } else {
       setDrawState('shaking');
-      playHardShakeSound();
+      playHandStirSound();
       
       setTimeout(() => {
         setDrawState('reaching');
-        
+        playHardShakeSound();
+        setTargetIndex(selectedIndex);
+        setTempWinner(selected);
+        setIsRollingOut(true);
+
         setTimeout(() => {
-          setTargetIndex(selectedIndex);
-          setTempWinner(selected);
-          setIsGrabbed(true);
+          setWinner(selected);
+          setShowWinnerModal(true);
+          setDrawState('idle'); 
+          setTempWinner(null);
+          setIsRollingOut(false);
+          confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
           
-          setTimeout(() => {
-            setIsRollingOut(true);
-            playHandStirSound();
-            
-            setTimeout(() => {
-              setWinner(selected);
-              setShowWinnerModal(true);
-              setDrawState('idle');
-              confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-              if (gameMode === 'vip' && selected === 'VIP號') {
-                playVipFanfare();
-              } else {
-                playPopSound();
-              }
-            }, 1400); 
-            
-          }, 800);
-        }, 1200);
-      }, 1500);
+          if (gameMode === 'vip' && selected === 'VIP號') {
+            playVipFanfare();
+          } else {
+            playPopSound();
+          }
+        }, 1400);
+      }, 1100);
     }
   };
 
