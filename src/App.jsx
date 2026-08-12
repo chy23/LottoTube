@@ -376,7 +376,7 @@ export default function App() {
         網站建立自楊家驊老師
       </div>
 
-      <div className="max-w-[1500px] mx-auto relative z-10">
+      <div className="max-w-[2000px] w-[95vw] mx-auto relative z-10">
         
         <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 animate-in fade-in slide-in-from-top duration-700">
           <div>
@@ -454,27 +454,31 @@ export default function App() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
           
-          <div className="lg:col-span-7 bg-white/40 dark:bg-slate-900/40 backdrop-blur-[40px] rounded-[4rem] p-4 md:p-8 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.08)] dark:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] border border-white/70 dark:border-slate-700/50 flex flex-col items-center justify-center min-h-[60vh] relative overflow-hidden">
+          <div className="lg:col-span-8 bg-white/40 dark:bg-slate-900/40 backdrop-blur-[40px] rounded-[4rem] p-4 md:p-8 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.08)] dark:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] border border-white/70 dark:border-slate-700/50 flex flex-col items-stretch justify-center min-h-[60vh] relative overflow-hidden">
             
             {appMode === 'box' ? (
-              <Bucket 
-                items={items}
-                drawState={drawState}
-                isGrabbed={isGrabbed}
-                targetIndex={targetIndex}
-                targetBucketIndex={targetIndex}
-                isRollingOut={isRollingOut}
-                tempWinner={tempWinner}
-                drawStyle={drawStyle}
-                isItemGrayedOut={isItemGrayedOut}
-              />
+              <div className="self-center flex justify-center w-full">
+                <Bucket 
+                  items={items}
+                  drawState={drawState}
+                  isGrabbed={isGrabbed}
+                  targetIndex={targetIndex}
+                  targetBucketIndex={targetIndex}
+                  isRollingOut={isRollingOut}
+                  tempWinner={tempWinner}
+                  drawStyle={drawStyle}
+                  isItemGrayedOut={isItemGrayedOut}
+                />
+              </div>
             ) : (
-              <Roulette 
-                items={items}
-                wheelRotation={wheelRotation}
-                drawState={drawState}
-                isItemGrayedOut={isItemGrayedOut}
-              />
+              <div className="self-center flex justify-center w-full">
+                <Roulette 
+                  items={items}
+                  wheelRotation={wheelRotation}
+                  drawState={drawState}
+                  isItemGrayedOut={isItemGrayedOut}
+                />
+              </div>
             )}
 
             <button 
@@ -499,7 +503,7 @@ export default function App() {
             )}
           </div>
 
-          <div className="lg:col-span-5 h-full relative z-20">
+          <div className="lg:col-span-4 h-full relative z-20">
             <div className="flex bg-slate-500/10 backdrop-blur-2xl p-1.5 rounded-[2rem] mb-8 border border-white/20">
               {[ {id:'classic', label:'經典', icon:<Layout size={18}/>}, {id:'quiz', label:'答題', icon:<Brain size={18}/>}, {id:'vip', label:'VIP', icon:<UserCheck size={18}/>} ].map(m => (
                 <button key={m.id} onClick={() => handleModeChange(m.id)} className={`flex-1 py-3.5 rounded-[1.6rem] font-black text-base transition-all flex items-center justify-center gap-2 ${gameMode === m.id ? 'bg-white shadow-xl text-[#007AFF] scale-105' : 'text-slate-500 hover:text-slate-800'}`}>
