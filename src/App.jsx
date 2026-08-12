@@ -169,8 +169,7 @@ export default function App() {
     setItems(shuffled);
   }, [textList, gameMode]);
 
-  // Items for bucket: exclude grayed-out ones (they go to exemption area)
-  const bucketItems = useMemo(() => items.filter((item) => !isItemGrayedOut(item)), [items, isItemGrayedOut]);
+  // Items for bucket: we pass all items directly so grayed out items stay in the bucket visually grayed out
 
   const drawLotRef = useRef(null);
   
@@ -234,31 +233,35 @@ export default function App() {
 
     } else {
       setDrawState('shaking');
-      playHandStirSound();
+      playHardShakeSound();
       
       setTimeout(() => {
         setDrawState('reaching');
-        playHardShakeSound();
-        const bucketIdx = bucketItems.indexOf(selected);
-        setTargetIndex(bucketIdx !== -1 ? bucketIdx : 0);
-        setTempWinner(selected);
-        setIsRollingOut(true);
-
+        
         setTimeout(() => {
-          setWinner(selected);
-          setShowWinnerModal(true);
-          setDrawState('idle'); 
-          setTempWinner(null);
-          setIsRollingOut(false);
-          confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+          setTargetIndex(selectedIndex);
+          setTempWinner(selected);
+          setIsGrabbed(true);
           
-          if (gameMode === 'vip' && selected === 'VIP號') {
-            playVipFanfare();
-          } else {
-            playPopSound();
-          }
-        }, 1400);
-      }, 1100);
+          setTimeout(() => {
+            setIsRollingOut(true);
+            playHandStirSound();
+            
+            setTimeout(() => {
+              setWinner(selected);
+              setShowWinnerModal(true);
+              setDrawState('idle');
+              confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+              if (gameMode === 'vip' && selected === 'VIP號') {
+                playVipFanfare();
+              } else {
+                playPopSound();
+              }
+            }, 1400); 
+            
+          }, 800);
+        }, 1200);
+      }, 1500);
     }
   };
 
@@ -362,15 +365,6 @@ export default function App() {
 
   drawLotRef.current = drawLot;
 
-  const targetBucketIndex = useMemo(() => {
-    if (targetIndex === null) return null;
-    let count = 0;
-    for (let i = 0; i < items.length; i++) {
-      if (i === targetIndex) return count;
-      if (!isItemGrayedOut(items[i])) count++;
-    }
-    return null;
-  }, [targetIndex, items, isItemGrayedOut]);
 
   return (
     <div className={`min-h-[100dvh] transition-colors duration-500 overflow-x-hidden flex flex-col font-sans relative bg-gradient-to-br from-[#E3F2FD] via-[#F3E5F5] to-[#E8F5E9] dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 text-slate-900 dark:text-slate-100 p-4 md:p-8 selection:bg-blue-200`}>
@@ -465,11 +459,11 @@ export default function App() {
             
             {appMode === 'box' ? (
               <Bucket 
-                items={bucketItems}
+                items={items}
                 drawState={drawState}
                 isGrabbed={isGrabbed}
                 targetIndex={targetIndex}
-                targetBucketIndex={targetBucketIndex}
+                targetBucketIndex={targetIndex}
                 isRollingOut={isRollingOut}
                 tempWinner={tempWinner}
                 drawStyle={drawStyle}
