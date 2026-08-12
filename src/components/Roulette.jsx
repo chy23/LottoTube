@@ -9,7 +9,7 @@ export default function Roulette({
   isItemGrayedOut
 }) {
   return (
-    <div className="relative w-full max-w-full shrink-0 mx-auto mt-4 overflow-visible" style={{ paddingBottom: '100%' }}>
+    <div className="relative w-full max-w-full shrink-0 self-stretch mx-auto mt-4 overflow-visible" style={{ paddingBottom: '100%' }}>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <div className="relative w-[95%] sm:w-[92%] h-[95%] sm:h-[92%] max-w-full shrink-0 z-10 drop-shadow-2xl flex items-center justify-center">
           <div 

@@ -480,7 +480,7 @@ export default function App() {
             <button 
               onClick={drawLot} 
               disabled={drawState !== 'idle' || items.length === 0}
-              className={`mt-12 w-full py-6 md:py-8 rounded-[2.5rem] text-2xl md:text-3xl font-black shadow-2xl transition-all flex items-center justify-center gap-4 z-50
+              className={`mt-12 w-full self-stretch py-6 md:py-8 rounded-[2.5rem] text-2xl md:text-3xl font-black shadow-2xl transition-all flex items-center justify-center gap-4 z-50
                 ${drawState !== 'idle' || items.length === 0 
                   ? 'bg-slate-200 text-slate-400 cursor-not-allowed' 
                   : 'bg-[#007AFF] hover:bg-[#0062CC] hover:scale-105 active:scale-95 text-white shadow-blue-500/40'}`}
