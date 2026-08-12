@@ -9,10 +9,11 @@ export default function Roulette({
   isItemGrayedOut
 }) {
   return (
-    <div className="relative w-full max-w-full aspect-square shrink-0 mx-auto mt-4 flex flex-col items-center justify-center overflow-visible">
-      <div className="relative w-[95%] sm:w-[92%] max-w-full aspect-square shrink-0 z-10 drop-shadow-2xl flex items-center justify-center">
-        <div 
-          className="w-full h-full rounded-full border-[10px] md:border-[16px] border-white shadow-[0_20px_40px_rgba(0,0,0,0.15)] overflow-hidden transition-transform ease-[cubic-bezier(0.2,0.8,0.2,1)]"
+    <div className="relative w-full max-w-full shrink-0 mx-auto mt-4 overflow-visible" style={{ paddingBottom: '100%' }}>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <div className="relative w-[95%] sm:w-[92%] h-[95%] sm:h-[92%] max-w-full shrink-0 z-10 drop-shadow-2xl flex items-center justify-center">
+          <div 
+            className="w-full h-full rounded-full border-[10px] md:border-[16px] border-white shadow-[0_20px_40px_rgba(0,0,0,0.15)] overflow-hidden transition-transform ease-[cubic-bezier(0.2,0.8,0.2,1)]"
           style={{ 
             transform: `rotate(${wheelRotation}deg)`, 
             transitionDuration: drawState === 'spinning' ? '4s' : '0s' 
@@ -97,6 +98,7 @@ export default function Roulette({
         {/* Center Dot */}
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 rounded-full bg-white shadow-md border-4 md:border-8 border-slate-200 z-[20]"></div>
       </div>
+    </div>
     </div>
   );
 }
