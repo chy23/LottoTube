@@ -238,24 +238,29 @@ export default function App() {
       setTimeout(() => {
         setDrawState('reaching');
         playHardShakeSound();
-        setTargetIndex(selectedIndex);
-        setTempWinner(selected);
-        setIsRollingOut(true);
-
+        
+        // Wait 800ms for the bucket to finish tilting 80 degrees
         setTimeout(() => {
-          setWinner(selected);
-          setShowWinnerModal(true);
-          setDrawState('idle'); 
-          setTempWinner(null);
-          setIsRollingOut(false);
-          confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-          
-          if (gameMode === 'vip' && selected === 'VIP號') {
-            playVipFanfare();
-          } else {
-            playPopSound();
-          }
-        }, 1400);
+          setTargetIndex(selectedIndex);
+          setTempWinner(selected);
+          setIsRollingOut(true);
+
+          // Wait 1400ms for the rollout animation to finish
+          setTimeout(() => {
+            setWinner(selected);
+            setShowWinnerModal(true);
+            setDrawState('idle'); 
+            setTempWinner(null);
+            setIsRollingOut(false);
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            
+            if (gameMode === 'vip' && selected === 'VIP號') {
+              playVipFanfare();
+            } else {
+              playPopSound();
+            }
+          }, 1400);
+        }, 800);
       }, 1100);
     }
   };
