@@ -9,8 +9,8 @@ export default function Roulette({
   isItemGrayedOut
 }) {
   return (
-    <div className="relative w-full max-w-[800px] lg:max-w-[950px] aspect-square mx-auto mt-4 flex flex-col items-center justify-center overflow-visible">
-      <div className="relative w-[95%] sm:w-[95%] max-w-[550px] md:max-w-[700px] lg:max-w-[800px] aspect-square z-10 drop-shadow-2xl flex items-center justify-center">
+    <div className="relative w-full max-w-[100vw] lg:max-w-[100%] aspect-square mx-auto mt-4 flex flex-col items-center justify-center overflow-visible">
+      <div className="relative w-[95%] max-w-[95vw] md:max-w-[100%] lg:max-w-[100%] aspect-square z-10 drop-shadow-2xl flex items-center justify-center">
         <div 
           className="w-full h-full rounded-full border-[10px] md:border-[16px] border-white shadow-[0_20px_40px_rgba(0,0,0,0.15)] overflow-hidden transition-transform ease-[cubic-bezier(0.2,0.8,0.2,1)]"
           style={{ 
