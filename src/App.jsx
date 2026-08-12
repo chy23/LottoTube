@@ -250,7 +250,6 @@ export default function App() {
             setWinner(selected);
             setShowWinnerModal(true);
             setDrawState('idle'); 
-            setTempWinner(null);
             setIsRollingOut(false);
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             
