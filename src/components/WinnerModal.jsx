@@ -44,7 +44,8 @@ export default function WinnerModal({
   showWinnerModal, setShowWinnerModal,
   winner, drawStyle, gameMode,
   vipNumber, setVipNumber,
-  handleO, handleSkip, handleX
+  handleO, handleSkip, handleX,
+  appMode
 }) {
   if (!showWinnerModal || !winner) return null;
 
@@ -59,7 +60,7 @@ export default function WinnerModal({
         <p className="text-slate-400 font-black tracking-[0.3em] uppercase mb-4 mt-10 relative z-10">Congratulations</p>
         
         <div className="flex justify-center items-center min-h-[250px] mb-12 animate-bounce-custom relative z-10">
-          {renderItemStyle(winner, drawStyle, () => false, true)}
+          {renderItemStyle(winner, appMode === 'roulette' ? 'ball' : drawStyle, () => false, true)}
         </div>
 
         {gameMode === 'vip' && winner === 'VIP號' && (

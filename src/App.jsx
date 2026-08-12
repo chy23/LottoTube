@@ -552,6 +552,7 @@ export default function App() {
         handleO={handleO}
         handleSkip={handleSkip}
         handleX={handleX}
+        appMode={appMode}
       />
     </div>
   );
