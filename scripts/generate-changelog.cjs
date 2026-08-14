@@ -17,6 +17,20 @@ try {
   let minor = 0;
   let patch = 0;
 
+  const outDir = path.join(__dirname, '../src/data');
+  if (!fs.existsSync(outDir)) {
+    fs.mkdirSync(outDir, { recursive: true });
+  }
+
+  let existingData = {};
+  try {
+    const existingFile = fs.readFileSync(path.join(outDir, 'changelog.json'), 'utf-8');
+    const existing = JSON.parse(existingFile);
+    existing.forEach(item => {
+      existingData[item.id] = item;
+    });
+  } catch (e) {}
+
   rawCommits.forEach((commitBlock) => {
     const lines = commitBlock.split('\n');
     const hash = lines[0];
@@ -55,22 +69,19 @@ try {
       title = subject.substring(splitIdx + 1).trim();
     }
     
+    const existingItem = existingData[hash];
+    
     changelog.unshift({
       id: hash,
       version,
       date,
-      typeTag,
-      title,
-      details: body || subject,
-      isFix
+      typeTag: existingItem?.typeTag || typeTag,
+      title: existingItem?.title || title,
+      details: existingItem?.details || body || title,
+      isFix: existingItem !== undefined ? existingItem.isFix : isFix
     });
   });
 
-  const outDir = path.join(__dirname, '../src/data');
-  if (!fs.existsSync(outDir)) {
-    fs.mkdirSync(outDir, { recursive: true });
-  }
-  
   fs.writeFileSync(path.join(outDir, 'changelog.json'), JSON.stringify(changelog, null, 2));
   console.log(`Changelog generated successfully with ${changelog.length} records.`);
 

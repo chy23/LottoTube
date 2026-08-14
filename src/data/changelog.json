@@ -1,11 +1,20 @@
 [
   {
+    "id": "147cb90d24e664c6822eb747bc7c8cccf0063264",
+    "version": "v1.12.1",
+    "date": "2026-08-14",
+    "typeTag": "Fix",
+    "title": "Add missing History icon import causing Illegal constructor crash",
+    "details": "Add missing History icon import causing Illegal constructor crash",
+    "isFix": true
+  },
+  {
     "id": "47933cef92dfbb012537cff0777c87bafd97fc87",
     "version": "v1.12.0",
     "date": "2026-08-14",
     "typeTag": "Feat",
-    "title": "Add automated Changelog Modal to display version history dynamically from git commits",
-    "details": "Feat: Add automated Changelog Modal to display version history dynamically from git commits",
+    "title": "新增自動化「更新紀錄 (Changelog)」對話窗",
+    "details": "新功能：加入基於 Git 歷史紀錄動態生成的更新日誌對話窗，讓使用者能清楚查看每次的改版內容與版本號。",
     "isFix": false
   },
   {
@@ -13,8 +22,8 @@
     "version": "v1.11.27",
     "date": "2026-08-12",
     "typeTag": "Enhance",
-    "title": "Replace padding-bottom hack with a precise max-vh bounding box for the Roulette so it remains massive without pushing the action button off the screen",
-    "details": "Enhance: Replace padding-bottom hack with a precise max-vh bounding box for the Roulette so it remains massive without pushing the action button off the screen",
+    "title": "完善轉盤在各種螢幕尺寸下的縮放限制，確保按鈕不會超出畫面",
+    "details": "優化：移除原本無限制等比例放大的寫法，改用精準的螢幕高度限制。確保轉盤能放到最大，但又不會把底下的「抽出幸運兒」按鈕擠出螢幕外。",
     "isFix": false
   },
   {
@@ -22,8 +31,8 @@
     "version": "v1.11.26",
     "date": "2026-08-12",
     "typeTag": "Enhance",
-    "title": "Rewrite Roulette rendering to use CSS container queries (cqi) so text, borders, and pointers scale dynamically with the wheel's size",
-    "details": "Enhance: Rewrite Roulette rendering to use CSS container queries (cqi) so text, borders, and pointers scale dynamically with the wheel's size",
+    "title": "導入 CSS 容器查詢技術 (CQI)，讓轉盤字體與圖案隨尺寸完美縮放",
+    "details": "優化：重寫轉盤的渲染邏輯，使用最新的 CSS 容器查詢 (container queries)。現在轉盤內的文字、邊框與指標都會根據轉盤真實寬度進行等比例縮放，無論在大螢幕或手機上都能完美呈現。",
     "isFix": false
   },
   {
@@ -31,8 +40,8 @@
     "version": "v1.11.25",
     "date": "2026-08-12",
     "typeTag": "Fix",
-    "title": "Overhaul App.jsx layout to ensure Roulette remains huge on desktop and bypass Safari flex height bugs completely using items-stretch",
-    "details": "Fix: Overhaul App.jsx layout to ensure Roulette remains huge on desktop and bypass Safari flex height bugs completely using items-stretch",
+    "title": "全面翻新版面佈局，解決 Safari 瀏覽器高度縮水 Bug",
+    "details": "修復：徹底重構 Flexbox 佈局，使用 items-stretch 避開 Safari 瀏覽器在置中對齊時會強制縮小元素的 Bug，確保轉盤在桌機上能保持最大尺寸。",
     "isFix": true
   },
   {
@@ -40,8 +49,8 @@
     "version": "v1.11.24",
     "date": "2026-08-12",
     "typeTag": "Fix",
-    "title": "Add self-stretch to Roulette and main button to fix Safari flex-col items-center bug that ignores w-full",
-    "details": "Fix: Add self-stretch to Roulette and main button to fix Safari flex-col items-center bug that ignores w-full",
+    "title": "修復 Safari 下轉盤與按鈕寬度無法撐滿的問題",
+    "details": "修復：為轉盤與主按鈕加上 self-stretch 屬性，解決 Safari 瀏覽器 Flex-col 在 items-center 模式下會忽略 w-full 寬度設定的 Bug。",
     "isFix": true
   },
   {
@@ -49,8 +58,8 @@
     "version": "v1.11.23",
     "date": "2026-08-12",
     "typeTag": "Fix",
-    "title": "Replace Tailwind aspect-square with CSS padding-bottom hack to completely prevent flexbox height constraints from shrinking the Roulette wheel",
-    "details": "Fix: Replace Tailwind aspect-square with CSS padding-bottom hack to completely prevent flexbox height constraints from shrinking the Roulette wheel",
+    "title": "導入黑科技防止轉盤受限於 Flexbox 高度限制",
+    "details": "修復：使用 CSS padding-bottom hack 取代原本的 aspect-square，強制轉盤保持正方形並突破 Flexbox 的預設高度縮水限制。",
     "isFix": true
   },
   {
@@ -94,8 +103,8 @@
     "version": "v1.11.18",
     "date": "2026-08-12",
     "typeTag": "Enhance",
-    "title": "Enlarge Roulette wheel size and make Roulette winner modal style independent of Bucket draw style (defaults to clean ball style)",
-    "details": "Enhance: Enlarge Roulette wheel size and make Roulette winner modal style independent of Bucket draw style (defaults to clean ball style)",
+    "title": "放大轉盤並使轉盤抽籤結果強制使用彩球樣式",
+    "details": "優化：將轉盤尺寸放大，並修改中獎彈出視窗邏輯，讓轉盤抽籤結果固定使用簡潔的彩球樣式，不再受到籤筒設定的影響。",
     "isFix": false
   },
   {
@@ -103,8 +112,8 @@
     "version": "v1.11.17",
     "date": "2026-08-12",
     "typeTag": "Fix",
-    "title": "Do not clear tempWinner when modal opens so that Penalty button (X) can function properly in Box mode",
-    "details": "Fix: Do not clear tempWinner when modal opens so that Penalty button (X) can function properly in Box mode",
+    "title": "修復紙箱模式下點擊「X (懲罰)」按鈕失效的問題",
+    "details": "修復：修正開啟中獎畫面時會錯誤清除暫存中獎者的問題，確保點擊「X」時能正確紀錄懲罰名單。",
     "isFix": true
   },
   {
@@ -184,8 +193,8 @@
     "version": "v1.11.8",
     "date": "2026-08-07",
     "typeTag": "Feature & Fix",
-    "title": "Conceal bucket numbers with frosted tube, contain shaking physics, and add designated VIP stick on wrong answer",
-    "details": "Feature & Fix: Conceal bucket numbers with frosted tube, contain shaking physics, and add designated VIP stick on wrong answer",
+    "title": "優化籤筒物理碰撞並加入毛玻璃特效",
+    "details": "新功能與修復：在籤筒外層加上毛玻璃視覺效果，加強籤筒內部物理碰撞邊界，並確保答錯時會自動產生一支特別的 VIP 懲罰籤。",
     "isFix": true
   },
   {
@@ -256,8 +265,8 @@
     "version": "v1.11.0",
     "date": "2026-08-07",
     "typeTag": "Feat",
-    "title": "Add spacebar shortcut to draw and Enter key to submit VIP number",
-    "details": "Feat: Add spacebar shortcut to draw and Enter key to submit VIP number",
+    "title": "加入鍵盤快捷鍵支援：空白鍵抽籤、Enter 鍵送出",
+    "details": "新功能：支援使用鍵盤空白鍵 (Space) 快速進行抽籤，在輸入 VIP 號碼時也可直接按 Enter 送出。",
     "isFix": false
   },
   {
@@ -301,8 +310,8 @@
     "version": "v1.10.11",
     "date": "2026-08-07",
     "typeTag": "Fix",
-    "title": "Adjust bucket shape to be taller and more cylindrical like an authentic lottery tube",
-    "details": "Fix: Adjust bucket shape to be taller and more cylindrical like an authentic lottery tube",
+    "title": "修改籤筒外觀為瘦長圓柱體，更貼近真實抽籤筒",
+    "details": "優化：調整 3D 籤筒的比例與形狀，使其看起來更高、更像真實的傳統壓克力抽籤筒。",
     "isFix": true
   },
   {
@@ -409,8 +418,8 @@
     "version": "v1.9.0",
     "date": "2026-08-05",
     "typeTag": "Feat",
-    "title": "Add watermark in top-right and bottom-right",
-    "details": "Feat: Add watermark in top-right and bottom-right",
+    "title": "加入版權浮水印",
+    "details": "新功能：在畫面右上角與右下角加入透明的「網站建立自楊家驊老師」浮水印。",
     "isFix": false
   },
   {
@@ -445,8 +454,8 @@
     "version": "v1.8.0",
     "date": "2026-07-29",
     "typeTag": "Feat",
-    "title": "Implement multiple sound modes (Classic, Retro, Arcade) with UI toggle",
-    "details": "Feat: Implement multiple sound modes (Classic, Retro, Arcade) with UI toggle",
+    "title": "實作多種音效模式切換 (經典、復古、街機)",
+    "details": "新功能：在設定面板加入音效風格切換選項，提供經典 (Classic)、復古 (Retro) 與街機 (Arcade) 三種不同氛圍的提示音效。",
     "isFix": false
   },
   {
