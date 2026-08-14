@@ -1,0 +1,659 @@
+[
+  {
+    "id": "2f13ce0d9c2bd01adb54c6e1b67e4d5b28191c6a",
+    "version": "v1.11.27",
+    "date": "2026-08-12",
+    "typeTag": "Enhance",
+    "title": "Replace padding-bottom hack with a precise max-vh bounding box for the Roulette so it remains massive without pushing the action button off the screen",
+    "details": "Enhance: Replace padding-bottom hack with a precise max-vh bounding box for the Roulette so it remains massive without pushing the action button off the screen",
+    "isFix": false
+  },
+  {
+    "id": "80223b4d806bee5125f0f289c3b83bc227d5df2f",
+    "version": "v1.11.26",
+    "date": "2026-08-12",
+    "typeTag": "Enhance",
+    "title": "Rewrite Roulette rendering to use CSS container queries (cqi) so text, borders, and pointers scale dynamically with the wheel's size",
+    "details": "Enhance: Rewrite Roulette rendering to use CSS container queries (cqi) so text, borders, and pointers scale dynamically with the wheel's size",
+    "isFix": false
+  },
+  {
+    "id": "66652675bcdc5049498de90dffc353b2ae2b4ef4",
+    "version": "v1.11.25",
+    "date": "2026-08-12",
+    "typeTag": "Fix",
+    "title": "Overhaul App.jsx layout to ensure Roulette remains huge on desktop and bypass Safari flex height bugs completely using items-stretch",
+    "details": "Fix: Overhaul App.jsx layout to ensure Roulette remains huge on desktop and bypass Safari flex height bugs completely using items-stretch",
+    "isFix": true
+  },
+  {
+    "id": "be578208e34d196758fd98b7ed81ae56ae22d925",
+    "version": "v1.11.24",
+    "date": "2026-08-12",
+    "typeTag": "Fix",
+    "title": "Add self-stretch to Roulette and main button to fix Safari flex-col items-center bug that ignores w-full",
+    "details": "Fix: Add self-stretch to Roulette and main button to fix Safari flex-col items-center bug that ignores w-full",
+    "isFix": true
+  },
+  {
+    "id": "f6e0d01279814dbe5ce12c7a9ab37bc3cd8a682f",
+    "version": "v1.11.23",
+    "date": "2026-08-12",
+    "typeTag": "Fix",
+    "title": "Replace Tailwind aspect-square with CSS padding-bottom hack to completely prevent flexbox height constraints from shrinking the Roulette wheel",
+    "details": "Fix: Replace Tailwind aspect-square with CSS padding-bottom hack to completely prevent flexbox height constraints from shrinking the Roulette wheel",
+    "isFix": true
+  },
+  {
+    "id": "5d0517a81679cc668ad1bbfde36c4556b4245a70",
+    "version": "v1.11.22",
+    "date": "2026-08-12",
+    "typeTag": "Fix",
+    "title": "Add shrink-0 to prevent flexbox from shrinking the Roulette wheel on short screens",
+    "details": "Fix: Add shrink-0 to prevent flexbox from shrinking the Roulette wheel on short screens",
+    "isFix": true
+  },
+  {
+    "id": "4298e6f7eb150bd39233e731a62dd854ce072c9f",
+    "version": "v1.11.21",
+    "date": "2026-08-12",
+    "typeTag": "Fix",
+    "title": "Correct Tailwind max-w classes to ensure Roulette expands to fill container on all screen sizes",
+    "details": "Fix: Correct Tailwind max-w classes to ensure Roulette expands to fill container on all screen sizes",
+    "isFix": true
+  },
+  {
+    "id": "3f10bbc08c13f4aed43b6acf1419155a452bd226",
+    "version": "v1.11.20",
+    "date": "2026-08-12",
+    "typeTag": "Enhance",
+    "title": "Enlarge Roulette wheel to fill the container completely",
+    "details": "Enhance: Enlarge Roulette wheel to fill the container completely",
+    "isFix": false
+  },
+  {
+    "id": "9aa81652edbaca4c04860b1ba5b7b33153c01b33",
+    "version": "v1.11.19",
+    "date": "2026-08-12",
+    "typeTag": "Enhance",
+    "title": "Enlarge Roulette wheel size to 1.5x original size",
+    "details": "Enhance: Enlarge Roulette wheel size to 1.5x original size",
+    "isFix": false
+  },
+  {
+    "id": "a4fa18a1ae04223fb5efa98e82d20890520ba3f2",
+    "version": "v1.11.18",
+    "date": "2026-08-12",
+    "typeTag": "Enhance",
+    "title": "Enlarge Roulette wheel size and make Roulette winner modal style independent of Bucket draw style (defaults to clean ball style)",
+    "details": "Enhance: Enlarge Roulette wheel size and make Roulette winner modal style independent of Bucket draw style (defaults to clean ball style)",
+    "isFix": false
+  },
+  {
+    "id": "095097a3c27a465180153b43a41a1216a8c4278d",
+    "version": "v1.11.17",
+    "date": "2026-08-12",
+    "typeTag": "Fix",
+    "title": "Do not clear tempWinner when modal opens so that Penalty button (X) can function properly in Box mode",
+    "details": "Fix: Do not clear tempWinner when modal opens so that Penalty button (X) can function properly in Box mode",
+    "isFix": true
+  },
+  {
+    "id": "938098bf36181fd4443662374cfd82f01605f9de",
+    "version": "v1.11.16",
+    "date": "2026-08-12",
+    "typeTag": "Fix",
+    "title": "Add 800ms delay to align rollout animation with tilted bucket mouth",
+    "details": "Fix: Add 800ms delay to align rollout animation with tilted bucket mouth",
+    "isFix": true
+  },
+  {
+    "id": "b9a2b97afb9789155eb79988281926923fd61a3f",
+    "version": "v1.11.15",
+    "date": "2026-08-12",
+    "typeTag": "Fix",
+    "title": "Restore exact Box mode animation logic to prevent stuck state",
+    "details": "Fix: Restore exact Box mode animation logic to prevent stuck state",
+    "isFix": true
+  },
+  {
+    "id": "c856183ed5c78d3842f0dddc14504f13e2883660",
+    "version": "v1.11.14",
+    "date": "2026-08-12",
+    "typeTag": "Fix",
+    "title": "Sync Bucket mode animation logic and restore sounds",
+    "details": "Fix: Sync Bucket mode animation logic and restore sounds",
+    "isFix": true
+  },
+  {
+    "id": "651667b42df0e430ac16296f7acf21830cf2a13b",
+    "version": "v1.11.13",
+    "date": "2026-08-07",
+    "typeTag": "Fix",
+    "title": "Add missing useCallback import",
+    "details": "Fix: Add missing useCallback import",
+    "isFix": true
+  },
+  {
+    "id": "085eb88950ca574904c59514bb294abcc2601157",
+    "version": "v1.11.12",
+    "date": "2026-08-07",
+    "typeTag": "Fix",
+    "title": "Revert item gray-out to exempt all instances by name as per game rules",
+    "details": "Fix: Revert item gray-out to exempt all instances by name as per game rules",
+    "isFix": true
+  },
+  {
+    "id": "4a62d6460db446dba6a16f174813ef7020e92e84",
+    "version": "v1.11.11",
+    "date": "2026-08-07",
+    "typeTag": "Fix",
+    "title": "Correct indexing for targetBucketIndex and use exact instance graying out for accurate cooldowns and punishment stick addition",
+    "details": "Fix: Correct indexing for targetBucketIndex and use exact instance graying out for accurate cooldowns and punishment stick addition",
+    "isFix": true
+  },
+  {
+    "id": "7eb74e57c867d70ddfef2704bcc0b67bb7ba827b",
+    "version": "v1.11.10",
+    "date": "2026-08-07",
+    "typeTag": "Fix",
+    "title": "Align rollout animation to the tilted bucket mouth",
+    "details": "Fix: Align rollout animation to the tilted bucket mouth",
+    "isFix": true
+  },
+  {
+    "id": "ed3e666b4ba7e6109c82f650d9e2e6727289253d",
+    "version": "v1.11.9",
+    "date": "2026-08-07",
+    "typeTag": "Fix",
+    "title": "Delay number reveal until reaching bottom-right corner and ensure wrong answer adds to exemption area and adds stick",
+    "details": "Fix: Delay number reveal until reaching bottom-right corner and ensure wrong answer adds to exemption area and adds stick",
+    "isFix": true
+  },
+  {
+    "id": "57c4051fb470fb7b591f8ec95436b850adc2caf0",
+    "version": "v1.11.8",
+    "date": "2026-08-07",
+    "typeTag": "Feature & Fix",
+    "title": "Conceal bucket numbers with frosted tube, contain shaking physics, and add designated VIP stick on wrong answer",
+    "details": "Feature & Fix: Conceal bucket numbers with frosted tube, contain shaking physics, and add designated VIP stick on wrong answer",
+    "isFix": true
+  },
+  {
+    "id": "fd4a4383ba54e4c62c8b31d882c5739e97406924",
+    "version": "v1.11.7",
+    "date": "2026-08-07",
+    "typeTag": "Fix",
+    "title": "Append tempWinner instead of target when answering incorrectly in VIP mode",
+    "details": "Fix: Append tempWinner instead of target when answering incorrectly in VIP mode",
+    "isFix": true
+  },
+  {
+    "id": "8ca3a82af426fc1fc23739276b6fcb86d2efc397",
+    "version": "v1.11.6",
+    "date": "2026-08-07",
+    "typeTag": "Fix",
+    "title": "Adjust rollout layer Z-index to render inside 3D bucket constraints",
+    "details": "Fix: Adjust rollout layer Z-index to render inside 3D bucket constraints",
+    "isFix": true
+  },
+  {
+    "id": "51952c7954505b64dc4d58457294c4d665893ac9",
+    "version": "v1.11.5",
+    "date": "2026-08-07",
+    "typeTag": "Fix",
+    "title": "Add physics boundaries (ceiling, tall walls) to prevent items from flying out during vigorous shaking",
+    "details": "Fix: Add physics boundaries (ceiling, tall walls) to prevent items from flying out during vigorous shaking",
+    "isFix": true
+  },
+  {
+    "id": "02199fa6e447d59127521445a053954a27e5eb23",
+    "version": "v1.11.4",
+    "date": "2026-08-07",
+    "typeTag": "Fix",
+    "title": "Remove undefined variable showSettings from App.jsx to prevent crash",
+    "details": "Fix: Remove undefined variable showSettings from App.jsx to prevent crash",
+    "isFix": true
+  },
+  {
+    "id": "06af16e6f8a5454bc223905316f3d4d013068b96",
+    "version": "v1.11.3",
+    "date": "2026-08-07",
+    "typeTag": "Fix",
+    "title": "Import useRef in App.jsx to prevent crash",
+    "details": "Fix: Import useRef in App.jsx to prevent crash",
+    "isFix": true
+  },
+  {
+    "id": "025b69054eae8747cd3b7c55247ce825a86bf48e",
+    "version": "v1.11.2",
+    "date": "2026-08-07",
+    "typeTag": "Fix",
+    "title": "Enhance physics shaking, fix glass transparency, and ensure robust spacebar listener",
+    "details": "Fix: Enhance physics shaking, fix glass transparency, and ensure robust spacebar listener",
+    "isFix": true
+  },
+  {
+    "id": "a72e41f4c9654d47fa33c22c544bbdea53f9a8b7",
+    "version": "v1.11.1",
+    "date": "2026-08-07",
+    "typeTag": "Fix",
+    "title": "Enhance spacebar shortcut safety by ignoring button focus and open modals",
+    "details": "Fix: Enhance spacebar shortcut safety by ignoring button focus and open modals",
+    "isFix": true
+  },
+  {
+    "id": "db3252da177521cec830daa6139e682fb3ef8bcb",
+    "version": "v1.11.0",
+    "date": "2026-08-07",
+    "typeTag": "Feat",
+    "title": "Add spacebar shortcut to draw and Enter key to submit VIP number",
+    "details": "Feat: Add spacebar shortcut to draw and Enter key to submit VIP number",
+    "isFix": false
+  },
+  {
+    "id": "70ac8fc2dfe61dc70985c4e3a2c4c4b73c4e737a",
+    "version": "v1.10.15",
+    "date": "2026-08-07",
+    "typeTag": "Fix",
+    "title": "Adjust rollout animation distance to prevent item from flying off screen",
+    "details": "Fix: Adjust rollout animation distance to prevent item from flying off screen",
+    "isFix": true
+  },
+  {
+    "id": "e8e1b1a49c65dec22237f28583b629829995463a",
+    "version": "v1.10.14",
+    "date": "2026-08-07",
+    "typeTag": "Fix",
+    "title": "Change bucket rotation origin to center to keep it on screen when pouring",
+    "details": "Fix: Change bucket rotation origin to center to keep it on screen when pouring",
+    "isFix": true
+  },
+  {
+    "id": "bc63c76243f0bc8b0da5bcd4b794e6bfe450cab1",
+    "version": "v1.10.13",
+    "date": "2026-08-07",
+    "typeTag": "Fix",
+    "title": "Adjust pour out animation to tilt 105 degrees and drop ball to the bottom right",
+    "details": "Fix: Adjust pour out animation to tilt 105 degrees and drop ball to the bottom right",
+    "isFix": true
+  },
+  {
+    "id": "6259323c9c6e452bd2981ce5d8c60190ae72a92c",
+    "version": "v1.10.12",
+    "date": "2026-08-07",
+    "typeTag": "Fix",
+    "title": "Restore bucket tilt forward animation when pouring out item",
+    "details": "Fix: Restore bucket tilt forward animation when pouring out item",
+    "isFix": true
+  },
+  {
+    "id": "1be259efb51a53f19013b6eb637d36e11c641956",
+    "version": "v1.10.11",
+    "date": "2026-08-07",
+    "typeTag": "Fix",
+    "title": "Adjust bucket shape to be taller and more cylindrical like an authentic lottery tube",
+    "details": "Fix: Adjust bucket shape to be taller and more cylindrical like an authentic lottery tube",
+    "isFix": true
+  },
+  {
+    "id": "9f20ed69a435134872175732abf1f9a8b19b28a5",
+    "version": "v1.10.10",
+    "date": "2026-08-06",
+    "typeTag": "Fix",
+    "title": "Add robust gh-pages branch sync and resilient deployment workflow",
+    "details": "Fix: Add robust gh-pages branch sync and resilient deployment workflow",
+    "isFix": true
+  },
+  {
+    "id": "f3b9be024a2dc2b812aa6b66df1ebe78b6c818b2",
+    "version": "v1.10.9",
+    "date": "2026-08-06",
+    "typeTag": "Fix",
+    "title": "Set deployment concurrency cancel-in-progress to false to prevent GitHub Pages lock timeout",
+    "details": "Fix: Set deployment concurrency cancel-in-progress to false to prevent GitHub Pages lock timeout",
+    "isFix": true
+  },
+  {
+    "id": "100581b7da6b56003507c04cb75977f39e363b78",
+    "version": "v1.10.8",
+    "date": "2026-08-06",
+    "typeTag": "Fix",
+    "title": "Remove polygon glitch on bucket, polish 3D elliptical mouth, and implement forward roll-out animation",
+    "details": "Fix: Remove polygon glitch on bucket, polish 3D elliptical mouth, and implement forward roll-out animation",
+    "isFix": true
+  },
+  {
+    "id": "db7c36e8dcef8b1989d15d468334fbe8a9c29f3f",
+    "version": "v1.10.7",
+    "date": "2026-08-06",
+    "typeTag": "Fix",
+    "title": "Roulette VIP text overflow with dynamic chord scaling, fix Bucket rollout animation unclipped layer, add auto dark mode",
+    "details": "Fix: Roulette VIP text overflow with dynamic chord scaling, fix Bucket rollout animation unclipped layer, add auto dark mode",
+    "isFix": true
+  },
+  {
+    "id": "dfa7d57409c7458240a41f25ddcff89430e5b5d1",
+    "version": "v1.10.6",
+    "date": "2026-08-06",
+    "typeTag": "",
+    "title": "Trigger deployment to fix GitHub Actions transient failure",
+    "details": "Trigger deployment to fix GitHub Actions transient failure",
+    "isFix": false
+  },
+  {
+    "id": "7a626c37088125a4d327d7b006da7f6107d5c48c",
+    "version": "v1.10.5",
+    "date": "2026-08-06",
+    "typeTag": "Fix",
+    "title": "Bucket animation and Roulette VIP text display",
+    "details": "Fix: Bucket animation and Roulette VIP text display",
+    "isFix": true
+  },
+  {
+    "id": "d6d80020abb53b60acb1d19dee71008339822bb6",
+    "version": "v1.10.4",
+    "date": "2026-08-06",
+    "typeTag": "Fix",
+    "title": "classic/star/ball styles, single item pop, VIP text overflow",
+    "details": "Fix: classic/star/ball styles, single item pop, VIP text overflow",
+    "isFix": true
+  },
+  {
+    "id": "c47607c2a01a8a16cf95acd976a0c9b68fa7c9f3",
+    "version": "v1.10.3",
+    "date": "2026-08-06",
+    "typeTag": "Fix",
+    "title": "Add missing useState import in ControlPanel",
+    "details": "Fix: Add missing useState import in ControlPanel",
+    "isFix": true
+  },
+  {
+    "id": "a8384a9bfad5c32c722e61ba5d5ca0b51ee0dc38",
+    "version": "v1.10.2",
+    "date": "2026-08-06",
+    "typeTag": "Fix",
+    "title": "Add ErrorBoundary and Matter CJS interop",
+    "details": "Fix: Add ErrorBoundary and Matter CJS interop",
+    "isFix": true
+  },
+  {
+    "id": "29e6e9828de56de27928cf0952c633a781ce0ba9",
+    "version": "v1.10.1",
+    "date": "2026-08-06",
+    "typeTag": "Fix",
+    "title": "JSX syntax and finalize LottoTube 2.0",
+    "details": "Fix: JSX syntax and finalize LottoTube 2.0",
+    "isFix": true
+  },
+  {
+    "id": "d2b63eb991cf78d096d1c6b4a55aa460959dfb95",
+    "version": "v1.10.0",
+    "date": "2026-08-05",
+    "typeTag": "Feat",
+    "title": "Add hidden creator credits to HTML and JS console",
+    "details": "Feat: Add hidden creator credits to HTML and JS console",
+    "isFix": false
+  },
+  {
+    "id": "7e4e7feedb3a3b44e19f726478ece1a8379d1b6f",
+    "version": "v1.9.0",
+    "date": "2026-08-05",
+    "typeTag": "Feat",
+    "title": "Add watermark in top-right and bottom-right",
+    "details": "Feat: Add watermark in top-right and bottom-right",
+    "isFix": false
+  },
+  {
+    "id": "3b5a314e5241fa1232726ad279d6a5610c81681d",
+    "version": "v1.8.3",
+    "date": "2026-07-29",
+    "typeTag": "Fix",
+    "title": "Roulette wheel overflow - tighten max-width and percentage to ensure padding",
+    "details": "Fix: Roulette wheel overflow - tighten max-width and percentage to ensure padding",
+    "isFix": true
+  },
+  {
+    "id": "848c9adeb563d962b04ba4ca5d6d914273aa2abb",
+    "version": "v1.8.2",
+    "date": "2026-07-29",
+    "typeTag": "Fix",
+    "title": "Roulette wheel overflowing container by using percentage width instead of vw",
+    "details": "Fix: Roulette wheel overflowing container by using percentage width instead of vw",
+    "isFix": true
+  },
+  {
+    "id": "32891819c7d12007c8c49ff577896420cf114052",
+    "version": "v1.8.1",
+    "date": "2026-07-29",
+    "typeTag": "",
+    "title": "Update title to 特製抽籤系統 and remove subtitle",
+    "details": "Update title to 特製抽籤系統 and remove subtitle",
+    "isFix": false
+  },
+  {
+    "id": "ac8ec8ed9febcebff5b1ddf3d774604baa76fad9",
+    "version": "v1.8.0",
+    "date": "2026-07-29",
+    "typeTag": "Feat",
+    "title": "Implement multiple sound modes (Classic, Retro, Arcade) with UI toggle",
+    "details": "Feat: Implement multiple sound modes (Classic, Retro, Arcade) with UI toggle",
+    "isFix": false
+  },
+  {
+    "id": "89fdc673c0b157257bf663eabd9f4b86c14886e0",
+    "version": "v1.7.1",
+    "date": "2026-07-29",
+    "typeTag": "Fix",
+    "title": "Use true random shuffle for roulette/bucket visual order",
+    "details": "Fix: Use true random shuffle for roulette/bucket visual order",
+    "isFix": true
+  },
+  {
+    "id": "d2861b833e58ea8376023fc5737ffdd65d3fdb8a",
+    "version": "v1.7.0",
+    "date": "2026-07-29",
+    "typeTag": "Feat",
+    "title": "Randomize visual order in bucket/roulette, gray out exemptions on roulette, move exempted sticks out of bucket",
+    "details": "Feat: Randomize visual order in bucket/roulette, gray out exemptions on roulette, move exempted sticks out of bucket",
+    "isFix": false
+  },
+  {
+    "id": "0f131478d00f0893e3c09255fc3d9766073a9339",
+    "version": "v1.6.9",
+    "date": "2026-07-29",
+    "typeTag": "Fix",
+    "title": "Block VIP ball when no VIP number set, always ask new VIP after Bingo",
+    "details": "Fix: Block VIP ball when no VIP number set, always ask new VIP after Bingo",
+    "isFix": true
+  },
+  {
+    "id": "58b2c0e7979eb923949dabf62e0b2eb0ef76cce6",
+    "version": "v1.6.8",
+    "date": "2026-07-29",
+    "typeTag": "Fix",
+    "title": "Auto-sort list, keep at least 1 copy on Bingo, reset sticks to Gaussian after draw",
+    "details": "Fix: Auto-sort list, keep at least 1 copy on Bingo, reset sticks to Gaussian after draw",
+    "isFix": true
+  },
+  {
+    "id": "e5db88329279c3af0953a274e1be2ca3c79a479a",
+    "version": "v1.6.7",
+    "date": "2026-07-29",
+    "typeTag": "Fix",
+    "title": "Update Bingo button to reset cooldown and Next button to add penalty ball",
+    "details": "Fix: Update Bingo button to reset cooldown and Next button to add penalty ball",
+    "isFix": true
+  },
+  {
+    "id": "349d582cbc8b6b596dffbbfd5134e816a51853a6",
+    "version": "v1.6.6",
+    "date": "2026-07-29",
+    "typeTag": "Fix",
+    "title": "Handle Bingo button to physically remove winner and defer VIP prompt",
+    "details": "Fix: Handle Bingo button to physically remove winner and defer VIP prompt",
+    "isFix": true
+  },
+  {
+    "id": "4d57345677849428f1dd3f151fd50be1cbfccd65",
+    "version": "v1.6.5",
+    "date": "2026-07-29",
+    "typeTag": "Fix",
+    "title": "Restore the wide flat Gaussian bucket layout logic",
+    "details": "Fix: Restore the wide flat Gaussian bucket layout logic",
+    "isFix": true
+  },
+  {
+    "id": "7671504b31ede7b14c8f6846868b387ad87856ba",
+    "version": "v1.6.4",
+    "date": "2026-07-29",
+    "typeTag": "Fix",
+    "title": "Restore missing VIP designation input field in VIP mode",
+    "details": "Fix: Restore missing VIP designation input field in VIP mode",
+    "isFix": true
+  },
+  {
+    "id": "6063dc72f6d9809deb24b4b5a27be09e3af53771",
+    "version": "v1.6.3",
+    "date": "2026-07-29",
+    "typeTag": "Fix",
+    "title": "Remove duplicate game mode selection from ControlPanel and revert to physical VIP ball logic",
+    "details": "Fix: Remove duplicate game mode selection from ControlPanel and revert to physical VIP ball logic",
+    "isFix": true
+  },
+  {
+    "id": "9752e07e08d5c81d3139d979aa29eb487a4362ec",
+    "version": "v1.6.2",
+    "date": "2026-07-29",
+    "typeTag": "Refactor",
+    "title": "Componentize App.jsx, extract CSS to index.css and logic to hooks/utils",
+    "details": "Refactor: Componentize App.jsx, extract CSS to index.css and logic to hooks/utils",
+    "isFix": false
+  },
+  {
+    "id": "74afca563e17e3053435ddf69d649178d1a90522",
+    "version": "v1.6.1",
+    "date": "2026-07-29",
+    "typeTag": "Fix",
+    "title": "Remove bouncy physics and use smooth gravity drop for rollout animation",
+    "details": "Fix: Remove bouncy physics and use smooth gravity drop for rollout animation",
+    "isFix": true
+  },
+  {
+    "id": "8252adfe14e699a3b8c7575c771a6e2ced72f89f",
+    "version": "v1.6.0",
+    "date": "2026-07-29",
+    "typeTag": "Feat",
+    "title": "Physical rollout directly from the pile",
+    "details": "Feat: Physical rollout directly from the pile",
+    "isFix": false
+  },
+  {
+    "id": "83dabac364569465ed3cae7e9a41dfdfb3324e2e",
+    "version": "v1.5.1",
+    "date": "2026-07-29",
+    "typeTag": "Fix",
+    "title": "Allow rolling animation to finish by extending drawing timeout",
+    "details": "Fix: Allow rolling animation to finish by extending drawing timeout",
+    "isFix": true
+  },
+  {
+    "id": "ea5232dbff62401c7832ba75dbc1fcb15474e992",
+    "version": "v1.5.0",
+    "date": "2026-07-29",
+    "typeTag": "Feat",
+    "title": "Extreme chaotic bouncing for lottery machine simulation",
+    "details": "Feat: Extreme chaotic bouncing for lottery machine simulation",
+    "isFix": false
+  },
+  {
+    "id": "46a7d34ed1829772a33c43a00cde9b7dffab7f8a",
+    "version": "v1.4.0",
+    "date": "2026-07-29",
+    "typeTag": "Feat",
+    "title": "Flatten Gaussian layout and add chaotic bounce",
+    "details": "Feat: Flatten Gaussian layout and add chaotic bounce",
+    "isFix": false
+  },
+  {
+    "id": "e7f0b35502ddd6aa9d76f13104c2836258807e9f",
+    "version": "v1.3.0",
+    "date": "2026-07-29",
+    "typeTag": "Feat",
+    "title": "Deterministic Galton board stacking and sequential pouring delay",
+    "details": "Feat: Deterministic Galton board stacking and sequential pouring delay",
+    "isFix": false
+  },
+  {
+    "id": "faa98916e67db5587cb1dbbdaaf39f4174063c0c",
+    "version": "v1.2.0",
+    "date": "2026-07-29",
+    "typeTag": "Feat",
+    "title": "Complete redesign of physical pouring animation based on user feedback",
+    "details": "Feat: Complete redesign of physical pouring animation based on user feedback",
+    "isFix": false
+  },
+  {
+    "id": "2aeb58ee32c795b5aa24ed856fb662a4a25eb4cc",
+    "version": "v1.1.2",
+    "date": "2026-07-29",
+    "typeTag": "Fix",
+    "title": "Make bucket physical floor perfectly flat to prevent items from floating at edges",
+    "details": "Fix: Make bucket physical floor perfectly flat to prevent items from floating at edges",
+    "isFix": true
+  },
+  {
+    "id": "cad4a860da91fede9d678a8ec5c23048fbd7f2fe",
+    "version": "v1.1.1",
+    "date": "2026-07-29",
+    "typeTag": "Fix",
+    "title": "Make bucket rotate 180 degrees from center, drop item perfectly from opening and bounce to center",
+    "details": "Fix: Make bucket rotate 180 degrees from center, drop item perfectly from opening and bounce to center",
+    "isFix": true
+  },
+  {
+    "id": "947efea3b2cd8b3527b239b9f1d1f8c4e87f25f0",
+    "version": "v1.1.0",
+    "date": "2026-07-29",
+    "typeTag": "Feat",
+    "title": "實作重力掉落動畫、筒口倒出物理效果與全響應式版面",
+    "details": "Feat: 實作重力掉落動畫、筒口倒出物理效果與全響應式版面",
+    "isFix": false
+  },
+  {
+    "id": "d88ec0b3562a687232f1c8a53b05796a9cb7ab00",
+    "version": "v1.0.4",
+    "date": "2026-07-29",
+    "typeTag": "Fix",
+    "title": "remove dead setHandType call causing click to fail",
+    "details": "Fix: remove dead setHandType call causing click to fail",
+    "isFix": true
+  },
+  {
+    "id": "9ddb02211315976f59a8098a1e9bcdcbaaa1df15",
+    "version": "v1.0.3",
+    "date": "2026-07-29",
+    "typeTag": "Fix",
+    "title": "conditional base path and update Node to 22",
+    "details": "Fix: conditional base path and update Node to 22",
+    "isFix": true
+  },
+  {
+    "id": "79149fefda6dcc678edbea697a35a0af65afa953",
+    "version": "v1.0.2",
+    "date": "2026-07-25",
+    "typeTag": "Initial commit",
+    "title": "LottoTube with amazing animations",
+    "details": "Initial commit: LottoTube with amazing animations",
+    "isFix": false
+  },
+  {
+    "id": "69736a28f29c0e607c16a8d610b05ad8de65d385",
+    "version": "v1.0.1",
+    "date": "2026-07-25",
+    "typeTag": "",
+    "title": "Initial commit for LottoTube",
+    "details": "Initial commit for LottoTube",
+    "isFix": false
+  }
+]

@@ -1,0 +1,50 @@
+2f13ce0d9c2bd01adb54c6e1b67e4d5b28191c6a|2026-08-12 16:58:07 +0800|Enhance: Replace padding-bottom hack with a precise max-vh bounding box for the Roulette so it remains massive without pushing the action button off the screen
+80223b4d806bee5125f0f289c3b83bc227d5df2f|2026-08-12 16:56:53 +0800|Enhance: Rewrite Roulette rendering to use CSS container queries (cqi) so text, borders, and pointers scale dynamically with the wheel's size
+66652675bcdc5049498de90dffc353b2ae2b4ef4|2026-08-12 12:07:23 +0800|Fix: Overhaul App.jsx layout to ensure Roulette remains huge on desktop and bypass Safari flex height bugs completely using items-stretch
+be578208e34d196758fd98b7ed81ae56ae22d925|2026-08-12 11:58:42 +0800|Fix: Add self-stretch to Roulette and main button to fix Safari flex-col items-center bug that ignores w-full
+f6e0d01279814dbe5ce12c7a9ab37bc3cd8a682f|2026-08-12 11:33:14 +0800|Fix: Replace Tailwind aspect-square with CSS padding-bottom hack to completely prevent flexbox height constraints from shrinking the Roulette wheel
+5d0517a81679cc668ad1bbfde36c4556b4245a70|2026-08-12 11:28:22 +0800|Fix: Add shrink-0 to prevent flexbox from shrinking the Roulette wheel on short screens
+4298e6f7eb150bd39233e731a62dd854ce072c9f|2026-08-12 11:26:14 +0800|Fix: Correct Tailwind max-w classes to ensure Roulette expands to fill container on all screen sizes
+3f10bbc08c13f4aed43b6acf1419155a452bd226|2026-08-12 11:22:27 +0800|Enhance: Enlarge Roulette wheel to fill the container completely
+9aa81652edbaca4c04860b1ba5b7b33153c01b33|2026-08-12 11:12:14 +0800|Enhance: Enlarge Roulette wheel size to 1.5x original size
+a4fa18a1ae04223fb5efa98e82d20890520ba3f2|2026-08-12 11:06:55 +0800|Enhance: Enlarge Roulette wheel size and make Roulette winner modal style independent of Bucket draw style (defaults to clean ball style)
+095097a3c27a465180153b43a41a1216a8c4278d|2026-08-12 11:00:53 +0800|Fix: Do not clear tempWinner when modal opens so that Penalty button (X) can function properly in Box mode
+938098bf36181fd4443662374cfd82f01605f9de|2026-08-12 10:52:05 +0800|Fix: Add 800ms delay to align rollout animation with tilted bucket mouth
+b9a2b97afb9789155eb79988281926923fd61a3f|2026-08-12 10:31:13 +0800|Fix: Restore exact Box mode animation logic to prevent stuck state
+c856183ed5c78d3842f0dddc14504f13e2883660|2026-08-12 10:26:54 +0800|Fix: Sync Bucket mode animation logic and restore sounds
+651667b42df0e430ac16296f7acf21830cf2a13b|2026-08-07 18:49:28 +0800|Fix: Add missing useCallback import
+085eb88950ca574904c59514bb294abcc2601157|2026-08-07 18:44:24 +0800|Fix: Revert item gray-out to exempt all instances by name as per game rules
+4a62d6460db446dba6a16f174813ef7020e92e84|2026-08-07 18:35:34 +0800|Fix: Correct indexing for targetBucketIndex and use exact instance graying out for accurate cooldowns and punishment stick addition
+7eb74e57c867d70ddfef2704bcc0b67bb7ba827b|2026-08-07 17:40:05 +0800|Fix: Align rollout animation to the tilted bucket mouth
+ed3e666b4ba7e6109c82f650d9e2e6727289253d|2026-08-07 17:25:33 +0800|Fix: Delay number reveal until reaching bottom-right corner and ensure wrong answer adds to exemption area and adds stick
+57c4051fb470fb7b591f8ec95436b850adc2caf0|2026-08-07 17:18:46 +0800|Feature & Fix: Conceal bucket numbers with frosted tube, contain shaking physics, and add designated VIP stick on wrong answer
+fd4a4383ba54e4c62c8b31d882c5739e97406924|2026-08-07 10:46:54 +0800|Fix: Append tempWinner instead of target when answering incorrectly in VIP mode
+8ca3a82af426fc1fc23739276b6fcb86d2efc397|2026-08-07 10:38:24 +0800|Fix: Adjust rollout layer Z-index to render inside 3D bucket constraints
+51952c7954505b64dc4d58457294c4d665893ac9|2026-08-07 10:28:45 +0800|Fix: Add physics boundaries (ceiling, tall walls) to prevent items from flying out during vigorous shaking
+02199fa6e447d59127521445a053954a27e5eb23|2026-08-07 10:25:02 +0800|Fix: Remove undefined variable showSettings from App.jsx to prevent crash
+06af16e6f8a5454bc223905316f3d4d013068b96|2026-08-07 10:22:16 +0800|Fix: Import useRef in App.jsx to prevent crash
+025b69054eae8747cd3b7c55247ce825a86bf48e|2026-08-07 10:19:18 +0800|Fix: Enhance physics shaking, fix glass transparency, and ensure robust spacebar listener
+a72e41f4c9654d47fa33c22c544bbdea53f9a8b7|2026-08-07 10:13:42 +0800|Fix: Enhance spacebar shortcut safety by ignoring button focus and open modals
+db3252da177521cec830daa6139e682fb3ef8bcb|2026-08-07 10:09:56 +0800|Feat: Add spacebar shortcut to draw and Enter key to submit VIP number
+70ac8fc2dfe61dc70985c4e3a2c4c4b73c4e737a|2026-08-07 10:07:52 +0800|Fix: Adjust rollout animation distance to prevent item from flying off screen
+e8e1b1a49c65dec22237f28583b629829995463a|2026-08-07 10:05:10 +0800|Fix: Change bucket rotation origin to center to keep it on screen when pouring
+bc63c76243f0bc8b0da5bcd4b794e6bfe450cab1|2026-08-07 10:02:54 +0800|Fix: Adjust pour out animation to tilt 105 degrees and drop ball to the bottom right
+6259323c9c6e452bd2981ce5d8c60190ae72a92c|2026-08-07 09:56:24 +0800|Fix: Restore bucket tilt forward animation when pouring out item
+1be259efb51a53f19013b6eb637d36e11c641956|2026-08-07 09:52:28 +0800|Fix: Adjust bucket shape to be taller and more cylindrical like an authentic lottery tube
+9f20ed69a435134872175732abf1f9a8b19b28a5|2026-08-06 21:09:46 +0800|Fix: Add robust gh-pages branch sync and resilient deployment workflow
+f3b9be024a2dc2b812aa6b66df1ebe78b6c818b2|2026-08-06 20:51:04 +0800|Fix: Set deployment concurrency cancel-in-progress to false to prevent GitHub Pages lock timeout
+100581b7da6b56003507c04cb75977f39e363b78|2026-08-06 20:37:28 +0800|Fix: Remove polygon glitch on bucket, polish 3D elliptical mouth, and implement forward roll-out animation
+db7c36e8dcef8b1989d15d468334fbe8a9c29f3f|2026-08-06 20:13:37 +0800|Fix: Roulette VIP text overflow with dynamic chord scaling, fix Bucket rollout animation unclipped layer, add auto dark mode
+dfa7d57409c7458240a41f25ddcff89430e5b5d1|2026-08-06 19:52:11 +0800|Trigger deployment to fix GitHub Actions transient failure
+7a626c37088125a4d327d7b006da7f6107d5c48c|2026-08-06 19:38:49 +0800|Fix: Bucket animation and Roulette VIP text display
+d6d80020abb53b60acb1d19dee71008339822bb6|2026-08-06 10:42:42 +0800|Fix: classic/star/ball styles, single item pop, VIP text overflow
+c47607c2a01a8a16cf95acd976a0c9b68fa7c9f3|2026-08-06 10:26:57 +0800|Fix: Add missing useState import in ControlPanel
+a8384a9bfad5c32c722e61ba5d5ca0b51ee0dc38|2026-08-06 10:24:21 +0800|Fix: Add ErrorBoundary and Matter CJS interop
+29e6e9828de56de27928cf0952c633a781ce0ba9|2026-08-06 09:26:02 +0800|Fix: JSX syntax and finalize LottoTube 2.0
+d2b63eb991cf78d096d1c6b4a55aa460959dfb95|2026-08-05 12:57:22 +0800|Feat: Add hidden creator credits to HTML and JS console
+7e4e7feedb3a3b44e19f726478ece1a8379d1b6f|2026-08-05 10:56:57 +0800|Feat: Add watermark in top-right and bottom-right
+3b5a314e5241fa1232726ad279d6a5610c81681d|2026-07-29 19:08:15 +0800|Fix: Roulette wheel overflow - tighten max-width and percentage to ensure padding
+848c9adeb563d962b04ba4ca5d6d914273aa2abb|2026-07-29 19:05:47 +0800|Fix: Roulette wheel overflowing container by using percentage width instead of vw
+32891819c7d12007c8c49ff577896420cf114052|2026-07-29 19:03:42 +0800|Update title to 特製抽籤系統 and remove subtitle
+ac8ec8ed9febcebff5b1ddf3d774604baa76fad9|2026-07-29 16:59:38 +0800|Feat: Implement multiple sound modes (Classic, Retro, Arcade) with UI toggle
+89fdc673c0b157257bf663eabd9f4b86c14886e0|2026-07-29 16:47:52 +0800|Fix: Use true random shuffle for roulette/bucket visual order

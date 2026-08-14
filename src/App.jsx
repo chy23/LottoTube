@@ -9,6 +9,7 @@ import ControlPanel from './components/ControlPanel';
 import Bucket from './components/Bucket';
 import Roulette from './components/Roulette';
 import WinnerModal, { ConfirmModal, VipPromptModal } from './components/WinnerModal';
+import ChangelogModal from './components/ChangelogModal';
 
 export default function App() {
   const { 
@@ -49,6 +50,7 @@ export default function App() {
   const [tempWinner, setTempWinner] = useState(null);
   const [vipNumber, setVipNumber] = useState(() => localStorage.getItem('drawLots_vipNumber') || '');
   const [showVipPrompt, setShowVipPrompt] = useState(false);
+  const [isChangelogOpen, setIsChangelogOpen] = useState(false);
   const [historyLog, setHistoryLog] = useState(() => JSON.parse(localStorage.getItem('drawLots_historyLog')) || []);
   const [isFullscreen, setIsFullscreen] = useState(false);
   
@@ -448,6 +450,10 @@ export default function App() {
               <button onClick={() => setIsMuted(!isMuted)} className="p-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 hover:bg-white/80 dark:hover:bg-slate-700/80 transition-colors">
                 {isMuted ? <VolumeX size={24} className="text-red-500" /> : <Volume2 size={24} className="text-[#007AFF] dark:text-[#4DA8DA]" />}
               </button>
+              
+              <button onClick={() => setIsChangelogOpen(true)} className="p-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 hover:bg-white/80 dark:hover:bg-slate-700/80 transition-colors" title="更新紀錄">
+                <History size={24} className="text-indigo-500 dark:text-indigo-400" />
+              </button>
             </div>
           </div>
         </header>
@@ -557,6 +563,11 @@ export default function App() {
         handleSkip={handleSkip}
         handleX={handleX}
         appMode={appMode}
+      />
+      
+      <ChangelogModal
+        isOpen={isChangelogOpen}
+        onClose={() => setIsChangelogOpen(false)}
       />
     </div>
   );
