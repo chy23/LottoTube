@@ -1,5 +1,14 @@
 [
   {
+    "id": "47933cef92dfbb012537cff0777c87bafd97fc87",
+    "version": "v1.12.0",
+    "date": "2026-08-14",
+    "typeTag": "Feat",
+    "title": "Add automated Changelog Modal to display version history dynamically from git commits",
+    "details": "Feat: Add automated Changelog Modal to display version history dynamically from git commits",
+    "isFix": false
+  },
+  {
     "id": "2f13ce0d9c2bd01adb54c6e1b67e4d5b28191c6a",
     "version": "v1.11.27",
     "date": "2026-08-12",
