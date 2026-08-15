@@ -5,17 +5,17 @@ import { renderItemStyle } from '../utils/styles';
 export function ConfirmModal({ confirmModal, setConfirmModal }) {
   if (!confirmModal) return null;
   return (
-    <div className="fixed inset-0 bg-white/10 backdrop-blur-[80px] flex items-center justify-center p-8 z-[60] animate-in fade-in duration-300" role="dialog" aria-modal="true">
-      <div className="bg-white/90 backdrop-blur-3xl rounded-[3.5rem] shadow-[0_64px_128px_-32px_rgba(0,0,0,0.15)] p-12 max-w-sm w-full text-center border border-white animate-in zoom-in-95 duration-400">
-        <div className="w-20 h-20 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-6">
+    <div className="fixed inset-0 bg-white/10 dark:bg-slate-900/60 backdrop-blur-[80px] flex items-center justify-center p-8 z-[60] animate-in fade-in duration-300" role="dialog" aria-modal="true">
+      <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-3xl rounded-[3.5rem] shadow-[0_64px_128px_-32px_rgba(0,0,0,0.15)] dark:shadow-[0_64px_128px_-32px_rgba(0,0,0,0.5)] p-12 max-w-sm w-full text-center border border-white dark:border-slate-700 animate-in zoom-in-95 duration-400">
+        <div className="w-20 h-20 bg-amber-50 dark:bg-amber-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
           <AlertCircle size={40} className="text-amber-500" />
         </div>
-        <h2 className="text-2xl font-black text-slate-800 mb-4 tracking-tight">操作確認</h2>
-        <p className="text-slate-500 font-bold mb-10 text-lg">{confirmModal.message}</p>
+        <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 mb-4 tracking-tight">操作確認</h2>
+        <p className="text-slate-500 dark:text-slate-400 font-bold mb-10 text-lg">{confirmModal.message}</p>
         <div className="flex flex-col gap-3">
           <button onClick={confirmModal.onConfirm} className="w-full py-5 bg-[#007AFF] hover:bg-[#0062CC] text-white rounded-2xl font-black text-xl shadow-xl transition-all active:scale-95"> 確定執行 </button>
           {confirmModal.type !== 'alert' && (
-            <button onClick={() => setConfirmModal(null)} className="w-full py-5 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-2xl font-black text-xl transition-all"> 取消 </button>
+            <button onClick={() => setConfirmModal(null)} className="w-full py-5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-500 dark:text-slate-300 rounded-2xl font-black text-xl transition-all"> 取消 </button>
           )}
         </div>
       </div>
@@ -26,14 +26,19 @@ export function ConfirmModal({ confirmModal, setConfirmModal }) {
 export function VipPromptModal({ showVipPrompt, setShowVipPrompt, vipNumber, setVipNumber }) {
   if (!showVipPrompt) return null;
   return (
-    <div className="fixed inset-0 bg-white/20 backdrop-blur-[60px] flex items-center justify-center p-8 z-50 animate-in fade-in duration-300" role="dialog" aria-modal="true">
-      <div className="bg-white rounded-[4rem] shadow-[0_64px_128px_-32px_rgba(0,0,0,0.1)] p-14 max-w-md w-full text-center border border-white animate-in slide-in-from-bottom-20 duration-500">
-        <div className="w-24 h-24 bg-amber-100 rounded-[2.5rem] flex items-center justify-center mx-auto mb-8 rotate-6 shadow-xl border-4 border-white">
+    <div className="fixed inset-0 bg-white/20 dark:bg-slate-900/60 backdrop-blur-[60px] flex items-center justify-center p-8 z-50 animate-in fade-in duration-300" role="dialog" aria-modal="true">
+      <div className="bg-white dark:bg-slate-800 rounded-[4rem] shadow-[0_64px_128px_-32px_rgba(0,0,0,0.1)] dark:shadow-[0_64px_128px_-32px_rgba(0,0,0,0.5)] p-14 max-w-md w-full text-center border border-white dark:border-slate-700 animate-in slide-in-from-bottom-20 duration-500">
+        <div className="w-24 h-24 bg-amber-100 dark:bg-amber-900/30 rounded-[2.5rem] flex items-center justify-center mx-auto mb-8 rotate-6 shadow-xl border-4 border-white dark:border-slate-700">
           <Star size={48} fill="#F59E0B" className="text-amber-500" />
         </div>
-        <h2 className="text-4xl font-black text-amber-600 mb-4 tracking-tighter">卓越表現！</h2>
-        <p className="text-slate-500 font-bold mb-10 text-lg leading-relaxed">挑戰已圓滿達成，<br/>請指定下一位 VIP 號碼：</p>
-        <input type="text" autoFocus value={vipNumber} onChange={(e) => setVipNumber(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') setShowVipPrompt(false); }} placeholder="座號" className="w-full p-6 mb-10 rounded-[2rem] border-4 border-slate-50 bg-slate-50/50 text-center font-black text-slate-900 text-5xl shadow-inner outline-none focus:bg-white focus:ring-8 focus:ring-amber-100 transition-all" />
+        <h2 className="text-4xl font-black text-amber-600 dark:text-amber-400 mb-4 tracking-tighter">卓越表現！</h2>
+        <p className="text-slate-500 dark:text-slate-400 font-bold mb-10 text-lg leading-relaxed">挑戰已圓滿達成，<br/>請指定下一位 VIP 號碼：</p>
+        <div className="relative">
+          <input type="text" autoFocus value={vipNumber} onChange={(e) => setVipNumber(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') setShowVipPrompt(false); }} placeholder="座號" className="w-full p-6 mb-10 rounded-[2rem] border-4 border-slate-50 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/50 text-center font-black text-slate-900 dark:text-slate-100 text-5xl shadow-inner outline-none focus:bg-white dark:focus:bg-slate-800 focus:ring-8 focus:ring-amber-100 dark:focus:ring-amber-900/30 transition-all" />
+          <div className="absolute right-6 top-1/2 -translate-y-1/2 -mt-5 pointer-events-none opacity-40 dark:opacity-30">
+            <kbd className="font-sans text-sm font-bold bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded-lg border-b-2 border-slate-300 dark:border-slate-800">Enter</kbd>
+          </div>
+        </div>
         <button onClick={() => setShowVipPrompt(false)} className="w-full py-7 bg-amber-500 hover:bg-amber-600 text-white rounded-[2.5rem] font-black text-2xl active:scale-95 transition-transform shadow-2xl shadow-amber-500/40"> 設定完成 </button>
       </div>
     </div>
@@ -50,23 +55,28 @@ export default function WinnerModal({
   if (!showWinnerModal || !winner) return null;
 
   return (
-    <div className="fixed inset-0 bg-white/20 backdrop-blur-[60px] flex items-center justify-center p-8 z-50 animate-in fade-in duration-500" role="dialog" aria-modal="true">
-      <div className="bg-white/95 backdrop-blur-3xl rounded-[4.5rem] shadow-[0_64px_128px_-32px_rgba(0,0,0,0.2)] p-14 max-w-2xl w-full text-center border border-white animate-in zoom-in-90 duration-500 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20 bg-[radial-gradient(circle_at_50%_50%,_#cbd5e1_1px,_transparent_1px)]" style={{ backgroundSize: '20px 20px' }}></div>
+    <div className="fixed inset-0 bg-white/20 dark:bg-slate-900/80 backdrop-blur-[60px] flex items-center justify-center p-8 z-50 animate-in fade-in duration-500" role="dialog" aria-modal="true">
+      <div className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-3xl rounded-[4.5rem] shadow-[0_64px_128px_-32px_rgba(0,0,0,0.2)] dark:shadow-[0_64px_128px_-32px_rgba(0,0,0,0.7)] p-14 max-w-2xl w-full text-center border border-white dark:border-slate-700 animate-in zoom-in-90 duration-500 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20 dark:opacity-10 bg-[radial-gradient(circle_at_50%_50%,_#cbd5e1_1px,_transparent_1px)] dark:bg-[radial-gradient(circle_at_50%_50%,_#475569_1px,_transparent_1px)]" style={{ backgroundSize: '20px 20px' }}></div>
 
-        <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-32 h-32 bg-[#007AFF] rounded-full flex items-center justify-center shadow-2xl border-[8px] border-white ring-4 ring-blue-50">
+        <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-32 h-32 bg-[#007AFF] rounded-full flex items-center justify-center shadow-2xl border-[8px] border-white dark:border-slate-800 ring-4 ring-blue-50 dark:ring-blue-900/30">
           <Sparkles size={60} className="text-white animate-pulse" />
         </div>
-        <p className="text-slate-400 font-black tracking-[0.3em] uppercase mb-4 mt-10 relative z-10">Congratulations</p>
+        <p className="text-slate-400 dark:text-slate-500 font-black tracking-[0.3em] uppercase mb-4 mt-10 relative z-10">Congratulations</p>
         
         <div className="flex justify-center items-center min-h-[250px] mb-12 animate-bounce-custom relative z-10">
           {renderItemStyle(winner, appMode === 'roulette' ? 'ball' : drawStyle, () => false, true)}
         </div>
 
         {gameMode === 'vip' && winner === 'VIP號' && (
-          <div className="mb-10 p-8 bg-gradient-to-br from-amber-50 to-orange-50 rounded-[3rem] border border-amber-200 shadow-inner relative overflow-hidden z-10">
-            <p className="text-lg text-amber-800 font-black mb-5">👑 VIP 號碼設定</p>
-            <input type="text" value={vipNumber} autoFocus onChange={(e) => setVipNumber(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') handleO(); }} placeholder="座號" className="w-full p-6 rounded-[2rem] border-4 border-white font-black text-slate-900 text-5xl shadow-2xl outline-none text-center bg-white/80 focus:ring-8 focus:ring-amber-200 transition-all" />
+          <div className="mb-10 p-8 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-[3rem] border border-amber-200 dark:border-amber-700/50 shadow-inner relative overflow-hidden z-10">
+            <p className="text-lg text-amber-800 dark:text-amber-400 font-black mb-5">👑 VIP 號碼設定</p>
+            <div className="relative">
+              <input type="text" value={vipNumber} autoFocus onChange={(e) => setVipNumber(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') handleO(); }} placeholder="座號" className="w-full p-6 rounded-[2rem] border-4 border-white dark:border-slate-700 font-black text-slate-900 dark:text-slate-100 text-5xl shadow-2xl outline-none text-center bg-white/80 dark:bg-slate-800/80 focus:ring-8 focus:ring-amber-200 dark:focus:ring-amber-900/30 transition-all" />
+              <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none opacity-40 dark:opacity-30">
+                <kbd className="font-sans text-sm font-bold bg-slate-200 dark:bg-slate-700 px-2 py-1 rounded-lg border-b-2 border-slate-300 dark:border-slate-800">Enter</kbd>
+              </div>
+            </div>
           </div>
         )}
         

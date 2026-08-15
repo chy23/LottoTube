@@ -44,13 +44,13 @@ export default function ControlPanel({
         <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
           <button 
             onClick={() => setActiveTab('list')}
-            className={`px-4 py-1.5 rounded-lg text-sm font-black transition-all flex items-center gap-2 ${activeTab === 'list' ? 'bg-white dark:bg-slate-700 shadow text-[#007AFF] dark:text-[#4DA8DA]' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
+            className={`flex-1 py-3 px-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all active:scale-95 ${activeTab === 'list' ? 'bg-white dark:bg-slate-700 shadow text-[#007AFF] dark:text-[#4DA8DA]' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
           >
             <Edit3 size={16} />名單
           </button>
           <button 
             onClick={() => setActiveTab('history')}
-            className={`px-4 py-1.5 rounded-lg text-sm font-black transition-all flex items-center gap-2 ${activeTab === 'history' ? 'bg-white dark:bg-slate-700 shadow text-[#007AFF] dark:text-[#4DA8DA]' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
+            className={`flex-1 py-3 px-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all active:scale-95 ${activeTab === 'history' ? 'bg-white dark:bg-slate-700 shadow text-[#007AFF] dark:text-[#4DA8DA]' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
           >
             <ListOrdered size={16} />紀錄
           </button>
@@ -68,13 +68,13 @@ export default function ControlPanel({
           <div className="flex gap-2 mb-4 relative z-10">
             <button 
               onClick={sortTextList}
-              className="flex-1 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-200 font-bold py-2.5 px-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-600 transition-all flex items-center justify-center gap-2 active:scale-95"
+              className="px-6 py-3 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-xl font-bold shadow-sm border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 flex items-center gap-2 transition-all active:scale-95"
             >
               <ListOrdered size={18} /> 智能排序
             </button>
             <button 
               onClick={resetWheel}
-              className="flex-1 bg-white dark:bg-slate-700 hover:bg-red-50 dark:hover:bg-red-900/30 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-800 text-slate-600 dark:text-slate-200 font-bold py-2.5 px-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-600 transition-all flex items-center justify-center gap-2 active:scale-95"
+              className="px-6 py-3 bg-white dark:bg-slate-700 hover:bg-red-50 dark:hover:bg-red-900/30 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-800 rounded-xl font-bold shadow-sm border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 flex items-center gap-2 transition-all active:scale-95"
             >
               <RotateCcw size={18} /> 重設進度
             </button>
@@ -94,15 +94,15 @@ export default function ControlPanel({
           </div>
           
           <div className="flex justify-between mt-4 relative z-10 gap-2">
-            <button onClick={() => { setTextList(''); setCooldownList([]); }} className="text-slate-400 dark:text-slate-500 hover:text-red-500 transition-colors p-2 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/30 flex items-center gap-2 text-sm font-bold">
-              <Trash2 size={16} /> 清空
+            <button onClick={() => { setTextList(''); setCooldownList([]); }} className="text-slate-400 dark:text-slate-500 hover:text-red-500 transition-all active:scale-95 p-2 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/30 flex items-center gap-2 text-sm font-bold">
+              <Trash2 size={18} /> 清空
             </button>
             <div className="flex gap-2">
-              <button onClick={exportData} className="text-slate-400 dark:text-slate-500 hover:text-[#007AFF] dark:hover:text-[#4DA8DA] transition-colors p-2 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/30 flex items-center gap-2 text-sm font-bold" title="匯出名單">
+              <button onClick={exportData} className="text-slate-400 dark:text-slate-500 hover:text-[#007AFF] dark:hover:text-[#4DA8DA] transition-all active:scale-95 p-2 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/30 flex items-center gap-2 text-sm font-bold" title="匯出名單">
                 <Download size={18} />
               </button>
               <input type="file" accept=".txt" ref={fileInputRef} onChange={importData} className="hidden" />
-              <button onClick={() => fileInputRef.current?.click()} className="text-slate-400 dark:text-slate-500 hover:text-[#007AFF] dark:hover:text-[#4DA8DA] transition-colors p-2 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/30 flex items-center gap-2 text-sm font-bold" title="匯入名單">
+              <button onClick={() => fileInputRef.current?.click()} className="text-slate-400 dark:text-slate-500 hover:text-[#007AFF] dark:hover:text-[#4DA8DA] transition-all active:scale-95 p-2 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/30 flex items-center gap-2 text-sm font-bold" title="匯入名單">
                 <Upload size={18} />
               </button>
             </div>

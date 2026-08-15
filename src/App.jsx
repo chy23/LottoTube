@@ -393,13 +393,13 @@ export default function App() {
             <div className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl p-1.5 rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 flex gap-1 items-center">
               <button 
                 onClick={() => setAppMode('box')} 
-                className={`px-4 py-2 rounded-xl text-sm font-black transition-all ${appMode === 'box' ? 'bg-[#007AFF] text-white shadow-md' : 'text-slate-500 dark:text-slate-400 hover:bg-white/60 dark:hover:bg-slate-700/60'}`}
+                className={`px-4 py-2 rounded-xl text-sm font-black transition-all active:scale-95 ${appMode === 'box' ? 'bg-[#007AFF] text-white shadow-md' : 'text-slate-500 dark:text-slate-400 hover:bg-white/60 dark:hover:bg-slate-700/60'}`}
               >
                 籤筒模式
               </button>
               <button 
                 onClick={() => setAppMode('roulette')} 
-                className={`px-4 py-2 rounded-xl text-sm font-black transition-all ${appMode === 'roulette' ? 'bg-[#007AFF] text-white shadow-md' : 'text-slate-500 dark:text-slate-400 hover:bg-white/60 dark:hover:bg-slate-700/60'}`}
+                className={`px-4 py-2 rounded-xl text-sm font-black transition-all active:scale-95 ${appMode === 'roulette' ? 'bg-[#007AFF] text-white shadow-md' : 'text-slate-500 dark:text-slate-400 hover:bg-white/60 dark:hover:bg-slate-700/60'}`}
               >
                 轉盤模式
               </button>
@@ -421,7 +421,7 @@ export default function App() {
                   <button
                     key={style.id}
                     onClick={() => setDrawStyle(style.id)}
-                    className={`px-4 py-2 rounded-xl text-sm font-black transition-all ${drawStyle === style.id ? 'bg-white dark:bg-slate-700 shadow-sm text-[#007AFF] dark:text-[#4DA8DA]' : 'text-slate-500 dark:text-slate-400 hover:bg-white/40 dark:hover:bg-slate-700/40'}`}
+                    className={`px-4 py-2 rounded-xl text-sm font-black transition-all active:scale-95 ${drawStyle === style.id ? 'bg-white dark:bg-slate-700 shadow-sm text-[#007AFF] dark:text-[#4DA8DA]' : 'text-slate-500 dark:text-slate-400 hover:bg-white/40 dark:hover:bg-slate-700/40'}`}
                   >
                     {style.label}
                   </button>
@@ -434,7 +434,7 @@ export default function App() {
                   const modes = ['classic', 'retro', 'arcade'];
                   setSoundMode(modes[(modes.indexOf(soundMode) + 1) % modes.length]);
                 }} 
-                className="p-4 bg-white/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 text-[#007AFF] hover:bg-white/80 transition-colors flex items-center gap-2"
+                className="p-4 bg-white/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 text-[#007AFF] hover:bg-white/80 transition-all active:scale-95 flex items-center gap-2"
                 title="切換音效模式"
               >
                 <Music size={24} />
@@ -443,15 +443,15 @@ export default function App() {
                 </span>
               </button>
               
-              <button onClick={toggleFullscreen} className="p-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 hover:bg-white/80 dark:hover:bg-slate-700/80 transition-colors" title="全螢幕">
+              <button onClick={toggleFullscreen} className="p-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 hover:bg-white/80 dark:hover:bg-slate-700/80 transition-all active:scale-95" title="全螢幕">
                 {isFullscreen ? <Minimize size={24} /> : <Maximize size={24} />}
               </button>
               
-              <button onClick={() => setIsMuted(!isMuted)} className="p-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 hover:bg-white/80 dark:hover:bg-slate-700/80 transition-colors">
+              <button onClick={() => setIsMuted(!isMuted)} className="p-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 hover:bg-white/80 dark:hover:bg-slate-700/80 transition-all active:scale-95" title={isMuted ? "取消靜音" : "靜音"}>
                 {isMuted ? <VolumeX size={24} className="text-red-500" /> : <Volume2 size={24} className="text-[#007AFF] dark:text-[#4DA8DA]" />}
               </button>
               
-              <button onClick={() => setIsChangelogOpen(true)} className="p-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 hover:bg-white/80 dark:hover:bg-slate-700/80 transition-colors" title="更新紀錄">
+              <button onClick={() => setIsChangelogOpen(true)} className="p-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 hover:bg-white/80 dark:hover:bg-slate-700/80 transition-all active:scale-95" title="更新紀錄">
                 <History size={24} className="text-indigo-500 dark:text-indigo-400" />
               </button>
             </div>
@@ -490,13 +490,25 @@ export default function App() {
             <button 
               onClick={drawLot} 
               disabled={drawState !== 'idle' || items.length === 0}
-              className={`mt-12 w-full self-stretch py-6 md:py-8 rounded-[2.5rem] text-2xl md:text-3xl font-black shadow-2xl transition-all flex items-center justify-center gap-4 z-50
+              className={`relative mt-12 w-full self-stretch py-6 md:py-8 rounded-[2.5rem] text-2xl md:text-3xl font-black shadow-2xl transition-all flex items-center justify-center gap-4 z-50 overflow-hidden group
                 ${drawState !== 'idle' || items.length === 0 
                   ? 'bg-slate-200 text-slate-400 cursor-not-allowed' 
-                  : 'bg-[#007AFF] hover:bg-[#0062CC] hover:scale-105 active:scale-95 text-white shadow-blue-500/40'}`}
+                  : 'bg-gradient-to-r from-blue-500 via-indigo-500 to-[#007AFF] hover:from-blue-600 hover:via-indigo-600 hover:to-blue-700 hover:scale-[1.02] active:scale-95 text-white shadow-blue-500/40 hover:shadow-indigo-500/50'}`}
             >
-              {drawState !== 'idle' ? <RefreshCcw className="animate-spin" size={36} /> : <Sparkles size={36} />}
-              {drawState === 'shaking' ? '搖晃中...' : drawState === 'reaching' ? '抽取中...' : drawState === 'spinning' ? '轉動中...' : '抽出幸運兒'}
+              {drawState === 'idle' && items.length > 0 && (
+                <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              )}
+              {drawState !== 'idle' ? <RefreshCcw className="animate-spin relative z-10" size={36} /> : <Sparkles className="relative z-10" size={36} />}
+              <span className="relative z-10">
+                {drawState === 'shaking' ? '搖晃中...' : drawState === 'reaching' ? '抽取中...' : drawState === 'spinning' ? '轉動中...' : '抽出幸運兒'}
+              </span>
+              
+              {/* Spacebar Hint */}
+              {drawState === 'idle' && items.length > 0 && (
+                <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none opacity-40 group-hover:opacity-60 transition-opacity hidden sm:block">
+                  <kbd className="font-sans text-sm font-bold bg-white/20 px-3 py-1.5 rounded-xl border-b-2 border-white/30 text-white">Space</kbd>
+                </div>
+              )}
             </button>
             
             {cooldownList.length > 0 && gameMode !== 'classic' && (

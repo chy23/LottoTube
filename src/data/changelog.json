@@ -1,5 +1,14 @@
 [
   {
+    "id": "4a9f3d21adc8ddad509549d241cf8fc9f104d03a",
+    "version": "v1.12.2",
+    "date": "2026-08-14",
+    "typeTag": "Enhance",
+    "title": "Translate historical changelog entries to Traditional Chinese and preserve them in JSON",
+    "details": "Translate historical changelog entries to Traditional Chinese and preserve them in JSON",
+    "isFix": false
+  },
+  {
     "id": "147cb90d24e664c6822eb747bc7c8cccf0063264",
     "version": "v1.12.1",
     "date": "2026-08-14",
