@@ -1,5 +1,14 @@
 [
   {
+    "id": "2a9663acb0c5d85a8a6bface153d3d1b6bbb27c0",
+    "version": "v1.12.3",
+    "date": "2026-08-15",
+    "typeTag": "Enhance",
+    "title": "全面升級 UI 與 UX 體驗 (支援對話窗深色模式、漸層主按鈕、快捷鍵提示)",
+    "details": "全面升級 UI 與 UX 體驗 (支援對話窗深色模式、漸層主按鈕、快捷鍵提示)",
+    "isFix": false
+  },
+  {
     "id": "4a9f3d21adc8ddad509549d241cf8fc9f104d03a",
     "version": "v1.12.2",
     "date": "2026-08-14",
