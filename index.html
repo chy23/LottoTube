@@ -8,53 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#E3F2FD" />
     <title>特製抽籤系統</title>
-    <style>
-      @keyframes animationIn {
-        0% {
-          opacity: 0;
-          transform: translateY(30px);
-          filter: blur(8px);
-        }
-        100% {
-          opacity: 1;
-          transform: translateY(0);
-          filter: blur(0px);
-        }
-      }
-    </style>
-    <script>
-      (function () {
-        const style = document.createElement("style");
-        style.textContent = `
-          .animate-on-scroll { animation-play-state: paused !important; }
-          .animate-on-scroll.animate { animation-play-state: running !important; }
-        `;
-        document.head.appendChild(style);
-
-        const once = true;
-
-        if (!window.__inViewIO) {
-          window.__inViewIO = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("animate");
-                if (once) window.__inViewIO.unobserve(entry.target);
-              }
-            });
-          }, { threshold: 0.1, rootMargin: "0px 0px -5% 0px" });
-        }
-
-        window.initInViewAnimations = function (selector = ".animate-on-scroll") {
-          document.querySelectorAll(selector).forEach((el) => {
-            window.__inViewIO.observe(el);
-          });
-        };
-
-        document.addEventListener("DOMContentLoaded", () => initInViewAnimations());
-      })();
-    </script>
-    <script type="module" crossorigin src="/LottoTube/assets/index-JHPBoFd4.js"></script>
-    <link rel="stylesheet" crossorigin href="/LottoTube/assets/index-DJGJujeO.css">
+    <script type="module" crossorigin src="/LottoTube/assets/index-Drg5vspl.js"></script>
+    <link rel="stylesheet" crossorigin href="/LottoTube/assets/index-P8ou9fYf.css">
   <link rel="manifest" href="/LottoTube/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/LottoTube/registerSW.js"></script></head>
   <body>
     <div id="root"></div>
