@@ -14,15 +14,31 @@ export default function Bucket({
   isItemGrayedOut
 }) {
   const sceneRef = useRef(null);
+  const containerRef = useRef(null);
   const engineRef = useRef(null);
   const runnerRef = useRef(null);
   const itemsRef = useRef([]);
+  const dimensionsRef = useRef({ width: 0, height: 0 });
 
   // Fixed logical size for physics simulation
   const width = 300;
   const height = 500;
   const wallThickness = 100;
   
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        dimensionsRef.current = {
+          width: entry.contentRect.width,
+          height: entry.contentRect.height
+        };
+      }
+    });
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     // Handle potential Vite CJS/ESM interop issues
     const M = Matter.default || Matter;
@@ -84,19 +100,25 @@ export default function Bucket({
             const clampedX = Math.max(35, Math.min(width - 35, position.x));
             const clampedY = Math.max(75, Math.min(height - 25, position.y));
             
-            const leftPct = (clampedX / width) * 100;
-            const topPct = (clampedY / height) * 100;
-            
             const isTarget = i === targetBucketIndex;
             if (isTarget && isRollingOut) {
               domElement.style.opacity = '0';
               return;
             }
             
+            let cWidth = dimensionsRef.current.width;
+            let cHeight = dimensionsRef.current.height;
+            if (cWidth === 0 && containerRef.current) {
+              cWidth = containerRef.current.clientWidth;
+              cHeight = containerRef.current.clientHeight;
+              dimensionsRef.current = { width: cWidth, height: cHeight };
+            }
+            
+            const tx = (clampedX / width) * cWidth;
+            const ty = (clampedY / height) * cHeight;
+            
             domElement.style.opacity = '1';
-            domElement.style.left = `${leftPct}%`;
-            domElement.style.top = `${topPct}%`;
-            domElement.style.transform = `translate(-50%, -50%) rotate(${angle}rad) scale(0.65)`;
+            domElement.style.transform = `translate3d(${tx}px, ${ty}px, 0) translate(-50%, -50%) rotate(${angle}rad) scale(0.65)`;
           }
         });
       }
@@ -151,7 +173,7 @@ export default function Bucket({
         </div>
         
         {/* Physics Items Container (Inside the tube, strictly contained) */}
-        <div className="absolute left-[22px] right-[22px] top-6 bottom-2 rounded-b-[1.5rem] rounded-t-lg z-10 overflow-hidden pointer-events-none">
+        <div ref={containerRef} className="absolute left-[22px] right-[22px] top-6 bottom-2 rounded-b-[1.5rem] rounded-t-lg z-10 overflow-hidden pointer-events-none">
            {items.slice(0, 80).map((item, idx) => {
              const isTarget = idx === targetBucketIndex;
              if (isTarget && isRollingOut) return null;
@@ -162,7 +184,8 @@ export default function Bucket({
                  id={`physics-item-${idx}`}
                  className="absolute transition-none z-10"
                  style={{ 
-                   left: '50%', top: '50%', // Initial center position
+                   left: 0, top: 0, // Hardware accelerated translation will override this
+                   willChange: 'transform'
                  }}
                >
                  {renderItemStyle(item, drawStyle, isItemGrayedOut, false, true)}

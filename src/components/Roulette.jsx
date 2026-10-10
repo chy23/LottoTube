@@ -20,7 +20,8 @@ export default function Roulette({
           style={{ 
             borderWidth: '2.5cqi',
             transform: `rotate(${wheelRotation}deg)`, 
-            transitionDuration: drawState === 'spinning' ? '4s' : '0s' 
+            transitionDuration: drawState === 'spinning' ? '4s' : '0s',
+            willChange: 'transform'
           }}
         >
           {items.length > 0 ? (
