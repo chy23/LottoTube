@@ -5,8 +5,8 @@ import { renderItemStyle } from '../utils/styles';
 export function ConfirmModal({ confirmModal, setConfirmModal }) {
   if (!confirmModal) return null;
   return (
-    <div className="fixed inset-0 bg-white/10 dark:bg-slate-900/60 backdrop-blur-[80px] flex items-center justify-center p-8 z-[60] animate-in fade-in duration-300" role="dialog" aria-modal="true">
-      <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-3xl rounded-[3.5rem] shadow-[0_64px_128px_-32px_rgba(0,0,0,0.15)] dark:shadow-[0_64px_128px_-32px_rgba(0,0,0,0.5)] p-12 max-w-sm w-full text-center border border-white dark:border-slate-700 animate-in zoom-in-95 duration-400">
+    <div className="fixed inset-0 bg-white/10 dark:bg-slate-900/60 backdrop-blur-[80px] flex items-center justify-center p-8 z-[60] motion-safe:animate-in motion-safe:fade-in duration-300" role="dialog" aria-modal="true">
+      <div className="bg-white dark:bg-slate-800 rounded-[3.5rem] shadow-[0_64px_128px_-32px_rgba(0,0,0,0.15)] dark:shadow-[0_64px_128px_-32px_rgba(0,0,0,0.5)] p-12 max-w-sm w-full text-center border border-white dark:border-slate-700 motion-safe:animate-in motion-safe:zoom-in-95 duration-400">
         <div className="w-20 h-20 bg-amber-50 dark:bg-amber-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
           <AlertCircle size={40} className="text-amber-500" />
         </div>
@@ -26,8 +26,8 @@ export function ConfirmModal({ confirmModal, setConfirmModal }) {
 export function VipPromptModal({ showVipPrompt, setShowVipPrompt, vipNumber, setVipNumber }) {
   if (!showVipPrompt) return null;
   return (
-    <div className="fixed inset-0 bg-white/20 dark:bg-slate-900/60 backdrop-blur-[60px] flex items-center justify-center p-8 z-50 animate-in fade-in duration-300" role="dialog" aria-modal="true">
-      <div className="bg-white dark:bg-slate-800 rounded-[4rem] shadow-[0_64px_128px_-32px_rgba(0,0,0,0.1)] dark:shadow-[0_64px_128px_-32px_rgba(0,0,0,0.5)] p-14 max-w-md w-full text-center border border-white dark:border-slate-700 animate-in slide-in-from-bottom-20 duration-500">
+    <div className="fixed inset-0 bg-white/20 dark:bg-slate-900/60 backdrop-blur-[60px] flex items-center justify-center p-8 z-50 motion-safe:animate-in motion-safe:fade-in duration-300" role="dialog" aria-modal="true">
+      <div className="bg-white dark:bg-slate-800 rounded-[4rem] shadow-[0_64px_128px_-32px_rgba(0,0,0,0.1)] dark:shadow-[0_64px_128px_-32px_rgba(0,0,0,0.5)] p-14 max-w-md w-full text-center border border-white dark:border-slate-700 motion-safe:animate-in motion-safe:slide-in-from-bottom-20 duration-500">
         <div className="w-24 h-24 bg-amber-100 dark:bg-amber-900/30 rounded-[2.5rem] flex items-center justify-center mx-auto mb-8 rotate-6 shadow-xl border-4 border-white dark:border-slate-700">
           <Star size={48} fill="#F59E0B" className="text-amber-500" />
         </div>
@@ -55,16 +55,16 @@ export default function WinnerModal({
   if (!showWinnerModal || !winner) return null;
 
   return (
-    <div className="fixed inset-0 bg-white/20 dark:bg-slate-900/80 backdrop-blur-[60px] flex items-center justify-center p-8 z-50 animate-in fade-in duration-500" role="dialog" aria-modal="true">
-      <div className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-3xl rounded-[4.5rem] shadow-[0_64px_128px_-32px_rgba(0,0,0,0.2)] dark:shadow-[0_64px_128px_-32px_rgba(0,0,0,0.7)] p-14 max-w-2xl w-full text-center border border-white dark:border-slate-700 animate-in zoom-in-90 duration-500 relative overflow-hidden">
+    <div className="fixed inset-0 bg-white/20 dark:bg-slate-900/80 backdrop-blur-[60px] flex items-center justify-center p-8 z-50 motion-safe:animate-in motion-safe:fade-in duration-500" role="dialog" aria-modal="true">
+      <div className="bg-white dark:bg-slate-800 rounded-[4.5rem] shadow-[0_64px_128px_-32px_rgba(0,0,0,0.2)] dark:shadow-[0_64px_128px_-32px_rgba(0,0,0,0.7)] p-14 max-w-2xl w-full text-center border border-white dark:border-slate-700 motion-safe:animate-in motion-safe:zoom-in-90 duration-500 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20 dark:opacity-10 bg-[radial-gradient(circle_at_50%_50%,_#cbd5e1_1px,_transparent_1px)] dark:bg-[radial-gradient(circle_at_50%_50%,_#475569_1px,_transparent_1px)]" style={{ backgroundSize: '20px 20px' }}></div>
 
         <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-32 h-32 bg-[#007AFF] rounded-full flex items-center justify-center shadow-2xl border-[8px] border-white dark:border-slate-800 ring-4 ring-blue-50 dark:ring-blue-900/30">
-          <Sparkles size={60} className="text-white animate-pulse" />
+          <Sparkles size={60} className="text-white motion-safe:animate-pulse" />
         </div>
         <p className="text-slate-400 dark:text-slate-500 font-black tracking-[0.3em] uppercase mb-4 mt-10 relative z-10">Congratulations</p>
         
-        <div className="flex justify-center items-center min-h-[250px] mb-12 animate-bounce-custom relative z-10">
+        <div className="flex justify-center items-center min-h-[250px] mb-12 motion-safe:animate-bounce-custom relative z-10">
           {renderItemStyle(winner, appMode === 'roulette' ? 'ball' : drawStyle, () => false, true)}
         </div>
 

@@ -6,7 +6,7 @@ export default function ChangelogModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-12 animate-in fade-in duration-300">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-12 motion-safe:animate-in motion-safe:fade-in duration-300">
       {/* Backdrop */}
       <div 
         className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
@@ -14,7 +14,7 @@ export default function ChangelogModal({ isOpen, onClose }) {
       ></div>
 
       {/* Modal Content */}
-      <div className="relative w-full max-w-4xl max-h-full bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl border border-slate-200 dark:border-slate-700 flex flex-col overflow-hidden animate-in zoom-in-95 duration-300">
+      <div className="relative w-full max-w-4xl max-h-full bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl border border-slate-200 dark:border-slate-700 flex flex-col overflow-hidden origin-top-right motion-safe:animate-in motion-safe:zoom-in-95 duration-300">
         
         {/* Header */}
         <div className="flex items-center justify-between p-6 md:px-8 border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">

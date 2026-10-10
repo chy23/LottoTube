@@ -380,9 +380,9 @@ export default function App() {
 
       <div className="max-w-[2000px] w-[95vw] mx-auto relative z-10">
         
-        <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 animate-in fade-in slide-in-from-top duration-700">
+        <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-top duration-700">
           <div>
-            <h1 className="text-5xl font-black flex items-center justify-center md:justify-start gap-3 drop-shadow-sm text-slate-800 dark:text-slate-100">
+            <h1 className="text-5xl font-black tracking-tighter flex items-center justify-center md:justify-start gap-3 drop-shadow-sm text-slate-800 dark:text-slate-100">
               <Box className="text-[#007AFF] dark:text-[#4DA8DA]" size={48} />
               特製抽籤系統
             </h1>

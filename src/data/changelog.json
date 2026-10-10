@@ -1,5 +1,14 @@
 [
   {
+    "id": "e091a88b5dbbeba50e6cbcfa96c8f7dca67e12ae",
+    "version": "v1.12.4",
+    "date": "2026-08-17",
+    "typeTag": "Enhance",
+    "title": "Replace default abstract SVG with a custom hand-coded 3D acrylic box app icon",
+    "details": "Replace default abstract SVG with a custom hand-coded 3D acrylic box app icon",
+    "isFix": false
+  },
+  {
     "id": "2a9663acb0c5d85a8a6bface153d3d1b6bbb27c0",
     "version": "v1.12.3",
     "date": "2026-08-15",
