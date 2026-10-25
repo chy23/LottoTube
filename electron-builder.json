@@ -2,7 +2,8 @@
   "appId": "com.teacher.lottotube",
   "productName": "特製抽籤系統",
   "directories": {
-    "output": "release"
+    "output": "release",
+    "buildResources": "build"
   },
   "files": [
     "dist/**/*",
@@ -10,6 +11,7 @@
     "package.json"
   ],
   "mac": {
+    "icon": "build/icon.icns",
     "target": [
       { "target": "dmg", "arch": ["arm64"] },
       { "target": "zip", "arch": ["arm64"] }
