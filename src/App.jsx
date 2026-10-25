@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { 
-  Sparkles, Box, Volume2, VolumeX, Layout, Brain, UserCheck, RefreshCcw, Star, Music, Maximize, Minimize, History
+  Sparkles, Box, Volume2, VolumeX, Layout, Brain, UserCheck, RefreshCcw, Star, Music, Maximize, Minimize, History, Cpu
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { useAudio } from './hooks/useAudio';
@@ -10,6 +10,7 @@ import Bucket from './components/Bucket';
 import Roulette from './components/Roulette';
 import WinnerModal, { ConfirmModal, VipPromptModal } from './components/WinnerModal';
 import ChangelogModal from './components/ChangelogModal';
+import ModelHubManager from './components/ModelHubManager';
 
 export default function App() {
   const { 
@@ -51,6 +52,7 @@ export default function App() {
   const [vipNumber, setVipNumber] = useState(() => localStorage.getItem('drawLots_vipNumber') || '');
   const [showVipPrompt, setShowVipPrompt] = useState(false);
   const [isChangelogOpen, setIsChangelogOpen] = useState(false);
+  const [showModelHub, setShowModelHub] = useState(false);
   const [historyLog, setHistoryLog] = useState(() => JSON.parse(localStorage.getItem('drawLots_historyLog')) || []);
   const [isFullscreen, setIsFullscreen] = useState(false);
   
@@ -454,6 +456,12 @@ export default function App() {
               <button onClick={() => setIsChangelogOpen(true)} className="p-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 hover:bg-white/80 dark:hover:bg-slate-700/80 transition-all active:scale-95" title="更新紀錄">
                 <History size={24} className="text-indigo-500 dark:text-indigo-400" />
               </button>
+
+              {typeof window !== 'undefined' && window.electronAPI && (
+                <button onClick={() => setShowModelHub(true)} className="p-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 hover:bg-white/80 dark:hover:bg-slate-700/80 transition-all active:scale-95" title="本機共享模型庫">
+                  <Cpu size={24} className="text-emerald-500 dark:text-emerald-400" />
+                </button>
+              )}
             </div>
           </div>
         </header>
@@ -581,6 +589,20 @@ export default function App() {
         isOpen={isChangelogOpen}
         onClose={() => setIsChangelogOpen(false)}
       />
+
+      {showModelHub && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm" onClick={() => setShowModelHub(false)}>
+          <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-white/80 dark:border-slate-700 relative" onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-4 pb-2 border-b border-slate-100 dark:border-slate-800">
+              <h2 className="text-xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                <Cpu className="text-emerald-500" /> 本機共享模型庫管理
+              </h2>
+              <button onClick={() => setShowModelHub(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-2xl font-bold p-1">×</button>
+            </div>
+            <ModelHubManager onModelLoaded={(res) => console.log('Model loaded:', res)} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

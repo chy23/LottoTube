@@ -1,11 +1,15 @@
 {
   "name": "lottotube",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "main": "electron/main.cjs",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "node scripts/generate-changelog.cjs && vite build",
+    "build:desktop": "node scripts/generate-changelog.cjs && vite build --mode desktop",
+    "electron:build:mac": "npm run build:desktop && electron-builder --config electron-builder.json --mac --arm64",
+    "release:icloud": "npm run electron:build:mac && ditto release/*.dmg \"/Users/chiahua/Library/Mobile Documents/com~apple~CloudDocs/【Home & School】 Cloud/Antigrivity Apps/\" && ditto release/*-mac.zip \"/Users/chiahua/Library/Mobile Documents/com~apple~CloudDocs/【Home & School】 Cloud/Antigrivity Apps/\"",
     "lint": "oxlint",
     "preview": "vite preview"
   },
@@ -13,6 +17,7 @@
     "canvas-confetti": "^1.9.4",
     "lucide-react": "^1.41.0",
     "matter-js": "^0.20.0",
+    "node-llama-cpp": "^3.22.2",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   },
@@ -22,6 +27,8 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
     "autoprefixer": "^10.5.4",
+    "electron": "44.9.1",
+    "electron-builder": "^26.15.3",
     "oxlint": "^1.71.0",
     "postcss": "^8.5.23",
     "tailwindcss": "^4.3.3",

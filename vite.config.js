@@ -5,7 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: mode === 'production' ? '/LottoTube/' : '/',
+  base: mode === 'desktop' ? './' : (mode === 'production' ? '/LottoTube/' : '/'),
   plugins: [
     tailwindcss(),
     react(),

@@ -1,14 +1,5 @@
 [
   {
-    "id": "6e00706d4973464dd62f581a957dd68f3d31dd6c",
-    "version": "v1.12.5",
-    "date": "2026-10-10",
-    "typeTag": "Fix(UI)",
-    "title": "Resolve HIG violations (motion-safe, origin alignment, typography, material layers)",
-    "details": "Resolve HIG violations (motion-safe, origin alignment, typography, material layers)",
-    "isFix": false
-  },
-  {
     "id": "e091a88b5dbbeba50e6cbcfa96c8f7dca67e12ae",
     "version": "v1.12.4",
     "date": "2026-08-17",
