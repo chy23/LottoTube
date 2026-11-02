@@ -1,5 +1,14 @@
 [
   {
+    "id": "e09962eb3f746f11b4d8c2d3e0d7703862597c9e",
+    "version": "v1.15.6",
+    "date": "2026-11-02",
+    "typeTag": "fix(quiz)",
+    "title": "fix handleX wrong-answer mechanism, auto-sort list on addition, and allow mode switch in winner modal",
+    "details": "fix handleX wrong-answer mechanism, auto-sort list on addition, and allow mode switch in winner modal",
+    "isFix": false
+  },
+  {
     "id": "07180bfb124d098eed82ec04ef9e84e19132dcba",
     "version": "v1.15.5",
     "date": "2026-11-02",

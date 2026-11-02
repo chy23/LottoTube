@@ -305,9 +305,9 @@ export default function Bucket({
       {/* Container visual layer */}
       <div 
         ref={sceneRef}
-        className={`w-full h-full relative flex flex-col items-center justify-end transition-transform duration-500 origin-bottom ${
+        className={`w-full h-full relative flex flex-col items-center justify-end transition-transform duration-300 origin-bottom ${
           drawState === 'shaking' ? 'animate-bucket-shake-hard' : ''
-        } ${drawState === 'reaching' || isRollingOut ? 'rotate-[48deg] translate-x-[20px] -translate-y-[10px] scale-95' : ''}`}
+        } ${drawState === 'reaching' ? 'translate-y-1 scale-[0.98]' : ''}`}
         style={{ willChange: 'transform' }}
       >
         {/* Back Acrylic Globe Interior */}
@@ -353,10 +353,10 @@ export default function Bucket({
         </div>
       </div>
 
-      {/* Winning Item Roll Out Layer (z-60) */}
+      {/* Winning Item Vertical Pop-Up Layer (垂直噴出跳耀, z-60) */}
       {isRollingOut && (tempWinner || items[targetBucketIndex]) && (
-        <div className="absolute z-[60] pointer-events-none animate-ball-roll-out">
-          <div className="drop-shadow-[0_15px_20px_rgba(0,0,0,0.45)]">
+        <div className="absolute z-[60] pointer-events-none animate-ball-pop-up">
+          <div className="drop-shadow-[0_25px_30px_rgba(0,0,0,0.45)]">
             {renderItemStyle(tempWinner || items[targetBucketIndex], drawStyle, isItemGrayedOut, false, false, true)}
           </div>
         </div>
