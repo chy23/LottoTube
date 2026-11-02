@@ -1,9 +1,7 @@
 const { app, BrowserWindow, shell, dialog } = require('electron');
 const path = require('path');
-const { ModelManager } = require('./modelManager.cjs');
 
 let mainWindow = null;
-let modelManager = null;
 
 const createWindow = () => {
   mainWindow = new BrowserWindow({
@@ -24,9 +22,6 @@ const createWindow = () => {
     if (/^https?:/.test(url)) shell.openExternal(url);
     return { action: 'deny' };
   });
-
-  modelManager = new ModelManager(mainWindow);
-  modelManager.registerIpc();
 
   if (process.env.VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL);

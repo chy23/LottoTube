@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { 
-  Sparkles, Box, Volume2, VolumeX, Layout, Brain, UserCheck, RefreshCcw, Star, Music, Maximize, Minimize, History, Cpu
+  Sparkles, Box, Volume2, VolumeX, Layout, Brain, UserCheck, RefreshCcw, Star, Music, Maximize, Minimize, History
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { triggerBingoCelebration } from './utils/confettiEffects';
@@ -11,7 +11,6 @@ import Bucket from './components/Bucket';
 import Roulette from './components/Roulette';
 import WinnerModal, { ConfirmModal, VipPromptModal } from './components/WinnerModal';
 import ChangelogModal from './components/ChangelogModal';
-import ModelHubManager from './components/ModelHubManager';
 
 export default function App() {
   const { 
@@ -53,7 +52,6 @@ export default function App() {
   const [vipNumber, setVipNumber] = useState(() => localStorage.getItem('drawLots_vipNumber') || '');
   const [showVipPrompt, setShowVipPrompt] = useState(false);
   const [isChangelogOpen, setIsChangelogOpen] = useState(false);
-  const [showModelHub, setShowModelHub] = useState(false);
   const [historyLog, setHistoryLog] = useState(() => JSON.parse(localStorage.getItem('drawLots_historyLog')) || []);
   const [isFullscreen, setIsFullscreen] = useState(false);
   
@@ -242,7 +240,7 @@ export default function App() {
           if (gameMode === 'vip' && selected === 'VIP號') playVipFanfare();
           else playPopSound();
           confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-        }, 4000);
+        }, 2000);
 
       } else {
         setDrawState('shaking');
@@ -252,13 +250,13 @@ export default function App() {
           setDrawState('reaching');
           playHardShakeSound();
           
-          // Wait 800ms for the bucket to finish tilting 80 degrees
+          // Wait 500ms for tilting
           setTimeout(() => {
             setTargetIndex(selectedIndex);
             setTempWinner(selected);
             setIsRollingOut(true);
 
-            // Wait 1400ms for the rollout animation to finish
+            // Wait 750ms for rollout
             setTimeout(() => {
               setWinner(selected);
               setShowWinnerModal(true);
@@ -271,9 +269,9 @@ export default function App() {
               } else {
                 playPopSound();
               }
-            }, 1400);
-          }, 800);
-        }, 1100);
+            }, 750);
+          }, 500);
+        }, 550);
       }
     };
 
@@ -411,108 +409,104 @@ export default function App() {
 
 
   return (
-    <div className={`min-h-[100dvh] transition-colors duration-500 overflow-x-hidden flex flex-col font-sans relative bg-gradient-to-br from-[#E3F2FD] via-[#F3E5F5] to-[#E8F5E9] dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 text-slate-900 dark:text-slate-100 p-4 md:p-8 selection:bg-blue-200`}>
+    <div className={`h-[100dvh] max-h-[100dvh] overflow-hidden flex flex-col font-sans relative bg-gradient-to-br from-[#E3F2FD] via-[#F3E5F5] to-[#E8F5E9] dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 text-slate-900 dark:text-slate-100 p-2.5 sm:p-4 selection:bg-blue-200 select-none`}>
       
       {/* Watermarks */}
-      <div className="fixed top-40 md:top-24 right-4 md:right-8 text-[18pt] text-slate-500 opacity-25 dark:opacity-10 font-bold pointer-events-none z-0 select-none whitespace-nowrap">
+      <div className="fixed top-24 right-4 text-[16pt] text-slate-500 opacity-20 dark:opacity-10 font-bold pointer-events-none z-0 select-none whitespace-nowrap hidden sm:block">
         網站建立自楊家驊老師
       </div>
-      <div className="fixed bottom-4 right-4 md:right-8 text-[18pt] text-slate-500 opacity-25 dark:opacity-10 font-bold pointer-events-none z-0 select-none whitespace-nowrap">
+      <div className="fixed bottom-2 right-4 text-[14pt] text-slate-500 opacity-20 dark:opacity-10 font-bold pointer-events-none z-0 select-none whitespace-nowrap hidden sm:block">
         網站建立自楊家驊老師
       </div>
 
-      <div className="max-w-[2000px] w-[95vw] mx-auto relative z-10">
+      <div className="w-full h-full flex flex-col max-w-[2000px] mx-auto relative z-10 overflow-hidden">
         
-        <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-top duration-700">
+        {/* Header: Compact & Responsive */}
+        <header className="flex flex-row justify-between items-center mb-2.5 sm:mb-3 shrink-0 gap-2">
           <div>
-            <h1 className="text-5xl font-black tracking-tighter flex items-center justify-center md:justify-start gap-3 drop-shadow-sm text-slate-800 dark:text-slate-100">
-              <Box className="text-[#007AFF] dark:text-[#4DA8DA]" size={48} />
-              特製抽籤系統
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight flex items-center gap-2 drop-shadow-sm text-slate-800 dark:text-slate-100">
+              <Box className="text-[#007AFF] dark:text-[#4DA8DA]" size={36} />
+              <span>特製抽籤系統</span>
             </h1>
           </div>
           
-          <div className="flex flex-wrap justify-center gap-4 items-center relative z-20">
+          <div className="flex flex-wrap justify-end gap-2 sm:gap-3 items-center relative z-20">
             
-            <div className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl p-1.5 rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 flex gap-1 items-center">
+            <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-md p-1 rounded-2xl shadow-sm border border-white/60 dark:border-slate-700/60 flex gap-1 items-center">
               <button 
                 onClick={() => setAppMode('box')} 
-                className={`px-4 py-2 rounded-xl text-sm font-black transition-all active:scale-95 ${appMode === 'box' ? 'bg-[#007AFF] text-white shadow-md' : 'text-slate-500 dark:text-slate-400 hover:bg-white/60 dark:hover:bg-slate-700/60'}`}
+                className={`px-3 py-1.5 rounded-xl text-xs sm:text-sm font-black transition-all active:scale-95 ${appMode === 'box' ? 'bg-[#007AFF] text-white shadow-md' : 'text-slate-500 dark:text-slate-400 hover:bg-white/60 dark:hover:bg-slate-700/60'}`}
               >
                 籤筒模式
               </button>
               <button 
                 onClick={() => setAppMode('roulette')} 
-                className={`px-4 py-2 rounded-xl text-sm font-black transition-all active:scale-95 ${appMode === 'roulette' ? 'bg-[#007AFF] text-white shadow-md' : 'text-slate-500 dark:text-slate-400 hover:bg-white/60 dark:hover:bg-slate-700/60'}`}
+                className={`px-3 py-1.5 rounded-xl text-xs sm:text-sm font-black transition-all active:scale-95 ${appMode === 'roulette' ? 'bg-[#007AFF] text-white shadow-md' : 'text-slate-500 dark:text-slate-400 hover:bg-white/60 dark:hover:bg-slate-700/60'}`}
               >
                 轉盤模式
               </button>
             </div>
 
             {appMode === 'box' && (
-              <div className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl p-1.5 rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 flex gap-1 items-center">
-                <span className="flex items-center px-4 text-sm font-bold text-slate-500 border-r border-slate-300/30 mr-1">
-                  樣式
-                </span>
+              <div className="hidden md:flex bg-white/60 dark:bg-slate-800/60 backdrop-blur-md p-1 rounded-2xl shadow-sm border border-white/60 dark:border-slate-700/60 gap-1 items-center">
                 {[
-                  { id: 'classic', label: '經典木籤' },
-                  { id: 'star', label: '幸運星' },
-                  { id: 'ball', label: '扭蛋球' },
-                  { id: 'poem', label: '寺廟詩籤' },
-                  { id: 'paper', label: '摺紙籤' },
-                  { id: 'stone', label: '繽紛石頭' }
+                  { id: 'classic', label: '木籤' },
+                  { id: 'star', label: '星星' },
+                  { id: 'ball', label: '扭蛋' },
+                  { id: 'poem', label: '詩籤' },
+                  { id: 'paper', label: '摺紙' },
+                  { id: 'stone', label: '彩石' }
                 ].map(style => (
                   <button
                     key={style.id}
                     onClick={() => setDrawStyle(style.id)}
-                    className={`px-4 py-2 rounded-xl text-sm font-black transition-all active:scale-95 ${drawStyle === style.id ? 'bg-white dark:bg-slate-700 shadow-sm text-[#007AFF] dark:text-[#4DA8DA]' : 'text-slate-500 dark:text-slate-400 hover:bg-white/40 dark:hover:bg-slate-700/40'}`}
+                    className={`px-2.5 py-1.5 rounded-xl text-xs font-black transition-all active:scale-95 ${drawStyle === style.id ? 'bg-white dark:bg-slate-700 shadow-sm text-[#007AFF] dark:text-[#4DA8DA]' : 'text-slate-500 dark:text-slate-400 hover:bg-white/40 dark:hover:bg-slate-700/40'}`}
                   >
                     {style.label}
                   </button>
                 ))}
               </div>
             )}
-            <div className="flex gap-2">
+
+            <div className="flex gap-1.5 sm:gap-2">
               <button 
                 onClick={() => {
                   const modes = ['classic', 'retro', 'arcade'];
                   setSoundMode(modes[(modes.indexOf(soundMode) + 1) % modes.length]);
                 }} 
-                className="p-4 bg-white/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 text-[#007AFF] hover:bg-white/80 transition-all active:scale-95 flex items-center gap-2"
+                className="p-2.5 sm:p-3 bg-white/60 dark:bg-slate-800/60 backdrop-blur-md rounded-2xl shadow-sm border border-white/60 dark:border-slate-700/60 text-[#007AFF] hover:bg-white/80 transition-all active:scale-95 flex items-center gap-1.5"
                 title="切換音效模式"
               >
-                <Music size={24} />
-                <span className="font-bold text-sm hidden md:inline-block">
+                <Music size={18} />
+                <span className="font-bold text-xs hidden lg:inline-block">
                   {soundMode === 'classic' ? '經典' : soundMode === 'retro' ? '復古' : '遊樂場'}
                 </span>
               </button>
               
-              <button onClick={toggleFullscreen} className="p-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 hover:bg-white/80 dark:hover:bg-slate-700/80 transition-all active:scale-95" title="全螢幕">
-                {isFullscreen ? <Minimize size={24} /> : <Maximize size={24} />}
+              <button onClick={toggleFullscreen} className="p-2.5 sm:p-3 bg-white/60 dark:bg-slate-800/60 backdrop-blur-md rounded-2xl shadow-sm border border-white/60 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 hover:bg-white/80 transition-all active:scale-95" title="全螢幕">
+                {isFullscreen ? <Minimize size={18} /> : <Maximize size={18} />}
               </button>
               
-              <button onClick={() => setIsMuted(!isMuted)} className="p-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 hover:bg-white/80 dark:hover:bg-slate-700/80 transition-all active:scale-95" title={isMuted ? "取消靜音" : "靜音"}>
-                {isMuted ? <VolumeX size={24} className="text-red-500" /> : <Volume2 size={24} className="text-[#007AFF] dark:text-[#4DA8DA]" />}
+              <button onClick={() => setIsMuted(!isMuted)} className="p-2.5 sm:p-3 bg-white/60 dark:bg-slate-800/60 backdrop-blur-md rounded-2xl shadow-sm border border-white/60 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 hover:bg-white/80 transition-all active:scale-95" title={isMuted ? "取消靜音" : "靜音"}>
+                {isMuted ? <VolumeX size={18} className="text-red-500" /> : <Volume2 size={18} className="text-[#007AFF] dark:text-[#4DA8DA]" />}
               </button>
               
-              <button onClick={() => setIsChangelogOpen(true)} className="p-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 hover:bg-white/80 dark:hover:bg-slate-700/80 transition-all active:scale-95" title="更新紀錄">
-                <History size={24} className="text-indigo-500 dark:text-indigo-400" />
+              <button onClick={() => setIsChangelogOpen(true)} className="p-2.5 sm:p-3 bg-white/60 dark:bg-slate-800/60 backdrop-blur-md rounded-2xl shadow-sm border border-white/60 dark:border-slate-700/60 hover:bg-white/80 transition-all active:scale-95" title="更新紀錄">
+                <History size={18} className="text-indigo-500 dark:text-indigo-400" />
               </button>
-
-              {typeof window !== 'undefined' && window.electronAPI && (
-                <button onClick={() => setShowModelHub(true)} className="p-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-white/60 dark:border-slate-700/60 hover:bg-white/80 dark:hover:bg-slate-700/80 transition-all active:scale-95" title="本機共享模型庫">
-                  <Cpu size={24} className="text-emerald-500 dark:text-emerald-400" />
-                </button>
-              )}
             </div>
           </div>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
+        {/* Main Stage & Control Grid: Fully Fits Viewport */}
+        <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 lg:gap-6 items-stretch overflow-hidden">
           
-          <div className="lg:col-span-8 bg-white/40 dark:bg-slate-900/40 backdrop-blur-[40px] rounded-[4rem] p-4 md:p-8 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.08)] dark:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)] border border-white/70 dark:border-slate-700/50 flex flex-col items-stretch justify-center min-h-[60vh] relative overflow-hidden">
+          {/* Left Stage (Wheel / Bucket + Draw Button): Always 100% visible */}
+          <div className="lg:col-span-8 h-full flex flex-col justify-between items-center bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl rounded-[2.5rem] p-3 sm:p-4 md:p-5 border border-white/70 dark:border-slate-700/50 shadow-xl overflow-hidden relative">
             
-            {appMode === 'box' ? (
-              <div className="self-center flex justify-center w-full">
+            {/* Visual Roulette or Bucket Container */}
+            <div className="flex-1 min-h-0 w-full flex items-center justify-center overflow-hidden py-1">
+              {appMode === 'box' ? (
                 <Bucket 
                   items={items}
                   drawState={drawState}
@@ -524,87 +518,92 @@ export default function App() {
                   drawStyle={drawStyle}
                   isItemGrayedOut={isItemGrayedOut}
                 />
-              </div>
-            ) : (
-              <div className="self-center flex justify-center w-full">
+              ) : (
                 <Roulette 
                   items={activeRouletteItems}
                   wheelRotation={wheelRotation}
                   drawState={drawState}
                   isItemGrayedOut={() => false}
                 />
+              )}
+            </div>
+
+            {/* Cooldown Pills (if active) */}
+            {cooldownList.length > 0 && gameMode !== 'classic' && (
+              <div className="w-full max-h-12 overflow-x-auto py-1 px-3 bg-white/40 dark:bg-slate-800/40 backdrop-blur-md border border-white/60 dark:border-slate-700/60 rounded-full flex items-center justify-center gap-1.5 shrink-0 my-1 animate-in zoom-in-95">
+                <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 shrink-0">已作答:</span>
+                <div className="flex items-center gap-1 overflow-x-auto py-0.5">
+                  {cooldownList.map((item, idx) => ( 
+                    <span key={idx} className="px-2 py-0.5 bg-white dark:bg-slate-700 shadow-sm rounded-full text-emerald-800 dark:text-emerald-300 font-bold text-xs shrink-0">{item}</span> 
+                  ))}
+                </div>
               </div>
             )}
 
+            {/* Big Action Button: Always anchored at the bottom of the stage */}
             <button 
               onClick={drawLot} 
               disabled={drawState !== 'idle' || items.length === 0}
-              className={`relative mt-12 w-full self-stretch py-6 md:py-8 rounded-[2.5rem] text-2xl md:text-3xl font-black shadow-2xl transition-all flex items-center justify-center gap-4 z-50 overflow-hidden group
+              className={`relative shrink-0 w-full py-4 sm:py-5 rounded-[2rem] text-xl sm:text-2xl font-black shadow-xl transition-all flex items-center justify-center gap-3 z-30 overflow-hidden group mt-1.5
                 ${drawState !== 'idle' || items.length === 0 
                   ? 'bg-slate-200 text-slate-400 cursor-not-allowed' 
-                  : 'bg-gradient-to-r from-blue-500 via-indigo-500 to-[#007AFF] hover:from-blue-600 hover:via-indigo-600 hover:to-blue-700 hover:scale-[1.02] active:scale-95 text-white shadow-blue-500/40 hover:shadow-indigo-500/50'}`}
+                  : 'bg-gradient-to-r from-blue-500 via-indigo-500 to-[#007AFF] hover:from-blue-600 hover:via-indigo-600 hover:to-blue-700 hover:scale-[1.01] active:scale-95 text-white shadow-blue-500/30'}`}
             >
-              {drawState === 'idle' && items.length > 0 && (
-                <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              )}
-              {drawState !== 'idle' ? <RefreshCcw className="animate-spin relative z-10" size={36} /> : <Sparkles className="relative z-10" size={36} />}
+              {drawState !== 'idle' ? <RefreshCcw className="animate-spin relative z-10" size={28} /> : <Sparkles className="relative z-10" size={28} />}
               <span className="relative z-10">
                 {drawState === 'shaking' ? '搖晃中...' : drawState === 'reaching' ? '抽取中...' : drawState === 'spinning' ? '轉動中...' : '抽出幸運兒'}
               </span>
               
               {/* Spacebar Hint */}
               {drawState === 'idle' && items.length > 0 && (
-                <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none opacity-40 group-hover:opacity-60 transition-opacity hidden sm:block">
-                  <kbd className="font-sans text-sm font-bold bg-white/20 px-3 py-1.5 rounded-xl border-b-2 border-white/30 text-white">Space</kbd>
+                <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none opacity-40 group-hover:opacity-60 transition-opacity hidden sm:block">
+                  <kbd className="font-sans text-xs font-bold bg-white/20 px-2.5 py-1 rounded-lg border-b border-white/30 text-white">Space</kbd>
                 </div>
               )}
             </button>
-            
-            {cooldownList.length > 0 && gameMode !== 'classic' && (
-              <div className="mt-8 w-full bg-white/30 dark:bg-slate-800/30 backdrop-blur-md border border-white/60 dark:border-slate-700/60 rounded-[2.5rem] p-5 flex flex-col items-center justify-center animate-in zoom-in-95">
-                <span className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400 font-bold text-sm mb-2">已回答空間 (豁免中)</span>
-                <div className="flex flex-wrap justify-center gap-2">
-                  {cooldownList.map((item, idx) => ( <span key={idx} className="px-4 py-1.5 bg-white dark:bg-slate-700 shadow-sm rounded-full text-emerald-800 dark:text-emerald-300 font-black text-lg">{item}</span> ))}
-                </div>
-              </div>
-            )}
           </div>
 
-          <div className="lg:col-span-4 h-full relative z-20">
-            <div className="flex bg-slate-500/10 backdrop-blur-2xl p-1.5 rounded-[2rem] mb-8 border border-white/20">
-              {[ {id:'classic', label:'經典', icon:<Layout size={18}/>}, {id:'quiz', label:'答題', icon:<Brain size={18}/>}, {id:'vip', label:'VIP', icon:<UserCheck size={18}/>} ].map(m => (
-                <button key={m.id} onClick={() => handleModeChange(m.id)} className={`flex-1 py-3.5 rounded-[1.6rem] font-black text-base transition-all flex items-center justify-center gap-2 ${gameMode === m.id ? 'bg-white shadow-xl text-[#007AFF] scale-105' : 'text-slate-500 hover:text-slate-800'}`}>
+          {/* Right Control Panel */}
+          <div className="lg:col-span-4 h-full flex flex-col overflow-hidden relative z-20">
+            {/* Mode Switcher */}
+            <div className="flex bg-slate-500/10 backdrop-blur-xl p-1 rounded-2xl mb-2 sm:mb-3 border border-white/20 shrink-0">
+              {[ {id:'classic', label:'經典', icon:<Layout size={16}/>}, {id:'quiz', label:'答題', icon:<Brain size={16}/>}, {id:'vip', label:'VIP', icon:<UserCheck size={16}/>} ].map(m => (
+                <button key={m.id} onClick={() => handleModeChange(m.id)} className={`flex-1 py-2 sm:py-2.5 rounded-xl font-black text-xs sm:text-sm transition-all flex items-center justify-center gap-1.5 ${gameMode === m.id ? 'bg-white shadow-md text-[#007AFF] scale-102' : 'text-slate-500 hover:text-slate-800'}`}>
                   {m.icon} {m.label}
                 </button>
               ))}
             </div>
 
+            {/* VIP Bar */}
             {gameMode === 'vip' && (
-              <div className="flex items-center justify-between mb-10 bg-gradient-to-br from-amber-400/20 to-orange-400/20 p-6 rounded-[2.5rem] border border-amber-200/50 shadow-inner animate-in slide-in-from-top-6">
+              <div className="flex items-center justify-between mb-2 sm:mb-3 bg-gradient-to-br from-amber-400/20 to-orange-400/20 p-3 sm:p-4 rounded-2xl border border-amber-200/50 shadow-inner shrink-0">
                 <div className="flex flex-col">
-                  <span className="text-xs font-black text-amber-600 uppercase tracking-widest mb-1">Current VIP</span>
-                  <span className="font-black text-amber-900 text-2xl flex items-center gap-2"><Star size={28} fill="#D97706" className="text-amber-600" />VIP號碼</span>
+                  <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest">Current VIP</span>
+                  <span className="font-black text-amber-900 text-lg flex items-center gap-1.5"><Star size={20} fill="#D97706" className="text-amber-600" />VIP號碼</span>
                 </div>
-                <input type="text" value={vipNumber} onChange={(e) => setVipNumber(e.target.value)} placeholder="座號" disabled={drawState !== 'idle'} className="w-32 p-4 text-center rounded-[1.5rem] border-2 border-white/80 font-black text-3xl outline-none focus:ring-4 focus:ring-amber-200 bg-white/90 shadow-xl transition-all" />
+                <input type="text" value={vipNumber} onChange={(e) => setVipNumber(e.target.value)} placeholder="座號" disabled={drawState !== 'idle'} className="w-24 p-2 text-center rounded-xl border-2 border-white/80 font-black text-2xl outline-none focus:ring-4 focus:ring-amber-200 bg-white/90 shadow-sm transition-all" />
               </div>
             )}
 
-            <ControlPanel 
-              textList={textList}
-              setTextList={setTextList}
-              cooldownList={cooldownList}
-              setCooldownList={setCooldownList}
-              gameMode={gameMode}
-              setGameMode={handleModeChange}
-              drawStyle={drawStyle}
-              setDrawStyle={setDrawStyle}
-              sortTextList={sortTextList}
-              resetWheel={resetWheel}
-              generateDefaultItems={generateDefaultItems}
-              exportData={exportData}
-              importData={importData}
-              historyLog={historyLog}
-            />
+            {/* Control Panel (Scrollable content) */}
+            <div className="flex-1 min-h-0 overflow-y-auto pr-1">
+              <ControlPanel 
+                textList={textList}
+                setTextList={setTextList}
+                cooldownList={cooldownList}
+                setCooldownList={setCooldownList}
+                gameMode={gameMode}
+                setGameMode={handleModeChange}
+                drawStyle={drawStyle}
+                setDrawStyle={setDrawStyle}
+                sortTextList={sortTextList}
+                resetWheel={resetWheel}
+                generateDefaultItems={generateDefaultItems}
+                exportData={exportData}
+                importData={importData}
+                historyLog={historyLog}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -630,20 +629,6 @@ export default function App() {
         isOpen={isChangelogOpen}
         onClose={() => setIsChangelogOpen(false)}
       />
-
-      {showModelHub && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm" onClick={() => setShowModelHub(false)}>
-          <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-white/80 dark:border-slate-700 relative" onClick={e => e.stopPropagation()}>
-            <div className="flex justify-between items-center mb-4 pb-2 border-b border-slate-100 dark:border-slate-800">
-              <h2 className="text-xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
-                <Cpu className="text-emerald-500" /> 本機共享模型庫管理
-              </h2>
-              <button onClick={() => setShowModelHub(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-2xl font-bold p-1">×</button>
-            </div>
-            <ModelHubManager onModelLoaded={(res) => console.log('Model loaded:', res)} />
-          </div>
-        </div>
-      )}
     </div>
   );
 }

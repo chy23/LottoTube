@@ -1,5 +1,14 @@
 [
   {
+    "id": "c34dd0a8487e79c84f01a20082b2f88cd3922b91",
+    "version": "v1.15.1",
+    "date": "2026-11-02",
+    "typeTag": "Chore",
+    "title": "Update changelog",
+    "details": "Update changelog",
+    "isFix": false
+  },
+  {
     "id": "2d3f6cf1c89a42018ed0bb62976c82a60efe06e5",
     "version": "v1.15.0",
     "date": "2026-11-02",
