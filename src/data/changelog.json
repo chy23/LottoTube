@@ -1,5 +1,14 @@
 [
   {
+    "id": "dc860bbbff781c25f7e90b5a6bc92ff90bd9885d",
+    "version": "v1.15.7",
+    "date": "2026-11-02",
+    "typeTag": "feat(ball-animation)",
+    "title": "change ball rollout to exciting vertical shoot/pop-up animation",
+    "details": "change ball rollout to exciting vertical shoot/pop-up animation",
+    "isFix": false
+  },
+  {
     "id": "e09962eb3f746f11b4d8c2d3e0d7703862597c9e",
     "version": "v1.15.6",
     "date": "2026-11-02",
