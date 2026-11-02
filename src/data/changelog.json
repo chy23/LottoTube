@@ -1,5 +1,23 @@
 [
   {
+    "id": "03f1abefb4d80f459165d0421f545e485bcd4421",
+    "version": "v1.14.0",
+    "date": "2026-10-26",
+    "typeTag": "Feat",
+    "title": "Add macOS app icon and configure icon in electron-builder",
+    "details": "Add macOS app icon and configure icon in electron-builder",
+    "isFix": false
+  },
+  {
+    "id": "b869d371a6403ed191fd4b6f0ea42f2cd2da5d0c",
+    "version": "v1.13.0",
+    "date": "2026-10-25",
+    "typeTag": "Feat",
+    "title": "Add Electron standalone app support and Local Model Hub integration",
+    "details": "Add Electron standalone app support and Local Model Hub integration",
+    "isFix": false
+  },
+  {
     "id": "e091a88b5dbbeba50e6cbcfa96c8f7dca67e12ae",
     "version": "v1.12.4",
     "date": "2026-08-17",

@@ -3,6 +3,7 @@ import {
   Sparkles, Box, Volume2, VolumeX, Layout, Brain, UserCheck, RefreshCcw, Star, Music, Maximize, Minimize, History, Cpu
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { triggerBingoCelebration } from './utils/confettiEffects';
 import { useAudio } from './hooks/useAudio';
 
 import ControlPanel from './components/ControlPanel';
@@ -151,27 +152,16 @@ export default function App() {
     if (gameMode !== 'vip') {
       currentItems = currentItems.filter(item => item !== "VIP號");
     }
-    // Auto-sort textList only
-    const sortedItems = sortTextListArray([...currentItems]);
-    const sorted = sortedItems.join('\n');
-    const raw = textList.split('\n').map(s => s.trim()).filter(s => s);
-    if (gameMode !== 'vip') {
-      if (sorted !== raw.filter(i => i !== 'VIP號').join('\n')) {
-        setTextList(sorted);
-      }
-    } else {
-      if (sorted !== raw.join('\n')) {
-        setTextList(sorted);
-      }
-    }
-    // Shuffle for visual display (truly random)
-    const shuffled = [...sortedItems];
-    for (let j = shuffled.length - 1; j > 0; j--) {
-      const k = Math.floor(Math.random() * (j + 1));
-      [shuffled[j], shuffled[k]] = [shuffled[k], shuffled[j]];
-    }
-    setItems(shuffled);
+    // 衝突一修正：尊重使用者自訂輸入與順序，不再於 useEffect 內強制覆蓋 setTextList
+    setItems([...currentItems]);
   }, [textList, gameMode]);
+
+  // 衝突三（模式A）：大轉盤動態重繪輪盤（排除已豁免者，讓未抽者等比均分 360 度）
+  const activeRouletteItems = useMemo(() => {
+    if (gameMode === 'classic') return items;
+    const available = items.filter(item => !isItemGrayedOut(item));
+    return available.length > 0 ? available : items;
+  }, [items, cooldownList, gameMode, isItemGrayedOut]);
 
   // Items for bucket: we pass all items directly so grayed out items stay in the bucket visually grayed out
 
@@ -193,6 +183,16 @@ export default function App() {
 
   const drawLot = () => {
     if (drawState !== 'idle' || items.length === 0) return;
+
+    // 衝突五修正：VIP 模式下若尚未輸入 VIP 號碼且名單只剩 VIP 號，提醒輸入
+    if (gameMode === 'vip') {
+      const nonVipValid = items.filter(i => i !== 'VIP號' && !isItemGrayedOut(i));
+      if (nonVipValid.length === 0 && !vipNumber.trim()) {
+        setShowVipPrompt(true);
+        return;
+      }
+    }
+
     initAudio();
     setShowWinnerModal(false);
     setWinner(null);
@@ -201,79 +201,104 @@ export default function App() {
     setIsGrabbed(false);
     setIsRollingOut(false);
 
+    // 衝突六修正：檢查有效候選人，若全員都在豁免區，觸發回合重置
     let validIndices = items.map((item, i) => !isItemGrayedOut(item) ? i : -1).filter(i => i !== -1);
+    let needsReset = false;
     if (validIndices.length === 0) { 
-      validIndices = items.map((_, i) => i);
+      needsReset = true;
       setCooldownList([]); 
+      validIndices = items.map((_, i) => i);
     }
-    
-    const randomI = Math.floor(Math.random() * validIndices.length);
-    const selectedIndex = validIndices[randomI];
-    const selected = items[selectedIndex];
 
-    if (appMode === 'roulette') {
-      setDrawState('spinning');
-      setTargetIndex(selectedIndex);
-      setTempWinner(selected);
-      
-      const sliceAngle = 360 / items.length;
-      const targetAngle = selectedIndex * sliceAngle + sliceAngle / 2;
-      const extraSpins = 5 * 360; 
-      const currentRotationMod = wheelRotation % 360;
-      let newRotation = wheelRotation + extraSpins + (360 - targetAngle) - currentRotationMod;
-      if (newRotation - wheelRotation < extraSpins) newRotation += 360;
-      
-      setWheelRotation(newRotation);
-      playHardShakeSound();
+    const executeDrawAnimation = (indicesToUse, isResetting) => {
+      const randomI = Math.floor(Math.random() * indicesToUse.length);
+      const selectedIndex = indicesToUse[randomI];
+      const selected = items[selectedIndex];
 
-      setTimeout(() => {
-        setWinner(selected);
-        setDrawState('idle');
-        setShowWinnerModal(true);
-        if (gameMode === 'vip' && selected === 'VIP號') playVipFanfare();
-        else playPopSound();
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-      }, 4000);
+      if (appMode === 'roulette') {
+        // 衝突三（模式A）：大轉盤使用有效候選人計算扇形角度
+        const currentWheelItems = isResetting ? items : activeRouletteItems;
+        const targetWheelIndex = currentWheelItems.indexOf(selected);
+        const actualWheelIndex = targetWheelIndex !== -1 ? targetWheelIndex : randomI;
 
-    } else {
-      setDrawState('shaking');
-      playHandStirSound();
-      
-      setTimeout(() => {
-        setDrawState('reaching');
-        playHardShakeSound();
+        setDrawState('spinning');
+        setTargetIndex(selectedIndex);
+        setTempWinner(selected);
         
-        // Wait 800ms for the bucket to finish tilting 80 degrees
-        setTimeout(() => {
-          setTargetIndex(selectedIndex);
-          setTempWinner(selected);
-          setIsRollingOut(true);
+        const sliceAngle = 360 / currentWheelItems.length;
+        const targetAngle = actualWheelIndex * sliceAngle + sliceAngle / 2;
+        const extraSpins = 5 * 360; 
+        const currentRotationMod = wheelRotation % 360;
+        let newRotation = wheelRotation + extraSpins + (360 - targetAngle) - currentRotationMod;
+        if (newRotation - wheelRotation < extraSpins) newRotation += 360;
+        
+        setWheelRotation(newRotation);
+        playHardShakeSound();
 
-          // Wait 1400ms for the rollout animation to finish
+        setTimeout(() => {
+          setWinner(selected);
+          setDrawState('idle');
+          setShowWinnerModal(true);
+          if (gameMode === 'vip' && selected === 'VIP號') playVipFanfare();
+          else playPopSound();
+          confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+        }, 4000);
+
+      } else {
+        setDrawState('shaking');
+        playHandStirSound();
+        
+        setTimeout(() => {
+          setDrawState('reaching');
+          playHardShakeSound();
+          
+          // Wait 800ms for the bucket to finish tilting 80 degrees
           setTimeout(() => {
-            setWinner(selected);
-            setShowWinnerModal(true);
-            setDrawState('idle'); 
-            setIsRollingOut(false);
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            
-            if (gameMode === 'vip' && selected === 'VIP號') {
-              playVipFanfare();
-            } else {
-              playPopSound();
-            }
-          }, 1400);
-        }, 800);
-      }, 1100);
+            setTargetIndex(selectedIndex);
+            setTempWinner(selected);
+            setIsRollingOut(true);
+
+            // Wait 1400ms for the rollout animation to finish
+            setTimeout(() => {
+              setWinner(selected);
+              setShowWinnerModal(true);
+              setDrawState('idle'); 
+              setIsRollingOut(false);
+              confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+              
+              if (gameMode === 'vip' && selected === 'VIP號') {
+                playVipFanfare();
+              } else {
+                playPopSound();
+              }
+            }, 1400);
+          }, 800);
+        }, 1100);
+      }
+    };
+
+    if (needsReset) {
+      // 延遲 50ms 讓 React 刷新渲染清空豁免區後的狀態，解決視覺撕裂
+      setTimeout(() => executeDrawAnimation(validIndices, true), 50);
+    } else {
+      executeDrawAnimation(validIndices, false);
     }
   };
 
   const handleO = () => {
     playActionO();
-    const target = tempWinner === 'VIP號' ? vipNumber.trim() : tempWinner;
-    setHistoryLog(prev => [{ time: new Date().toISOString(), item: winner, action: 'Bingo', mode: gameMode }, ...prev]);
+    // 答對時隨機噴出大金幣、彩色星星、彩帶豪華動畫
+    triggerBingoCelebration();
+
+    const isVipWinner = tempWinner === 'VIP號' || winner === 'VIP號';
+    const target = isVipWinner ? vipNumber.trim() : tempWinner;
+    const historyItem = isVipWinner 
+      ? `${vipNumber.trim() || '未指定'} (VIP)` 
+      : winner;
+
+    setHistoryLog(prev => [{ time: new Date().toISOString(), item: historyItem, action: 'Bingo', mode: gameMode }, ...prev]);
     
-    // 銷號: Remove one copy, but keep at least one of each unique number
+    // 衝突二（模式A）：權重消減制（若有多隻籤，銷掉 1 隻；若只剩 1 隻籤，保底保留不移除）
     let currentItems = textList.split('\n').map(s => s.trim()).filter(s => s);
     const count = currentItems.filter(i => i === target).length;
     if (count > 1) {
@@ -283,7 +308,7 @@ export default function App() {
         setTextList(currentItems.join('\n'));
       }
     }
-    // else: only 1 left, don't remove
+    // else: 僅剩 1 隻籤保底留存
     
     setCooldownList([]); // 重置豁免區
     setTargetIndex(null);
@@ -300,11 +325,19 @@ export default function App() {
 
   const handleX = () => {
     playActionX();
-    const target = tempWinner === 'VIP號' ? vipNumber.trim() : tempWinner;
-    if (gameMode === 'vip' && tempWinner === 'VIP號' && !vipNumber.trim()) {
+    const isVipWinner = tempWinner === 'VIP號' || winner === 'VIP號';
+    const target = isVipWinner ? vipNumber.trim() : tempWinner;
+    if (gameMode === 'vip' && isVipWinner && !vipNumber.trim()) {
       setConfirmModal({ message: '請輸入 VIP 號碼', type: 'alert', onConfirm: () => setConfirmModal(null) });
       return;
     }
+
+    const historyItem = isVipWinner 
+      ? `${vipNumber.trim() || '未指定'} (VIP)` 
+      : winner;
+
+    setHistoryLog(prev => [{ time: new Date().toISOString(), item: historyItem, action: 'Next / 增加', mode: gameMode }, ...prev]);
+
     if (target) {
       setTextList(prev => prev + (prev.trim() ? '\n' : '') + target);
     }
@@ -323,11 +356,19 @@ export default function App() {
 
   const handleSkip = () => {
     playActionSkip();
-    const target = tempWinner === 'VIP號' ? vipNumber.trim() : tempWinner;
-    if (gameMode === 'vip' && tempWinner === 'VIP號' && !vipNumber.trim()) {
+    const isVipWinner = tempWinner === 'VIP號' || winner === 'VIP號';
+    const target = isVipWinner ? vipNumber.trim() : tempWinner;
+    if (gameMode === 'vip' && isVipWinner && !vipNumber.trim()) {
       setConfirmModal({ message: '請輸入 VIP 號碼再跳過', type: 'alert', onConfirm: () => setConfirmModal(null) });
       return;
     }
+
+    const historyItem = isVipWinner 
+      ? `${vipNumber.trim() || '未指定'} (VIP)` 
+      : winner;
+
+    setHistoryLog(prev => [{ time: new Date().toISOString(), item: historyItem, action: 'Skip / 反灰', mode: gameMode }, ...prev]);
+
     setCooldownList(prev => {
       const next = [...prev];
       if (!next.includes(winner)) next.push(winner);
@@ -487,10 +528,10 @@ export default function App() {
             ) : (
               <div className="self-center flex justify-center w-full">
                 <Roulette 
-                  items={items}
+                  items={activeRouletteItems}
                   wheelRotation={wheelRotation}
                   drawState={drawState}
-                  isItemGrayedOut={isItemGrayedOut}
+                  isItemGrayedOut={() => false}
                 />
               </div>
             )}
