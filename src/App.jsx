@@ -239,6 +239,7 @@ export default function App() {
 
         setTimeout(() => {
           setWinner(selected);
+          setTempWinner(selected);
           setDrawState('idle');
           setShowWinnerModal(true);
           if (gameMode === 'vip' && selected === 'VIP號') playVipFanfare();
@@ -263,6 +264,7 @@ export default function App() {
             // Wait 750ms for rollout
             setTimeout(() => {
               setWinner(selected);
+              setTempWinner(selected);
               setShowWinnerModal(true);
               setDrawState('idle'); 
               setIsRollingOut(false);
@@ -292,22 +294,26 @@ export default function App() {
     // 答對時隨機噴出大金幣、彩色星星、彩帶豪華動畫
     triggerBingoCelebration();
 
-    const isVipWinner = tempWinner === 'VIP號' || winner === 'VIP號';
-    const target = isVipWinner ? vipNumber.trim() : tempWinner;
+    const currentWinner = winner || tempWinner;
+    const isVipWinner = currentWinner === 'VIP號';
+    const target = isVipWinner ? (vipNumber.trim() || 'VIP號') : currentWinner;
     const historyItem = isVipWinner 
       ? `${vipNumber.trim() || '未指定'} (VIP)` 
-      : winner;
+      : currentWinner;
 
-    setHistoryLog(prev => [{ time: new Date().toISOString(), item: historyItem, action: 'Bingo', mode: gameMode }, ...prev]);
+    setHistoryLog(prev => [{ time: new Date().toISOString(), item: historyItem, action: 'Bingo / 答對銷號', mode: gameMode }, ...prev]);
     
     // 衝突二（模式A）：權重消減制（若有多隻籤，銷掉 1 隻；若只剩 1 隻籤，保底保留不移除）
-    let currentItems = textList.split('\n').map(s => s.trim()).filter(s => s);
-    const count = currentItems.filter(i => i === target).length;
-    if (count > 1) {
-      const idx = currentItems.indexOf(target);
-      if (idx !== -1) {
-        currentItems.splice(idx, 1);
-        setTextList(currentItems.join('\n'));
+    if (target) {
+      let currentItems = textList.split('\n').map(s => s.trim()).filter(s => s);
+      const count = currentItems.filter(i => i === target).length;
+      if (count > 1) {
+        const idx = currentItems.indexOf(target);
+        if (idx !== -1) {
+          currentItems.splice(idx, 1);
+          const sorted = sortTextListArray(currentItems);
+          setTextList(sorted.join('\n'));
+        }
       }
     }
     // else: 僅剩 1 隻籤保底留存
@@ -327,8 +333,10 @@ export default function App() {
 
   const handleX = () => {
     playActionX();
-    const isVipWinner = tempWinner === 'VIP號' || winner === 'VIP號';
-    const target = isVipWinner ? vipNumber.trim() : tempWinner;
+    const currentWinner = winner || tempWinner;
+    const isVipWinner = currentWinner === 'VIP號';
+    const target = isVipWinner ? (vipNumber.trim() || 'VIP號') : currentWinner;
+
     if (gameMode === 'vip' && isVipWinner && !vipNumber.trim()) {
       setConfirmModal({ message: '請輸入 VIP 號碼', type: 'alert', onConfirm: () => setConfirmModal(null) });
       return;
@@ -336,17 +344,21 @@ export default function App() {
 
     const historyItem = isVipWinner 
       ? `${vipNumber.trim() || '未指定'} (VIP)` 
-      : winner;
+      : currentWinner;
 
-    setHistoryLog(prev => [{ time: new Date().toISOString(), item: historyItem, action: 'Next / 增加', mode: gameMode }, ...prev]);
+    setHistoryLog(prev => [{ time: new Date().toISOString(), item: historyItem, action: 'Next / 答錯增加', mode: gameMode }, ...prev]);
 
+    // 答錯增加號碼：將號碼增加到名單中，並依數字大小自動排序
     if (target) {
-      setTextList(prev => prev + (prev.trim() ? '\n' : '') + target);
+      let currentList = textList.split('\n').map(s => s.trim()).filter(s => s);
+      currentList.push(target);
+      const sorted = sortTextListArray(currentList);
+      setTextList(sorted.join('\n'));
     }
 
     setCooldownList(prev => {
       const next = [...prev];
-      if (winner && !next.includes(winner)) next.push(winner);
+      if (currentWinner && !next.includes(currentWinner)) next.push(currentWinner);
       if (target && !next.includes(target)) next.push(target);
       return next;
     });
@@ -358,8 +370,10 @@ export default function App() {
 
   const handleSkip = () => {
     playActionSkip();
-    const isVipWinner = tempWinner === 'VIP號' || winner === 'VIP號';
-    const target = isVipWinner ? vipNumber.trim() : tempWinner;
+    const currentWinner = winner || tempWinner;
+    const isVipWinner = currentWinner === 'VIP號';
+    const target = isVipWinner ? (vipNumber.trim() || 'VIP號') : currentWinner;
+
     if (gameMode === 'vip' && isVipWinner && !vipNumber.trim()) {
       setConfirmModal({ message: '請輸入 VIP 號碼再跳過', type: 'alert', onConfirm: () => setConfirmModal(null) });
       return;
@@ -367,14 +381,14 @@ export default function App() {
 
     const historyItem = isVipWinner 
       ? `${vipNumber.trim() || '未指定'} (VIP)` 
-      : winner;
+      : currentWinner;
 
-    setHistoryLog(prev => [{ time: new Date().toISOString(), item: historyItem, action: 'Skip / 反灰', mode: gameMode }, ...prev]);
+    setHistoryLog(prev => [{ time: new Date().toISOString(), item: historyItem, action: 'Skip / 豁免反灰', mode: gameMode }, ...prev]);
 
     setCooldownList(prev => {
       const next = [...prev];
-      if (!next.includes(winner)) next.push(winner);
-      if (!next.includes(target)) next.push(target);
+      if (currentWinner && !next.includes(currentWinner)) next.push(currentWinner);
+      if (target && !next.includes(target)) next.push(target);
       return next;
     });
     setTargetIndex(null);
@@ -621,6 +635,7 @@ export default function App() {
         winner={winner}
         drawStyle={drawStyle}
         gameMode={gameMode}
+        setGameMode={setGameMode}
         vipNumber={vipNumber}
         setVipNumber={setVipNumber}
         handleO={handleO}

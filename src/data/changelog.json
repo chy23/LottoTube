@@ -1,5 +1,14 @@
 [
   {
+    "id": "07180bfb124d098eed82ec04ef9e84e19132dcba",
+    "version": "v1.15.5",
+    "date": "2026-11-02",
+    "typeTag": "style(bucket)",
+    "title": "adjust ball physics scale and initial pile to occupy exactly lower 1/2 of tube",
+    "details": "adjust ball physics scale and initial pile to occupy exactly lower 1/2 of tube",
+    "isFix": false
+  },
+  {
     "id": "2ba47eea1f304fd0a10b5605edb3b9057c002c15",
     "version": "v1.15.4",
     "date": "2026-11-02",

@@ -47,7 +47,7 @@ export function VipPromptModal({ showVipPrompt, setShowVipPrompt, vipNumber, set
 
 export default function WinnerModal({
   showWinnerModal, setShowWinnerModal,
-  winner, drawStyle, gameMode,
+  winner, drawStyle, gameMode, setGameMode,
   vipNumber, setVipNumber,
   handleO, handleSkip, handleX,
   appMode
@@ -82,20 +82,30 @@ export default function WinnerModal({
         
         <div className="relative z-10 w-full">
           {gameMode === 'classic' ? (
-            <button onClick={() => setShowWinnerModal(false)} className="w-full py-8 bg-[#007AFF] hover:bg-[#0062CC] text-white rounded-[2.5rem] font-black text-3xl shadow-2xl active:scale-95 transition-all"> OK </button>
+            <div className="flex flex-col gap-3">
+              <button onClick={() => setShowWinnerModal(false)} className="w-full py-8 bg-[#007AFF] hover:bg-[#0062CC] text-white rounded-[2.5rem] font-black text-3xl shadow-2xl active:scale-95 transition-all"> OK </button>
+              {setGameMode && (
+                <button 
+                  onClick={() => setGameMode('quiz')}
+                  className="text-xs text-slate-400 hover:text-[#007AFF] py-1 font-bold transition-colors underline underline-offset-4"
+                >
+                  切換為「答題模式」啟用 ⭕答對銷號 / ❌答錯增加 機制
+                </button>
+              )}
+            </div>
           ) : (
             <div className="grid grid-cols-3 gap-5">
               <button onClick={handleO} className="py-10 bg-[#34C759] hover:bg-[#28A745] text-white rounded-[3rem] transition-all active:scale-95 shadow-2xl shadow-green-500/30 flex flex-col items-center justify-center gap-2 border-b-[8px] border-green-700/30">
                 <span className="text-6xl font-black italic leading-none">O</span>
-                <span className="text-[10px] font-black opacity-90 uppercase tracking-widest mt-2">Bingo / 銷號</span>
+                <span className="text-[10px] font-black opacity-90 uppercase tracking-widest mt-2">Bingo / 答對銷號</span>
               </button>
               <button onClick={handleSkip} className="py-10 bg-[#007AFF] hover:bg-[#0062CC] text-white rounded-[3rem] transition-all active:scale-95 shadow-2xl shadow-blue-500/30 flex flex-col items-center justify-center gap-4 border-b-[8px] border-blue-700/30">
                 <Triangle size={48} fill="currentColor" className="rotate-90 ml-1" />
-                <span className="text-[10px] font-black opacity-90 uppercase tracking-widest">Skip / 反灰</span>
+                <span className="text-[10px] font-black opacity-90 uppercase tracking-widest">Skip / 豁免跳過</span>
               </button>
               <button onClick={handleX} className="py-10 bg-[#FF3B30] hover:bg-[#E02E24] text-white rounded-[3rem] transition-all active:scale-95 shadow-2xl shadow-red-500/30 flex flex-col items-center justify-center gap-2 border-b-[8px] border-red-700/30">
                 <span className="text-6xl font-black italic leading-none">X</span>
-                <span className="text-[10px] font-black opacity-90 uppercase tracking-widest mt-2">Next / 增加</span>
+                <span className="text-[10px] font-black opacity-90 uppercase tracking-widest mt-2">Next / 答錯增加</span>
               </button>
             </div>
           )}
