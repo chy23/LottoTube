@@ -1,5 +1,14 @@
 [
   {
+    "id": "fe5675d4e3d95b81364f46382f8396fe9ad6fdcf",
+    "version": "v1.15.2",
+    "date": "2026-11-02",
+    "typeTag": "Perf",
+    "title": "Adaptive full-height viewport, remove model hub, optimize frame rates and animation duration",
+    "details": "Adaptive full-height viewport, remove model hub, optimize frame rates and animation duration",
+    "isFix": false
+  },
+  {
     "id": "c34dd0a8487e79c84f01a20082b2f88cd3922b91",
     "version": "v1.15.1",
     "date": "2026-11-02",

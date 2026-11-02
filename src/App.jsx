@@ -42,7 +42,11 @@ export default function App() {
   const [drawState, setDrawState] = useState('idle');
   const [winner, setWinner] = useState(null);
   const [showWinnerModal, setShowWinnerModal] = useState(false);
-  const [drawStyle, setDrawStyle] = useState(() => localStorage.getItem('drawLots_drawStyle') || 'glass'); 
+  const [drawStyle, setDrawStyle] = useState(() => {
+    const saved = localStorage.getItem('drawLots_drawStyle');
+    if (saved && saved !== 'glass') return saved;
+    return 'classic';
+  }); 
   const [cooldownList, setCooldownList] = useState(() => {
     const saved = localStorage.getItem('drawLots_cooldownList');
     return saved ? JSON.parse(saved) : [];

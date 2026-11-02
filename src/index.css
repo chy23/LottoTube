@@ -1,5 +1,54 @@
 @import "tailwindcss";
 
+@keyframes bamboo-tube-shake {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  20% { transform: translateY(-6px) rotate(-6deg); }
+  40% { transform: translateY(4px) rotate(6deg); }
+  60% { transform: translateY(-4px) rotate(-4deg); }
+  80% { transform: translateY(3px) rotate(4deg); }
+}
+.animate-bamboo-tube-shake { 
+  animation: bamboo-tube-shake 0.28s cubic-bezier(0.36, 0.07, 0.19, 0.97) infinite; 
+}
+
+@keyframes stick-jitter-1 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+@keyframes stick-jitter-2 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+@keyframes stick-jitter-3 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+.animate-stick-jitter-1 { animation: stick-jitter-1 0.22s ease-in-out infinite alternate; }
+.animate-stick-jitter-2 { animation: stick-jitter-2 0.26s ease-in-out infinite alternate; }
+.animate-stick-jitter-3 { animation: stick-jitter-3 0.18s ease-in-out infinite alternate; }
+
+@keyframes stick-rise-and-present {
+  0% { 
+    transform: translateY(0) scale(1) rotate(0deg); 
+    opacity: 0.95;
+  }
+  30% { 
+    transform: translateY(-90px) scale(1.1) rotate(0deg); 
+    opacity: 1;
+  }
+  60% { 
+    transform: translateY(-140px) scale(1.25) rotate(2deg); 
+    opacity: 1;
+  }
+  100% { 
+    transform: translateY(-170px) scale(1.4) rotate(0deg); 
+    opacity: 1;
+  }
+}
+.animate-stick-rise-and-present { 
+  animation: stick-rise-and-present 0.75s cubic-bezier(0.25, 1, 0.5, 1) forwards; 
+}
+
 @keyframes bucket-shake-hard {
   0%, 100% { transform: translateX(0) rotate(0deg); }
   15% { transform: translateX(-15px) rotate(-8deg); }
