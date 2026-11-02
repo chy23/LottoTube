@@ -1,6 +1,15 @@
 [
   {
-    "id": "03f1abefb4d80f459165d0421f545e485bcd4421",
+    "id": "2d3f6cf1c89a42018ed0bb62976c82a60efe06e5",
+    "version": "v1.15.0",
+    "date": "2026-11-02",
+    "typeTag": "Feat",
+    "title": "Fix logic conflicts (1, 2-A, 3-A, 5, 6) and add lucky bingo celebration effects",
+    "details": "Fix logic conflicts (1, 2-A, 3-A, 5, 6) and add lucky bingo celebration effects",
+    "isFix": false
+  },
+  {
+    "id": "c2a06bd7c3ac8317433e14dced2875ebaefa32f9",
     "version": "v1.14.0",
     "date": "2026-10-26",
     "typeTag": "Feat",
@@ -9,12 +18,30 @@
     "isFix": false
   },
   {
-    "id": "b869d371a6403ed191fd4b6f0ea42f2cd2da5d0c",
+    "id": "f0083a8aa587218978f269b7c9733c819d10e019",
     "version": "v1.13.0",
     "date": "2026-10-25",
     "typeTag": "Feat",
     "title": "Add Electron standalone app support and Local Model Hub integration",
     "details": "Add Electron standalone app support and Local Model Hub integration",
+    "isFix": false
+  },
+  {
+    "id": "7e2f8ad599f90d1b3d96311cecaa9b56ed47029d",
+    "version": "v1.12.6",
+    "date": "2026-10-10",
+    "typeTag": "Perf",
+    "title": "Optimize physics and animations (translate3d, will-change)",
+    "details": "Optimize physics and animations (translate3d, will-change)",
+    "isFix": false
+  },
+  {
+    "id": "6e00706d4973464dd62f581a957dd68f3d31dd6c",
+    "version": "v1.12.5",
+    "date": "2026-10-10",
+    "typeTag": "Fix(UI)",
+    "title": "Resolve HIG violations (motion-safe, origin alignment, typography, material layers)",
+    "details": "Resolve HIG violations (motion-safe, origin alignment, typography, material layers)",
     "isFix": false
   },
   {
