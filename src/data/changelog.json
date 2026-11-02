@@ -1,5 +1,14 @@
 [
   {
+    "id": "a6838b03df9d7b64bf0bba08dfdec5821780b162",
+    "version": "v1.15.3",
+    "date": "2026-11-02",
+    "typeTag": "fix(bucket)",
+    "title": "redesign authentic bamboo fortune stick tube and fix unnatural stick layout",
+    "details": "redesign authentic bamboo fortune stick tube and fix unnatural stick layout",
+    "isFix": false
+  },
+  {
     "id": "fe5675d4e3d95b81364f46382f8396fe9ad6fdcf",
     "version": "v1.15.2",
     "date": "2026-11-02",

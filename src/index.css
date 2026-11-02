@@ -123,6 +123,48 @@
 }
 .animate-bounce-wild-5 { animation: bounce-wild-5 0.65s infinite alternate; }
 
+@keyframes ball-roll-out-from-mouth {
+  0% {
+    top: 34%;
+    left: 156%;
+    transform: translate(-50%, -50%) scale(0.6) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    top: 42%;
+    left: 165%;
+    transform: translate(-50%, -50%) scale(0.85) rotate(90deg);
+    opacity: 1;
+  }
+  45% {
+    top: 66%;
+    left: 148%;
+    transform: translate(-50%, -50%) scale(1.08) rotate(260deg);
+    opacity: 1;
+  }
+  75% {
+    top: 86%;
+    left: 115%;
+    transform: translate(-50%, -50%) scale(1.25) rotate(440deg);
+    opacity: 1;
+  }
+  90% {
+    top: 84%;
+    left: 88%;
+    transform: translate(-50%, -50%) scale(1.35) rotate(540deg);
+    opacity: 1;
+  }
+  100% {
+    top: 84%;
+    left: 82%;
+    transform: translate(-50%, -50%) scale(1.35) rotate(540deg);
+    opacity: 1;
+  }
+}
+.animate-ball-roll-out {
+  animation: ball-roll-out-from-mouth 1.0s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
 @keyframes roll-out-to-corner {
   0% { 
     top: 25%;

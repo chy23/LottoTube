@@ -305,16 +305,16 @@ export default function Bucket({
         ref={sceneRef}
         className={`w-full h-full relative flex flex-col items-center justify-end transition-transform duration-500 origin-bottom ${
           drawState === 'shaking' ? 'animate-bucket-shake-hard' : ''
-        } ${drawState === 'reaching' ? 'rotate-[75deg] translate-x-[-10px] scale-90' : ''}`}
+        } ${drawState === 'reaching' || isRollingOut ? 'rotate-[48deg] translate-x-[20px] -translate-y-[10px] scale-95' : ''}`}
         style={{ willChange: 'transform' }}
       >
         {/* Back Acrylic Globe Interior */}
-        <div className="absolute left-[15px] right-[15px] top-6 bottom-4 rounded-t-[5rem] rounded-b-[2.5rem] bg-gradient-to-b from-white/40 via-white/10 to-white/30 dark:from-slate-700/60 dark:via-slate-800/40 dark:to-slate-900/70 border-2 border-white/70 dark:border-slate-500/40 shadow-xl overflow-hidden z-0" />
+        <div className="absolute left-[15px] right-[15px] top-6 bottom-4 rounded-t-[3.5rem] rounded-b-[2rem] bg-gradient-to-b from-white/40 via-white/10 to-white/30 dark:from-slate-700/60 dark:via-slate-800/40 dark:to-slate-900/70 border-2 border-white/70 dark:border-slate-500/40 shadow-xl overflow-hidden z-0" />
 
         {/* Physics Items Container */}
         <div 
           ref={containerRef} 
-          className="absolute left-[18px] right-[18px] top-8 bottom-6 rounded-t-[4.5rem] rounded-b-[2rem] z-10 overflow-hidden pointer-events-none"
+          className="absolute left-[18px] right-[18px] top-10 bottom-6 rounded-t-[3rem] rounded-b-[1.8rem] z-10 overflow-hidden pointer-events-none"
         >
           {items.slice(0, 45).map((item, idx) => {
             const isTarget = idx === targetBucketIndex;
@@ -334,26 +334,27 @@ export default function Bucket({
         </div>
 
         {/* Front Frosted Glass Specular Overlay (z-20) */}
-        <div className="absolute left-[15px] right-[15px] top-6 bottom-4 rounded-t-[5rem] rounded-b-[2.5rem] bg-gradient-to-tr from-white/20 via-transparent to-white/30 dark:from-white/10 dark:via-transparent dark:to-white/10 border border-white/50 dark:border-slate-600/40 pointer-events-none z-20 overflow-hidden">
+        <div className="absolute left-[15px] right-[15px] top-6 bottom-4 rounded-t-[3.5rem] rounded-b-[2rem] bg-gradient-to-tr from-white/20 via-transparent to-white/30 dark:from-white/10 dark:via-transparent dark:to-white/10 border border-white/50 dark:border-slate-600/40 pointer-events-none z-20 overflow-hidden">
           <div className="absolute top-2 left-6 w-20 h-10 bg-white/40 rounded-full blur-[2px] rotate-[-20deg]" />
           <div className="absolute bottom-6 right-6 w-16 h-8 bg-white/20 rounded-full blur-[2px]" />
         </div>
 
-        {/* Chrome / Brass Top Lid (z-25) */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-2 w-[120px] h-8 rounded-full bg-gradient-to-b from-slate-200 via-slate-100 to-slate-400 dark:from-slate-600 dark:to-slate-800 border-2 border-slate-300 dark:border-slate-500 shadow-md flex items-center justify-center z-25 pointer-events-none">
-          <div className="w-6 h-3 rounded-full bg-gradient-to-b from-slate-400 to-slate-600 shadow-inner" />
+        {/* Open 3D Rim Mouth (筒口開口, z-25) */}
+        <div className="absolute left-1/2 -translate-x-1/2 top-3 w-[170px] h-9 rounded-[50%] bg-gradient-to-b from-slate-200 via-slate-300 to-slate-400 dark:from-slate-600 dark:to-slate-700 border-2 border-slate-300 dark:border-slate-500 shadow-md flex items-center justify-center z-25 pointer-events-none">
+          {/* Inner Dark Hollow Cavity */}
+          <div className="w-[84%] h-[68%] rounded-[50%] bg-gradient-to-b from-slate-800 via-slate-900 to-slate-950 shadow-[inset_0_4px_8px_rgba(0,0,0,0.85)] border border-slate-700/60" />
         </div>
 
-        {/* Machine Base Stand (z-25) */}
-        <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[210px] h-8 rounded-b-2xl rounded-t-lg bg-gradient-to-b from-slate-300 via-slate-400 to-slate-600 dark:from-slate-700 dark:to-slate-900 border-2 border-slate-400 dark:border-slate-600 shadow-xl z-25 pointer-events-none flex items-center justify-center">
-          <div className="w-12 h-2.5 rounded-full bg-black/40 shadow-inner" />
+        {/* Machine Base Stand (筒底座, z-25) */}
+        <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[210px] h-7 rounded-b-2xl rounded-t-lg bg-gradient-to-b from-slate-300 via-slate-400 to-slate-600 dark:from-slate-700 dark:to-slate-900 border-2 border-slate-400 dark:border-slate-600 shadow-xl z-25 pointer-events-none flex items-center justify-center">
+          <div className="w-16 h-2 rounded-full bg-black/40 shadow-inner" />
         </div>
       </div>
 
-      {/* Winning Item Roll Out Layer (z-50) */}
+      {/* Winning Item Roll Out Layer (z-60) */}
       {isRollingOut && (tempWinner || items[targetBucketIndex]) && (
-        <div className="absolute z-[50] pointer-events-none animate-roll-out-to-corner">
-          <div className="drop-shadow-[0_20px_25px_rgba(0,0,0,0.35)]">
+        <div className="absolute z-[60] pointer-events-none animate-ball-roll-out">
+          <div className="drop-shadow-[0_15px_20px_rgba(0,0,0,0.45)]">
             {renderItemStyle(tempWinner || items[targetBucketIndex], drawStyle, isItemGrayedOut, false, false, true)}
           </div>
         </div>
