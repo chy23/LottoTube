@@ -47,16 +47,18 @@ export default function Bucket({
     M.World.add(engine.world, [floor, leftWall, rightWall, ceiling]);
 
     const bodies = [];
-    const maxItems = Math.min(items.length, 45);
+    // 初始狀態讓球/籤只佔籤筒下半部的約 1/2，上方留出充裕彈跳空間
+    const maxItems = Math.min(items.length, 24);
 
     for (let i = 0; i < maxItems; i++) {
-      const radius = 22;
-      const x = sphereWidth / 2 + (Math.random() - 0.5) * 80;
-      const y = 80 + (i % 6) * 35;
+      const radius = 16.5;
+      const x = sphereWidth / 2 + (Math.random() - 0.5) * 100;
+      // 生成於下半部
+      const y = 200 + (i % 4) * 26;
 
       const body = M.Bodies.circle(x, y, radius, {
-        restitution: 0.5,
-        friction: 0.15,
+        restitution: 0.45,
+        friction: 0.18,
         frictionAir: 0.015,
         density: 0.005,
         render: { visible: false }
@@ -87,11 +89,11 @@ export default function Bucket({
           }
 
           const { position, angle } = bodiesList[i].body;
-          const clampedX = Math.max(25, Math.min(sphereWidth - 25, position.x));
-          const clampedY = Math.max(50, Math.min(sphereHeight - 20, position.y));
+          const clampedX = Math.max(22, Math.min(sphereWidth - 22, position.x));
+          const clampedY = Math.max(30, Math.min(sphereHeight - 16, position.y));
 
           domElement.style.opacity = '1';
-          domElement.style.transform = `translate3d(${clampedX}px, ${clampedY}px, 0) translate(-50%, -50%) rotate(${angle}rad) scale(0.65)`;
+          domElement.style.transform = `translate3d(${clampedX}px, ${clampedY}px, 0) translate(-50%, -50%) rotate(${angle}rad) scale(0.5)`;
         }
       }
       animationFrame = requestAnimationFrame(updateDOM);
@@ -316,7 +318,7 @@ export default function Bucket({
           ref={containerRef} 
           className="absolute left-[18px] right-[18px] top-10 bottom-6 rounded-t-[3rem] rounded-b-[1.8rem] z-10 overflow-hidden pointer-events-none"
         >
-          {items.slice(0, 45).map((item, idx) => {
+          {items.slice(0, 24).map((item, idx) => {
             const isTarget = idx === targetBucketIndex;
             if (isTarget && isRollingOut) return null;
 

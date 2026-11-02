@@ -1,5 +1,14 @@
 [
   {
+    "id": "2ba47eea1f304fd0a10b5605edb3b9057c002c15",
+    "version": "v1.15.4",
+    "date": "2026-11-02",
+    "typeTag": "fix(ball-rollout)",
+    "title": "roll out ball directly from tilted tube mouth with realistic gravity path",
+    "details": "roll out ball directly from tilted tube mouth with realistic gravity path",
+    "isFix": false
+  },
+  {
     "id": "a6838b03df9d7b64bf0bba08dfdec5821780b162",
     "version": "v1.15.3",
     "date": "2026-11-02",
