@@ -7,6 +7,30 @@ export const getHash = (str) => {
   return Math.abs(hash);
 };
 
+export const murmur3 = (str) => {
+  let h = 0x811c9dc5;
+  if (typeof str !== 'string') return h >>> 0;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  h ^= h >>> 16;
+  h = Math.imul(h, 0x85ebca6b);
+  h ^= h >>> 13;
+  h = Math.imul(h, 0xc2b2ae35);
+  h ^= h >>> 16;
+  return h >>> 0;
+};
+
+// 轉盤順序打亂演算法：以穩定的偽隨機排列將號碼打散，避免依序排列（如 1, 2, 3...）
+export const scrambleRouletteItems = (itemList) => {
+  if (!itemList || itemList.length <= 1) return itemList;
+  const indexed = itemList.map((item, idx) => ({ item, originalIdx: idx }));
+  return [...indexed].sort((a, b) => {
+    return murmur3(a.item + '::' + a.originalIdx) - murmur3(b.item + '::' + b.originalIdx);
+  }).map(entry => entry.item);
+};
+
 export const renderItemStyle = (text, drawStyle, isItemGrayedOut, isModal = false, inBucket = false, inRollout = false) => {
   const baseClass = "flex items-center justify-center font-black ease-out";
   const sizeClass = isModal ? "w-64 h-64 text-7xl" : "w-16 h-16 text-lg"; 

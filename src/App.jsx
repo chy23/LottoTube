@@ -11,6 +11,7 @@ import Bucket from './components/Bucket';
 import Roulette from './components/Roulette';
 import WinnerModal, { ConfirmModal, VipPromptModal } from './components/WinnerModal';
 import ChangelogModal from './components/ChangelogModal';
+import { scrambleRouletteItems } from './utils/styles';
 
 export default function App() {
   const { 
@@ -158,11 +159,11 @@ export default function App() {
     setItems([...currentItems]);
   }, [textList, gameMode]);
 
-  // 衝突三（模式A）：大轉盤動態重繪輪盤（排除已豁免者，讓未抽者等比均分 360 度）
+  // 衝突三（模式A）：大轉盤動態重繪輪盤（排除已豁免者，打亂順序並讓未抽者等比均分 360 度）
   const activeRouletteItems = useMemo(() => {
-    if (gameMode === 'classic') return items;
-    const available = items.filter(item => !isItemGrayedOut(item));
-    return available.length > 0 ? available : items;
+    const sourceItems = gameMode === 'classic' ? items : items.filter(item => !isItemGrayedOut(item));
+    const list = sourceItems.length > 0 ? sourceItems : items;
+    return scrambleRouletteItems(list);
   }, [items, cooldownList, gameMode, isItemGrayedOut]);
 
   // Items for bucket: we pass all items directly so grayed out items stay in the bucket visually grayed out
@@ -218,10 +219,15 @@ export default function App() {
       const selected = items[selectedIndex];
 
       if (appMode === 'roulette') {
-        // 衝突三（模式A）：大轉盤使用有效候選人計算扇形角度
-        const currentWheelItems = isResetting ? items : activeRouletteItems;
-        const targetWheelIndex = currentWheelItems.indexOf(selected);
-        const actualWheelIndex = targetWheelIndex !== -1 ? targetWheelIndex : randomI;
+        // 衝突三（模式A）：大轉盤使用打亂後的有效候選人精確計算扇形角度與目標
+        const currentWheelItems = isResetting ? scrambleRouletteItems(items) : activeRouletteItems;
+        const matchingIndices = [];
+        currentWheelItems.forEach((item, idx) => {
+          if (item === selected) matchingIndices.push(idx);
+        });
+        const actualWheelIndex = matchingIndices.length > 0 
+          ? matchingIndices[Math.floor(Math.random() * matchingIndices.length)] 
+          : randomI;
 
         setDrawState('spinning');
         setTargetIndex(selectedIndex);
@@ -620,6 +626,7 @@ export default function App() {
                 exportData={exportData}
                 importData={importData}
                 historyLog={historyLog}
+                setConfirmModal={setConfirmModal}
               />
             </div>
           </div>

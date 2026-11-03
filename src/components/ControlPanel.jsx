@@ -14,12 +14,45 @@ export default function ControlPanel({
   generateDefaultItems,
   exportData,
   importData,
-  historyLog = []
+  historyLog = [],
+  setConfirmModal
 }) {
   const [activeTab, setActiveTab] = useState('list');
   const fileInputRef = useRef(null);
   const items = textList.split('\n').map(s => s.trim()).filter(s => s);
   const validItemsCount = items.filter(i => !cooldownList.includes(i)).length;
+
+  const handleResetClick = () => {
+    if (setConfirmModal) {
+      setConfirmModal({
+        message: '確定要重設名單與抽籤進度嗎？所有紀錄與目前名單將回到預設狀態。',
+        type: 'confirm',
+        onConfirm: () => {
+          resetWheel();
+          setConfirmModal(null);
+        }
+      });
+    } else {
+      resetWheel();
+    }
+  };
+
+  const handleClearClick = () => {
+    if (setConfirmModal) {
+      setConfirmModal({
+        message: '確定要清空名單中的所有選項嗎？',
+        type: 'confirm',
+        onConfirm: () => {
+          setTextList('');
+          setCooldownList([]);
+          setConfirmModal(null);
+        }
+      });
+    } else {
+      setTextList('');
+      setCooldownList([]);
+    }
+  };
 
   const exportHistoryCsv = () => {
     const header = "時間,名單\n";
@@ -73,7 +106,7 @@ export default function ControlPanel({
               <ListOrdered size={18} /> 智能排序
             </button>
             <button 
-              onClick={resetWheel}
+              onClick={handleResetClick}
               className="px-6 py-3 bg-white dark:bg-slate-700 hover:bg-red-50 dark:hover:bg-red-900/30 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-800 rounded-xl font-bold shadow-sm border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 flex items-center gap-2 transition-all active:scale-95"
             >
               <RotateCcw size={18} /> 重設進度
@@ -94,7 +127,7 @@ export default function ControlPanel({
           </div>
           
           <div className="flex justify-between mt-4 relative z-10 gap-2">
-            <button onClick={() => { setTextList(''); setCooldownList([]); }} className="text-slate-400 dark:text-slate-500 hover:text-red-500 transition-all active:scale-95 p-2 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/30 flex items-center gap-2 text-sm font-bold">
+            <button onClick={handleClearClick} className="text-slate-400 dark:text-slate-500 hover:text-red-500 transition-all active:scale-95 p-2 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/30 flex items-center gap-2 text-sm font-bold">
               <Trash2 size={18} /> 清空
             </button>
             <div className="flex gap-2">

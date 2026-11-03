@@ -1,5 +1,14 @@
 [
   {
+    "id": "4927cf48d5a960850b452ad65441d21b44d8789c",
+    "version": "v1.15.8",
+    "date": "2026-11-02",
+    "typeTag": "feat(window)",
+    "title": "persist and restore window bounds, size and aspect ratio on restart",
+    "details": "persist and restore window bounds, size and aspect ratio on restart",
+    "isFix": false
+  },
+  {
     "id": "dc860bbbff781c25f7e90b5a6bc92ff90bd9885d",
     "version": "v1.15.7",
     "date": "2026-11-02",
